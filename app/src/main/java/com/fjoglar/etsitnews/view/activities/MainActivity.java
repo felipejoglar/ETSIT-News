@@ -1,7 +1,9 @@
-package com.fjoglar.etsitnews;
+package com.fjoglar.etsitnews.view.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.fjoglar.etsitnews.R;
 
 public class MainActivity extends AppCompatActivity {
 
