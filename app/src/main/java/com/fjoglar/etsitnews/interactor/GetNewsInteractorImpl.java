@@ -15,12 +15,12 @@
  */
 package com.fjoglar.etsitnews.interactor;
 
+import com.fjoglar.etsitnews.executor.Executor;
 import com.fjoglar.etsitnews.executor.MainThread;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.repository.NewsRepository;
 
 import java.util.List;
-import java.util.concurrent.Executor;
 
 /**
  * This interactor handles getting all news from the web.
