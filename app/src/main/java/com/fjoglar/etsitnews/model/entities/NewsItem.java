@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.fjoglar.etsitnews.model.entities;
 
 import org.simpleframework.xml.Element;
@@ -45,5 +44,38 @@ public class NewsItem {
 
     @Element(name = "pubDate")
     private String pubDate;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getPubDate() {
+        return pubDate;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(this.getTitle() + "\n");
+        stringBuilder.append(this.getPubDate() + "\n");
+        stringBuilder.append(this.getDescription() + "\n");
+        stringBuilder.append(this.getCategory() + "\n");
+        stringBuilder.append(this.getLink());
+
+        return stringBuilder.toString();
+    }
 
 }
