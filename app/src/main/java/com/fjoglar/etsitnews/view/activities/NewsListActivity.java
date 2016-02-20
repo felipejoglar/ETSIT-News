@@ -29,8 +29,6 @@ import java.util.List;
 
 public class NewsListActivity extends AppCompatActivity implements NewsListPresenter.View {
 
-    private final String LOG_TAG = "ETSIT News App";
-
     private NewsListPresenter mNewsListPresenter;
 
     @Override
