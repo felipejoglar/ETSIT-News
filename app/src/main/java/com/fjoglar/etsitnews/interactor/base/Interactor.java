@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.executor;
+package com.fjoglar.etsitnews.interactor.base;
 
-import com.fjoglar.etsitnews.interactor.base.UseCase;
-
-/**
- * This executor is responsible for running interactors on background threads.
- */
-public interface Executor {
+public interface Interactor {
 
     /**
-     * This method should call the interactor's run method and thus start the
-     * interactor. This should be called on a background thread as interactors
-     * might do lengthy operations.
-     *
-     * @param interactor The interactor to run.
+     * This is the main method that starts an interactor. It will make sure
+     * that the interactor operation is done on a background thread.
      */
-    void execute(final UseCase interactor);
+    void execute();
 
 }

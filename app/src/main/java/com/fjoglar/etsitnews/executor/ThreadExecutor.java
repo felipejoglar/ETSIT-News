@@ -15,7 +15,7 @@
  */
 package com.fjoglar.etsitnews.executor;
 
-import com.fjoglar.etsitnews.interactor.UseCase;
+import com.fjoglar.etsitnews.interactor.base.UseCase;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

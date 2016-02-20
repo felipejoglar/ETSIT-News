@@ -15,6 +15,7 @@
  */
 package com.fjoglar.etsitnews.interactor;
 
+import com.fjoglar.etsitnews.interactor.base.Interactor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
  * This interactor is responsible for retrieving the list of news from
  * www.etsit.uva.es.
  */
-public interface GetNewsInteractor {
+public interface GetNewsInteractor extends Interactor {
 
     interface Callback {
         void onNewsRetrieved(List<NewsItem> costList);

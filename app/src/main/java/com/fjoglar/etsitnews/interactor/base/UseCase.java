@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.interactor;
+package com.fjoglar.etsitnews.interactor.base;
 
 import com.fjoglar.etsitnews.executor.Executor;
 import com.fjoglar.etsitnews.executor.MainThread;
@@ -30,7 +30,7 @@ import com.fjoglar.etsitnews.executor.MainThread;
  * an interactor but the request will come from the UI thread unless the request was
  * assigned to a background thread.
  */
-public abstract class UseCase {
+public abstract class UseCase implements Interactor {
 
     protected Executor mThreadExecutor;
     protected MainThread mMainThread;
