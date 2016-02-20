@@ -21,13 +21,12 @@ import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.entities.NewsRss;
 import com.fjoglar.etsitnews.repository.datasource.NewsRssServiceAPI;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.SimpleXmlConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class NewsRepositoryImpl implements NewsRepository {
 
@@ -35,8 +34,6 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     private static volatile NewsRepository sNewsRepository;
     private final String API_URL = "http://www.tel.uva.es/";
-
-    private List<NewsItem> mResult;
 
     private NewsRepositoryImpl() {
         // private constructor
@@ -53,26 +50,23 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     @Override
     public List<NewsItem> getAllNews() {
+        List<NewsItem> result = null;
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
         NewsRssServiceAPI newsRssServiceAPI = retrofit.create(NewsRssServiceAPI.class);
 
+        // As we are already in a background thread so we make a Retrofit
+        // synchronous request.
         Call<NewsRss> call = newsRssServiceAPI.loadNewsRss();
-        call.enqueue(new Callback<NewsRss>() {
-            @Override
-            public void onResponse(Response<NewsRss> response) {
-                mResult = response.body().getChannel().getItemList();
-            }
+        try {
+            result = call.execute().body().getChannel().getItemList();
+        } catch (IOException e) {
+            Log.d(LOG_TAG, e.getLocalizedMessage());
+        }
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d(LOG_TAG, t.getLocalizedMessage());
-                mResult = null;
-            }
-        });
-
-        return mResult;
+        return result;
     }
 }
