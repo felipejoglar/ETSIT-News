@@ -76,7 +76,6 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:drawableLeft="@drawable/ic_label"
-            android:drawableTint="@color/colorAccent"
             android:drawablePadding="4dp"
             android:gravity="center"
             android:textColor="@color/colorAccent"
