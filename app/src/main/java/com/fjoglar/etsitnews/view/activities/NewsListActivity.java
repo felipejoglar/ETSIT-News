@@ -128,7 +128,6 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void showError(String message) {
-
     }
 
 }

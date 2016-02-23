@@ -42,7 +42,6 @@ public class MainThreadImpl implements MainThread {
         if (sMainThread == null) {
             sMainThread = new MainThreadImpl();
         }
-
         return sMainThread;
     }
 }

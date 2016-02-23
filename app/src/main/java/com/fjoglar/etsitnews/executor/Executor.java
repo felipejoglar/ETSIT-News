@@ -21,7 +21,6 @@ import com.fjoglar.etsitnews.interactor.base.UseCase;
  * This executor is responsible for running interactors on background threads.
  */
 public interface Executor {
-
     /**
      * This method should call the interactor's run method and thus start the
      * interactor. This should be called on a background thread as interactors
@@ -30,5 +29,4 @@ public interface Executor {
      * @param interactor The interactor to run.
      */
     void execute(final UseCase interactor);
-
 }

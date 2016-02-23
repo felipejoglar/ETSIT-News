@@ -37,7 +37,7 @@ public class NewsItem {
     private String link;
 
     @Element(name = "description", required = false)
-    private String description = "";
+    private String description;
 
     @Element(name = "category")
     private String category;
@@ -77,5 +77,4 @@ public class NewsItem {
 
         return stringBuilder.toString();
     }
-
 }

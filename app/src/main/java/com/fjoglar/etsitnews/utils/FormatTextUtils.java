@@ -57,5 +57,4 @@ public class FormatTextUtils {
                 return context.getString(R.string.category_otros);
         }
     }
-
 }

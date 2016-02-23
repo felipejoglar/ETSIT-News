@@ -20,7 +20,6 @@ package com.fjoglar.etsitnews.view;
  * common methods.
  */
 public interface BaseView {
-
     /**
      * This is a general method used for showing some kind of progress during
      * a background task. For example, this method should show a progress bar
@@ -40,5 +39,4 @@ public interface BaseView {
      * @param message The error message to be dislayed.
      */
     void showError(String message);
-
 }

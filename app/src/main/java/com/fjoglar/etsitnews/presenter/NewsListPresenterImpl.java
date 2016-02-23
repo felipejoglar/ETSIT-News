@@ -43,22 +43,18 @@ public class NewsListPresenterImpl extends BasePresenter implements NewsListPres
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void stop() {
-
     }
 
     @Override
     public void destroy() {
-
     }
 
     @Override
     public void onError(String message) {
-
     }
 
     @Override
@@ -74,5 +70,4 @@ public class NewsListPresenterImpl extends BasePresenter implements NewsListPres
         mView.showNews(itemList);
         mView.hideProgress();
     }
-
 }

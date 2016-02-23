@@ -50,5 +50,4 @@ public class NewsChannel {
     public List<NewsItem> getItemList() {
         return itemList;
     }
-
 }

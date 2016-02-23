@@ -24,5 +24,4 @@ public interface NewsRssServiceAPI {
 
     @GET("rss/tablon.xml")
     Call<NewsRss> loadNewsRss();
-
 }

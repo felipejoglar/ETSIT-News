@@ -71,5 +71,4 @@ public abstract class UseCase implements Interactor {
         this.mIsRunning = true;
         mThreadExecutor.execute(this);
     }
-
 }

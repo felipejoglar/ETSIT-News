@@ -22,11 +22,9 @@ import com.fjoglar.etsitnews.view.BaseView;
 import java.util.List;
 
 public interface NewsListPresenter extends Presenter {
-
     interface View extends BaseView {
         void showNews(List<NewsItem> newsItemList);
     }
 
     void getNews();
-
 }

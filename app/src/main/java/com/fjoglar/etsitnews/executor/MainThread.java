@@ -22,12 +22,10 @@ package com.fjoglar.etsitnews.executor;
  * to make sure the show method is called on the UI thread.
  */
 public interface MainThread {
-
     /**
      * Make runnable operation run in the main thread.
      *
      * @param runnable The runnable to run.
      */
     void post(final Runnable runnable);
-
 }

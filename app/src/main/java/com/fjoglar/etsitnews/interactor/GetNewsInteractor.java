@@ -25,9 +25,7 @@ import java.util.List;
  * www.etsit.uva.es.
  */
 public interface GetNewsInteractor extends Interactor {
-
     interface Callback {
         void onNewsRetrieved(List<NewsItem> costList);
     }
-
 }

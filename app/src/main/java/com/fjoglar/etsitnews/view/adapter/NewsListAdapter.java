@@ -50,16 +50,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         this.mItemClickListener = itemClickListener;
     }
 
-    public NewsListAdapter(List<NewsItem> newsItemList, @NonNull ItemClickListener itemClickListener) {
-        this.mNewsItemList = newsItemList;
-        this.mItemClickListener = itemClickListener;
-    }
-
     public void setNewsListAdapter(List<NewsItem> newsItemList) {
         this.mNewsItemList = newsItemList;
     }
 
     final static class NewsViewHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.item_title) TextView title;
         @Bind(R.id.item_date) TextView date;
         @Bind(R.id.item_description) TextView description;
@@ -73,7 +69,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         public void setOnClickListener(View.OnClickListener listener) {
             itemView.setOnClickListener(listener);
         }
-
     }
 
     @Override
@@ -91,15 +86,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         holder.title.setText(FormatTextUtils.formatText(item.getTitle()));
         holder.date.setText(DateUtils.formatTime(item.getPubDate()));
         if (!TextUtils.isEmpty(item.getDescription())) {
-            holder.description.setText(FormatTextUtils
-                    .formatText(item.getDescription()));
+            holder.description.setText(FormatTextUtils.formatText(item.getDescription()));
         } else {
             holder.description.setVisibility(View.GONE);
         }
-        holder.category.setText(FormatTextUtils
-                .categoryToString(holder.category.getContext(),
-                        item.getCategory()));
-
+        holder.category.setText(FormatTextUtils.categoryToString(holder.category.getContext(),
+                item.getCategory()));
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

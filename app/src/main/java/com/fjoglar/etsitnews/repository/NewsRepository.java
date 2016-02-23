@@ -22,5 +22,4 @@ import java.util.List;
 public interface NewsRepository {
 
     List<NewsItem> getAllNews();
-
 }

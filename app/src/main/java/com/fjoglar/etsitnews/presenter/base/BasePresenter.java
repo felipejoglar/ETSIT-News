@@ -19,6 +19,7 @@ import com.fjoglar.etsitnews.executor.Executor;
 import com.fjoglar.etsitnews.executor.MainThread;
 
 public abstract class BasePresenter {
+
     protected Executor mExecutor;
     protected MainThread mMainThread;
 
@@ -26,6 +27,4 @@ public abstract class BasePresenter {
         mExecutor = executor;
         mMainThread = mainThread;
     }
-
-
 }

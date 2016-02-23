@@ -16,7 +16,6 @@
 package com.fjoglar.etsitnews.presenter.base;
 
 public interface Presenter {
-
     /**
      * Method that control the lifecycle of the view. It should be called in the view's
      * (Activity or Fragment) onResume() method.
@@ -46,5 +45,4 @@ public interface Presenter {
      * Method that should signal the appropriate view to show the appropriate error with the provided message.
      */
     void onError(String message);
-
 }

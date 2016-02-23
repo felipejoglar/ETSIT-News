@@ -59,7 +59,6 @@ public class DateUtils {
                     return diffMinutes + "m";
                 }
             }
-
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -44,7 +44,6 @@ public class NewsRepositoryImpl implements NewsRepository {
         if (sNewsRepository == null) {
             sNewsRepository = new NewsRepositoryImpl();
         }
-
         return sNewsRepository;
     }
 
