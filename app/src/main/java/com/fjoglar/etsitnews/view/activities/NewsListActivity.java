@@ -16,17 +16,18 @@
 package com.fjoglar.etsitnews.view.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.navigation.Navigator;
 import com.fjoglar.etsitnews.presenter.NewsListPresenter;
 import com.fjoglar.etsitnews.presenter.NewsListPresenterImpl;
 import com.fjoglar.etsitnews.threading.MainThreadImpl;
@@ -39,6 +40,10 @@ import butterknife.ButterKnife;
 
 public class NewsListActivity extends AppCompatActivity
         implements NewsListPresenter.View, NewsListAdapter.ItemClickListener {
+
+    public static Intent getCallingIntent(Context context) {
+        return new Intent(context, NewsListActivity.class);
+    }
 
     private NewsListPresenter mNewsListPresenter;
     private Context mContext;
@@ -103,10 +108,11 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void itemClicked(NewsItem newsItem) {
-        Toast.makeText(getContext()
-                , "Article: " + newsItem.getTitle()
-                , Toast.LENGTH_SHORT)
-                .show();
+//        Toast.makeText(getContext()
+//                , "Article: " + newsItem.getTitle()
+//                , Toast.LENGTH_SHORT)
+//                .show();
+        Navigator.getInstance().navigateToUserDetails(getContext(), newsItem);
     }
 
     @Override
