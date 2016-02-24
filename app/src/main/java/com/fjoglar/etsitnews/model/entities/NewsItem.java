@@ -18,6 +18,8 @@ package com.fjoglar.etsitnews.model.entities;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import java.io.Serializable;
+
 /**
  * This class holds the items in RSS Channel from www.etsit.uva.es.
  * It is made to work with retrofit and simpleXML converter.
@@ -28,7 +30,7 @@ import org.simpleframework.xml.Root;
 
 @Root(name = "item",
         strict = false)
-public class NewsItem {
+public class NewsItem implements Serializable{
 
     @Element(name = "title")
     private String title;
