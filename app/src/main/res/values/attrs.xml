@@ -15,10 +15,10 @@
  limitations under the License.
 -->
 <resources>
-    <color name="colorPrimary">#FF2C3E50</color>
-    <color name="colorPrimaryDark">#FF161F29</color>
-    <color name="colorAccent">#FFE67E22</color>
-
-    <color name="backgroundColour">#FFF9E1CC</color>
-
+    <declare-styleable name="MaterialProgressBar">
+        <attr name="progressColour" format="color" />
+        <attr name="secondaryProgressColour" format="color" />
+        <attr name="backgroundColour" format="color" />
+        <attr name="duration" format="integer" />
+    </declare-styleable>
 </resources>

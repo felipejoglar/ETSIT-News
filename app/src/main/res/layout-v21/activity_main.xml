@@ -22,16 +22,15 @@
     android:orientation="vertical"
     tools:context=".view.fragments.NewsFeedFragment">
 
-    <com.fjoglar.etsitnews.view.widget.MaterialProgressBar
+    <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-7dp"
+        android:layout_marginBottom="-7dp"
         android:indeterminate="true"
-        android:visibility="gone"
-        app:duration="1500"
-        app:progressColour="@color/colorAccent"
-        app:backgroundColour="@color/backgroundColour" />
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_news_list"
