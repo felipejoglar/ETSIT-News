@@ -17,6 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.activities.NewsDetailsActivity"
+            android:parentActivityName=".view.activities.NewsListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.NewsListActivity" />
+        </activity>
     </application>
 
 </manifest>
