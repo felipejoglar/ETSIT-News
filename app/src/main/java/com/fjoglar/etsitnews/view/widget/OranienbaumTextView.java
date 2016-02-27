@@ -30,26 +30,23 @@ public class OranienbaumTextView extends TextView {
     public OranienbaumTextView(Context context) {
         super(context);
 
-        if (!isInEditMode())
-            init(context);
+        setCustomFont(context);
     }
 
     public OranienbaumTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        if (!isInEditMode())
-            init(context);
+        setCustomFont(context);
     }
 
     public OranienbaumTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        if (!isInEditMode())
-            init(context);
+        setCustomFont(context);
     }
 
-    private void init(Context context) {
-        Typeface t = Typeface.createFromAsset(context.getAssets(), "Oranienbaum-Regular.ttf");
-        this.setTypeface(t);
+    public void setCustomFont(Context context) {
+        Typeface customFont = FontCache.getTypeface("fonts/Oranienbaum-Regular.ttf", context);
+        setTypeface(customFont);
     }
 }
