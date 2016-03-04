@@ -58,7 +58,7 @@ public class NewsListActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
         mContext = this;
-        init();
+        this.initializeActivity();
     }
 
     @Override
@@ -87,9 +87,10 @@ public class NewsListActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    private void init() {
+    private void initializeActivity() {
         mNewsListPresenter = new NewsListPresenterImpl(ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(), this);
+                MainThreadImpl.getInstance(),
+                this);
         setUpRecyclerView();
     }
 
@@ -108,10 +109,6 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void itemClicked(NewsItem newsItem) {
-//        Toast.makeText(getContext()
-//                , "Article: " + newsItem.getTitle()
-//                , Toast.LENGTH_SHORT)
-//                .show();
         Navigator.getInstance().navigateToUserDetails(getContext(), newsItem);
     }
 
