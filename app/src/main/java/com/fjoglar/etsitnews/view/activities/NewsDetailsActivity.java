@@ -19,18 +19,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
+import com.fjoglar.etsitnews.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.presenter.NewsDetailsPresenter;
+import com.fjoglar.etsitnews.presenter.NewsDetailsPresenterImpl;
+import com.fjoglar.etsitnews.threading.MainThreadImpl;
+import com.fjoglar.etsitnews.utils.FormatTextUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewsDetailsActivity extends AppCompatActivity {
+public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailsPresenter.View {
 
-    private static final String INTENT_EXTRA_PARAM_NEWS_ITEM = "com.fjoglar.INTENT_PARAM_NEWS_ITEM";
-    private static final String INSTANCE_STATE_PARAM_NEWS_ITEM = "com.fjoglar.STATE_PARAM_NEWS_ITEM";
+    private static final String INTENT_EXTRA_PARAM_NEWS_ITEM =
+            "com.fjoglar.INTENT_PARAM_NEWS_ITEM";
+    private static final String INSTANCE_STATE_PARAM_NEWS_ITEM =
+            "com.fjoglar.STATE_PARAM_NEWS_ITEM";
 
     public static Intent getCallingIntent(Context context, NewsItem newsItem) {
         Intent callingIntent = new Intent(context, NewsDetailsActivity.class);
@@ -38,10 +47,16 @@ public class NewsDetailsActivity extends AppCompatActivity {
         return callingIntent;
     }
 
+    private NewsDetailsPresenter mNewsDetailsPresenter;
     private NewsItem mNewsItem;
     private Context mContext;
 
-    @Bind(R.id.textview) TextView textView;
+    @Bind(R.id.detail_progress_bar) ProgressBar detailProgressBar;
+    @Bind(R.id.detail_title) TextView detailTitle;
+    @Bind(R.id.detail_date) TextView detailDate;
+    @Bind(R.id.detail_description) TextView detailDescription;
+    @Bind(R.id.detail_category) TextView detailCategory;
+    @Bind(R.id.detail_link) TextView detailLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +67,6 @@ public class NewsDetailsActivity extends AppCompatActivity {
         mContext = this;
 
         this.initializeActivity(savedInstanceState);
-        textView.setText(mNewsItem.toString());
     }
 
     @Override
@@ -63,21 +77,27 @@ public class NewsDetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mNewsDetailsPresenter.resume();
+        mNewsDetailsPresenter.getNewsItemById(mNewsItem);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mNewsDetailsPresenter.pause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mNewsDetailsPresenter.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
+        mNewsDetailsPresenter.destroy();
     }
 
     @Override
@@ -92,6 +112,9 @@ public class NewsDetailsActivity extends AppCompatActivity {
      * Initializes this activity.
      */
     private void initializeActivity(Bundle savedInstanceState) {
+        mNewsDetailsPresenter = new NewsDetailsPresenterImpl(ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this);
         if (savedInstanceState == null) {
             this.mNewsItem =
                     (NewsItem) getIntent().getSerializableExtra(INTENT_EXTRA_PARAM_NEWS_ITEM);
@@ -101,7 +124,32 @@ public class NewsDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private Context getContext(){
+    private Context getContext() {
         return mContext;
+    }
+
+    @Override
+    public void showNewsItem(NewsItem newsItem) {
+
+        detailTitle.setText(newsItem.getTitle());
+        detailDate.setText(newsItem.getPubDate());
+        detailDescription.setText(FormatTextUtils.formatText(newsItem.getDescription()));
+        detailCategory.setText(FormatTextUtils.categoryToString(getContext(),
+                newsItem.getCategory()));
+    }
+
+    @Override
+    public void showProgress() {
+        detailProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        detailProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(String message) {
+
     }
 }
