@@ -51,6 +51,7 @@ public class NewsListPresenterImpl extends BasePresenter implements NewsListPres
 
     @Override
     public void destroy() {
+        mView = null;
     }
 
     @Override

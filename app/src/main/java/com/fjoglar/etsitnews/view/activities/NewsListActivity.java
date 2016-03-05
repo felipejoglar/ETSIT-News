@@ -75,16 +75,20 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        mNewsListPresenter.pause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mNewsListPresenter.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
+        mNewsListPresenter.destroy();
     }
 
     private void initializeActivity() {
