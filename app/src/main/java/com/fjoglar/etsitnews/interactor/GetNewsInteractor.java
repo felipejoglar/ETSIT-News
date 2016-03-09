@@ -26,6 +26,6 @@ import java.util.List;
  */
 public interface GetNewsInteractor extends Interactor {
     interface Callback {
-        void onNewsRetrieved(List<NewsItem> costList);
+        void onNewsRetrieved(List<NewsItem> newsItemList);
     }
 }
