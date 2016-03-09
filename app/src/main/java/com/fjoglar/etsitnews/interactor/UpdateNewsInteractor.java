@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.repository;
+package com.fjoglar.etsitnews.interactor;
 
-import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.interactor.base.Interactor;
 
-import java.util.List;
-
-public interface NewsRepository {
-
-    List<NewsItem> getAllNews();
-
-    void updateNews();
+/**
+ * This interactor is responsible for updating the list of news from
+ * www.etsit.uva.es.
+ */
+public interface UpdateNewsInteractor extends Interactor {
+    interface Callback {
+        void onNewsUpdated();
+    }
 }

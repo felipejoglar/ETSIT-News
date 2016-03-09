@@ -15,6 +15,8 @@
  */
 package com.fjoglar.etsitnews.utils;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +24,23 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateUtils {
+
+    private final static String LOG_TAG = DateUtils.class.getSimpleName();
+
+    /**
+     * Converts a String to a Date Object.
+     */
+    public static Date StringToDate(String date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.US);
+        Date result = null;
+        try {
+            result = formatter.parse(date);
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public static String formatTime(String pDate) {
         int diffInDays = 0;
