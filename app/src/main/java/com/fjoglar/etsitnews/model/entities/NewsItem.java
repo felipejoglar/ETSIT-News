@@ -67,6 +67,26 @@ public class NewsItem implements Serializable{
         return pubDate;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
