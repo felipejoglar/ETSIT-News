@@ -38,7 +38,7 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     private final String LOG_TAG = NewsRepositoryImpl.class.getSimpleName();
 
-    private Context context;
+    private Context mContext;
 
     private static volatile NewsRepository sNewsRepository;
     private final String API_URL = "http://www.tel.uva.es/";
@@ -56,8 +56,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public void updateNews(Context context) {
-        this.context = context;
+    public void updateNews() {
         List<NewsItem> result = null;
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -104,6 +103,11 @@ public class NewsRepositoryImpl implements NewsRepository {
         return result;
     }
 
+    @Override
+    public void setContext(Context mContext) {
+        this.mContext = mContext;
+    }
+
     private void insertNews(List<NewsItem> newsItemList) {
         Vector<ContentValues> cVVector = new Vector<>();
         for (NewsItem newsItem : newsItemList) {
@@ -129,10 +133,10 @@ public class NewsRepositoryImpl implements NewsRepository {
 
         if (cVVector.size() > 0) {
             // Delete previous data.
-            context.getContentResolver().delete(NewsContract.NewsEntry.CONTENT_URI, null, null);
+            mContext.getContentResolver().delete(NewsContract.NewsEntry.CONTENT_URI, null, null);
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
-            context.getContentResolver()
+            mContext.getContentResolver()
                     .bulkInsert(NewsContract.NewsEntry.CONTENT_URI, cvArray);
         }
     }

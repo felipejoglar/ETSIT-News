@@ -15,6 +15,8 @@
  */
 package com.fjoglar.etsitnews.repository;
 
+import android.content.Context;
+
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 
 import java.util.List;
@@ -24,4 +26,6 @@ public interface NewsRepository {
     List<NewsItem> getAllNews();
 
     void updateNews();
+
+    void setContext(Context context);
 }
