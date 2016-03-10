@@ -25,6 +25,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.NewsListActivity" />
         </activity>
+        <provider
+            android:name=".repository.datasource.database.NewsProvider"
+            android:authorities="com.fjoglar.etsitnews"
+            android:exported="false" />
     </application>
 
 </manifest>
