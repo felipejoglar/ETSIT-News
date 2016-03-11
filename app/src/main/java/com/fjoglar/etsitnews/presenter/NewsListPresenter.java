@@ -27,4 +27,5 @@ public interface NewsListPresenter extends Presenter {
     }
 
     void getNews();
+    void updateNews();
 }

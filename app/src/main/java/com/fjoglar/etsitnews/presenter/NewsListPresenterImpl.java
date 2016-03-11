@@ -19,6 +19,8 @@ import com.fjoglar.etsitnews.executor.Executor;
 import com.fjoglar.etsitnews.executor.MainThread;
 import com.fjoglar.etsitnews.interactor.GetNewsInteractor;
 import com.fjoglar.etsitnews.interactor.GetNewsInteractorImpl;
+import com.fjoglar.etsitnews.interactor.UpdateNewsInteractor;
+import com.fjoglar.etsitnews.interactor.UpdateNewsInteractorImpl;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.base.BasePresenter;
 import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
@@ -26,7 +28,7 @@ import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
 import java.util.List;
 
 public class NewsListPresenterImpl extends BasePresenter implements NewsListPresenter,
-        GetNewsInteractor.Callback {
+        GetNewsInteractor.Callback, UpdateNewsInteractor.Callback {
 
     private NewsListPresenter.View mView;
 
@@ -39,6 +41,7 @@ public class NewsListPresenterImpl extends BasePresenter implements NewsListPres
     @Override
     public void resume() {
         getNews();
+        updateNews();
     }
 
     @Override
@@ -60,15 +63,29 @@ public class NewsListPresenterImpl extends BasePresenter implements NewsListPres
 
     @Override
     public void getNews() {
-        mView.showProgress();
         GetNewsInteractor getNewsInteractor = new GetNewsInteractorImpl(mExecutor, mMainThread,
                 NewsRepositoryImpl.getInstance(), this);
         getNewsInteractor.execute();
     }
 
     @Override
+    public void updateNews() {
+        mView.showProgress();
+        UpdateNewsInteractor updateNewsInteractor = new UpdateNewsInteractorImpl(mExecutor,
+                mMainThread, NewsRepositoryImpl.getInstance(), this);
+        updateNewsInteractor.execute();
+    }
+
+    @Override
     public void onNewsRetrieved(List<NewsItem> itemList) {
-        mView.showNews(itemList);
+        if (itemList != null) {
+            mView.showNews(itemList);
+        }
+    }
+
+    @Override
+    public void onNewsUpdated() {
+        getNews();
         mView.hideProgress();
     }
 }

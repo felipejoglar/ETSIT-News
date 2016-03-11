@@ -17,6 +17,7 @@ package com.fjoglar.etsitnews.repository;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import com.fjoglar.etsitnews.model.entities.NewsItem;
@@ -27,6 +28,7 @@ import com.fjoglar.etsitnews.utils.DateUtils;
 import com.fjoglar.etsitnews.utils.FormatTextUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -78,26 +80,23 @@ public class NewsRepositoryImpl implements NewsRepository {
         if (result != null) {
             this.insertNews(result);
         }
-
     }
 
     @Override
     public List<NewsItem> getAllNews() {
-        List<NewsItem> result = null;
+        List<NewsItem> result = new ArrayList<>();
+        Cursor cursor;
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .build();
-        NewsRssServiceAPI newsRssServiceAPI = retrofit.create(NewsRssServiceAPI.class);
+        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                NewsContract.NewsEntry.COLUMN_PUB_DATE + " DESC");
 
-        // As we are already in a background thread so we make a Retrofit
-        // synchronous request.
-        Call<NewsRss> call = newsRssServiceAPI.loadNewsRss();
-        try {
-            result = call.execute().body().getChannel().getItemList();
-        } catch (IOException e) {
-            Log.d(LOG_TAG, e.getLocalizedMessage());
+        if (cursor != null) {
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                result.add(cursorRowToNewsItem(cursor));
+            }
         }
 
         return result;
@@ -112,7 +111,7 @@ public class NewsRepositoryImpl implements NewsRepository {
         Vector<ContentValues> cVVector = new Vector<>();
         for (NewsItem newsItem : newsItemList) {
             ContentValues contentValues = new ContentValues();
-            String description = FormatTextUtils.formatText(newsItem.getDescription());
+            String description = newsItem.getDescription();
             // Description field cannot be null.
             if (description == null)
                 description = "";
@@ -120,7 +119,7 @@ public class NewsRepositoryImpl implements NewsRepository {
             contentValues.put(NewsContract.NewsEntry.COLUMN_TITLE,
                     FormatTextUtils.formatText(newsItem.getTitle()));
             contentValues.put(NewsContract.NewsEntry.COLUMN_DESCRIPTION,
-                    description);
+                    FormatTextUtils.formatText(description));
             contentValues.put(NewsContract.NewsEntry.COLUMN_LINK,
                     newsItem.getLink());
             contentValues.put(NewsContract.NewsEntry.COLUMN_CATEGORY,
@@ -129,8 +128,8 @@ public class NewsRepositoryImpl implements NewsRepository {
                     DateUtils.StringToDate(newsItem.getPubDate()).getTime());
 
             cVVector.add(contentValues);
+            Log.d(LOG_TAG, "cVVector.size() = " + cVVector.size());
         }
-
         if (cVVector.size() > 0) {
             // Delete previous data.
             mContext.getContentResolver().delete(NewsContract.NewsEntry.CONTENT_URI, null, null);
@@ -139,6 +138,18 @@ public class NewsRepositoryImpl implements NewsRepository {
             mContext.getContentResolver()
                     .bulkInsert(NewsContract.NewsEntry.CONTENT_URI, cvArray);
         }
+    }
+
+    private NewsItem cursorRowToNewsItem(Cursor cursor){
+        NewsItem item = new NewsItem();
+
+        item.setTitle(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_TITLE)));
+        item.setDescription(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_DESCRIPTION)));
+        item.setLink(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_LINK)));
+        item.setCategory(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_CATEGORY)));
+        item.setPubDate(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_PUB_DATE)));
+
+        return item;
     }
 
 }
