@@ -47,6 +47,8 @@ public class NewsItem implements Serializable{
     @Element(name = "pubDate")
     private String pubDate;
 
+    private int formattedPubDate;
+
     public String getTitle() {
         return title;
     }
@@ -67,6 +69,10 @@ public class NewsItem implements Serializable{
         return pubDate;
     }
 
+    public int getFormattedPubDate() {
+        return formattedPubDate;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -85,6 +91,10 @@ public class NewsItem implements Serializable{
 
     public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
+    }
+
+    public void setFormattedPubDate(int formattedPubDate) {
+        this.formattedPubDate = formattedPubDate;
     }
 
     @Override

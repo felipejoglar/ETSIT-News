@@ -42,7 +42,7 @@ public class DateUtils {
         return result;
     }
 
-    public static String formatTime(String pDate) {
+    public static String formatTime(int pDate) {
         int diffInDays = 0;
         SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.US);
         Calendar c = Calendar.getInstance();
@@ -53,8 +53,8 @@ public class DateUtils {
 
         try {
             d1 = format.parse(formattedDate);
-            d2 = format.parse(pDate);
-            long diff = d1.getTime() - d2.getTime();
+//            d2 = format.parse(pDate);
+            long diff = d1.getTime() - pDate/*.getTime()*/;
 
             diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
             if (diffInDays > 0) {
@@ -63,7 +63,7 @@ public class DateUtils {
                 } else {
                     SimpleDateFormat formatter = new SimpleDateFormat("d");
                     Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(d2.getTime());
+                    calendar.setTimeInMillis(pDate);
                     String day = formatter.format(calendar.getTime());
                     formatter = new SimpleDateFormat("MMM");
                     String month = FormatTextUtils.capitalizeWord(formatter.format(calendar.getTime()));
