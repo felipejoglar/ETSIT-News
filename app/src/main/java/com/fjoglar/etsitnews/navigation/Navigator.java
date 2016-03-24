@@ -18,7 +18,6 @@ package com.fjoglar.etsitnews.navigation;
 import android.content.Context;
 import android.content.Intent;
 
-import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.view.activities.NewsDetailsActivity;
 import com.fjoglar.etsitnews.view.activities.NewsListActivity;
 
@@ -59,9 +58,9 @@ public class Navigator {
      *
      * @param context A Context needed to open the destiny activity.
      */
-    public void navigateToUserDetails(Context context, NewsItem newsItem) {
+    public void navigateToUserDetails(Context context, int id) {
         if (context != null) {
-            Intent intentToLaunch = NewsDetailsActivity.getCallingIntent(context, newsItem);
+            Intent intentToLaunch = NewsDetailsActivity.getCallingIntent(context, id);
             context.startActivity(intentToLaunch);
         }
     }

@@ -103,6 +103,25 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
+    public NewsItem getNewsItemById(int id) {
+        NewsItem result = null;
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.buildNewsWithId(id),
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            result = cursorRowToNewsItem(cursor);
+        }
+
+        return result;
+    }
+
+    @Override
     public void setContext(Context mContext) {
         this.mContext = mContext;
     }
@@ -128,11 +147,11 @@ public class NewsRepositoryImpl implements NewsRepository {
                     DateUtils.StringToDate(newsItem.getPubDate()).getTime());
 
             cVVector.add(contentValues);
-            Log.d(LOG_TAG, "cVVector.size() = " + cVVector.size());
         }
         if (cVVector.size() > 0) {
             // Delete previous data.
             mContext.getContentResolver().delete(NewsContract.NewsEntry.CONTENT_URI, null, null);
+            // Insert new data.
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
             mContext.getContentResolver()

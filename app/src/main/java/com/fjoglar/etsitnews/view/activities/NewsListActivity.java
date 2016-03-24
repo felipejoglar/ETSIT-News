@@ -112,8 +112,8 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     @Override
-    public void itemClicked(NewsItem newsItem) {
-        Navigator.getInstance().navigateToUserDetails(getContext(), newsItem);
+    public void itemClicked(int id) {
+        Navigator.getInstance().navigateToUserDetails(getContext(), id);
     }
 
     @Override

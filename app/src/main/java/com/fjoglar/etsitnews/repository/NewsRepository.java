@@ -25,6 +25,8 @@ public interface NewsRepository {
 
     List<NewsItem> getAllNews();
 
+    NewsItem getNewsItemById(int id);
+
     void updateNews();
 
     void setContext(Context context);

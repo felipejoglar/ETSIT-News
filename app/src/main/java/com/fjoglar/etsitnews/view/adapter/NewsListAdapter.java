@@ -42,7 +42,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     private ItemClickListener mItemClickListener;
 
     public interface ItemClickListener {
-        void itemClicked(NewsItem newsItem);
+        void itemClicked(int id);
     }
 
     public NewsListAdapter(@NonNull ItemClickListener itemClickListener) {
@@ -80,7 +80,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     }
 
     @Override
-    public void onBindViewHolder(NewsListAdapter.NewsViewHolder holder, int position) {
+    public void onBindViewHolder(NewsListAdapter.NewsViewHolder holder, final int position) {
         final NewsItem item = mNewsItemList.get(position);
 
         holder.title.setText(FormatTextUtils.formatText(item.getTitle()));
@@ -96,7 +96,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.itemClicked(item);
+                mItemClickListener.itemClicked(position + 1);
             }
         });
     }

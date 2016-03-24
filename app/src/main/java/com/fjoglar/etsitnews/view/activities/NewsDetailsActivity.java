@@ -36,19 +36,19 @@ import butterknife.ButterKnife;
 
 public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailsPresenter.View {
 
-    private static final String INTENT_EXTRA_PARAM_NEWS_ITEM =
+    private static final String INTENT_EXTRA_PARAM_NEWS_ITEM_ID =
             "com.fjoglar.INTENT_PARAM_NEWS_ITEM";
-    private static final String INSTANCE_STATE_PARAM_NEWS_ITEM =
+    private static final String INSTANCE_STATE_PARAM_NEWS_ITEM_ID =
             "com.fjoglar.STATE_PARAM_NEWS_ITEM";
 
-    public static Intent getCallingIntent(Context context, NewsItem newsItem) {
+    public static Intent getCallingIntent(Context context, int id) {
         Intent callingIntent = new Intent(context, NewsDetailsActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_NEWS_ITEM, newsItem);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, id);
         return callingIntent;
     }
 
     private NewsDetailsPresenter mNewsDetailsPresenter;
-    private NewsItem mNewsItem;
+    private int mNewsItemId;
     private Context mContext;
 
     @Bind(R.id.detail_progress_bar) ProgressBar detailProgressBar;
@@ -78,7 +78,6 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     protected void onResume() {
         super.onResume();
         mNewsDetailsPresenter.resume();
-        mNewsDetailsPresenter.getNewsItemById(mNewsItem);
     }
 
     @Override
@@ -103,7 +102,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
-            outState.putSerializable(INSTANCE_STATE_PARAM_NEWS_ITEM, this.mNewsItem);
+            outState.putInt(INSTANCE_STATE_PARAM_NEWS_ITEM_ID, this.mNewsItemId);
         }
         super.onSaveInstanceState(outState);
     }
@@ -112,16 +111,16 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
      * Initializes this activity.
      */
     private void initializeActivity(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            this.mNewsItemId =
+                    getIntent().getIntExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, 0);
+        } else {
+            this.mNewsItemId = savedInstanceState.getInt(INSTANCE_STATE_PARAM_NEWS_ITEM_ID);
+        }
         mNewsDetailsPresenter = new NewsDetailsPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                this);
-        if (savedInstanceState == null) {
-            this.mNewsItem =
-                    (NewsItem) getIntent().getSerializableExtra(INTENT_EXTRA_PARAM_NEWS_ITEM);
-        } else {
-            this.mNewsItem =
-                    (NewsItem) savedInstanceState.getSerializable(INSTANCE_STATE_PARAM_NEWS_ITEM);
-        }
+                this,
+                mNewsItemId);
     }
 
     private Context getContext() {

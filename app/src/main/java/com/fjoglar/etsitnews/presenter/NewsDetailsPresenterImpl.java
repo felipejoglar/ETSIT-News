@@ -17,21 +17,28 @@ package com.fjoglar.etsitnews.presenter;
 
 import com.fjoglar.etsitnews.executor.Executor;
 import com.fjoglar.etsitnews.executor.MainThread;
+import com.fjoglar.etsitnews.interactor.GetNewsItemByIdInteractor;
+import com.fjoglar.etsitnews.interactor.GetNewsItemByIdInteractorImpl;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.base.BasePresenter;
+import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
 
-public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetailsPresenter {
+public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetailsPresenter,
+        GetNewsItemByIdInteractor.Callback {
 
     private View mView;
+    private int mId;
 
     public NewsDetailsPresenterImpl(Executor executor, MainThread mainThread,
-                                    View view) {
+                                    View view, int id) {
         super(executor, mainThread);
         mView = view;
+        mId = id;
     }
 
     @Override
     public void resume() {
+        getNewsItemById(mId);
     }
 
     @Override
@@ -52,8 +59,16 @@ public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetai
     }
 
     @Override
-    public void getNewsItemById(NewsItem newsItem) {
+    public void getNewsItemById(int id) {
         mView.showProgress();
+        GetNewsItemByIdInteractor getNewsItemByIdInteractor =
+                new GetNewsItemByIdInteractorImpl(mExecutor,
+                        mMainThread, NewsRepositoryImpl.getInstance(), this, id);
+        getNewsItemByIdInteractor.execute();
+    }
+
+    @Override
+    public void onNewsItemLoaded(NewsItem newsItem) {
         mView.showNewsItem(newsItem);
         mView.hideProgress();
     }
