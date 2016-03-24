@@ -15,7 +15,6 @@
  limitations under the License.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,16 +25,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.fjoglar.etsitnews.view.widget.MaterialProgressBar
+        <ProgressBar
             android:id="@+id/detail_progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-7dp"
+            android:layout_marginTop="-7dp"
             android:indeterminate="true"
-            android:visibility="gone"
-            app:backgroundColour="@color/backgroundColour"
-            app:duration="1500"
-            app:progressColour="@color/colorAccent" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
