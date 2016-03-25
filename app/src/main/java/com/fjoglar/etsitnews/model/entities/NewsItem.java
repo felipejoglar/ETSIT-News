@@ -47,7 +47,7 @@ public class NewsItem implements Serializable{
     @Element(name = "pubDate")
     private String pubDate;
 
-    private int formattedPubDate;
+    private long formattedPubDate;
 
     public String getTitle() {
         return title;
@@ -69,7 +69,7 @@ public class NewsItem implements Serializable{
         return pubDate;
     }
 
-    public int getFormattedPubDate() {
+    public long getFormattedPubDate() {
         return formattedPubDate;
     }
 
@@ -93,7 +93,7 @@ public class NewsItem implements Serializable{
         this.pubDate = pubDate;
     }
 
-    public void setFormattedPubDate(int formattedPubDate) {
+    public void setFormattedPubDate(long formattedPubDate) {
         this.formattedPubDate = formattedPubDate;
     }
 
@@ -102,7 +102,7 @@ public class NewsItem implements Serializable{
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(this.getTitle() + "\n");
-        stringBuilder.append(this.getPubDate() + "\n");
+        stringBuilder.append(this.getFormattedPubDate() + "\n");
         stringBuilder.append(this.getDescription() + "\n");
         stringBuilder.append(this.getCategory() + "\n");
         stringBuilder.append(this.getLink());

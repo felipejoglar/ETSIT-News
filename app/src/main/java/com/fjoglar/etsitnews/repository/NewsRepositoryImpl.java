@@ -166,7 +166,7 @@ public class NewsRepositoryImpl implements NewsRepository {
         item.setDescription(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_DESCRIPTION)));
         item.setLink(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_LINK)));
         item.setCategory(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_CATEGORY)));
-        item.setFormattedPubDate(cursor.getInt(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_PUB_DATE)));
+        item.setFormattedPubDate(cursor.getLong(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_PUB_DATE)));
 
         return item;
     }

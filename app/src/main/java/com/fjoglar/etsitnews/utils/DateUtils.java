@@ -42,19 +42,17 @@ public class DateUtils {
         return result;
     }
 
-    public static String formatTime(int pDate) {
+    public static String formatTime(long pDate) {
         int diffInDays = 0;
         SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.US);
         Calendar c = Calendar.getInstance();
         String formattedDate = format.format(c.getTime());
 
         Date d1;
-        Date d2;
 
         try {
             d1 = format.parse(formattedDate);
-//            d2 = format.parse(pDate);
-            long diff = d1.getTime() - pDate/*.getTime()*/;
+            long diff = d1.getTime() - pDate;
 
             diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
             if (diffInDays > 0) {
