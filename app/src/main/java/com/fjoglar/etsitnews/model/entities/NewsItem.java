@@ -48,6 +48,7 @@ public class NewsItem implements Serializable{
     private String pubDate;
 
     private long formattedPubDate;
+    private String attachments;
 
     public String getTitle() {
         return title;
@@ -73,6 +74,10 @@ public class NewsItem implements Serializable{
         return formattedPubDate;
     }
 
+    public String getAttachments() {
+        return attachments;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -95,6 +100,10 @@ public class NewsItem implements Serializable{
 
     public void setFormattedPubDate(long formattedPubDate) {
         this.formattedPubDate = formattedPubDate;
+    }
+
+    public void setAttachments(String attachments) {
+        this.attachments = attachments;
     }
 
     @Override

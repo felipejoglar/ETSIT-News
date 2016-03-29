@@ -50,6 +50,7 @@ public class NewsContract {
         public static final String COLUMN_CATEGORY = "category";
         // Publication date in milliseconds.
         public static final String COLUMN_PUB_DATE = "pub_date";
+        public static final String COLUMN_ATTACHMENTS = "attachments";
 
         public static Uri buildNewsWithId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
