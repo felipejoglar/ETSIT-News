@@ -188,6 +188,7 @@ public class NewsRepositoryImpl implements NewsRepository {
         item.setLink(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_LINK)));
         item.setCategory(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_CATEGORY)));
         item.setFormattedPubDate(cursor.getLong(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_PUB_DATE)));
+        item.setAttachments(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_ATTACHMENTS)));
 
         return item;
     }
@@ -209,7 +210,7 @@ public class NewsRepositoryImpl implements NewsRepository {
                 Elements links = content.getElementsByTag("a");
                 if (links != null) {
                     for (Element link : links) {
-                        attachments = attachments + link.attr("abs:href") + "|" + link.text() + "|";
+                        attachments = attachments + link.attr("abs:href") + "___" + link.text() + "___";
                     }
                 }
             }

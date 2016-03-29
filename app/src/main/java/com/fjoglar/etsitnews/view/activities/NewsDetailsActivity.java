@@ -29,7 +29,10 @@ import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenter;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenterImpl;
 import com.fjoglar.etsitnews.threading.MainThreadImpl;
+import com.fjoglar.etsitnews.utils.AttachmentsUtils;
 import com.fjoglar.etsitnews.utils.FormatTextUtils;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -135,6 +138,13 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         detailDescription.setText(FormatTextUtils.formatText(newsItem.getDescription()));
         detailCategory.setText(FormatTextUtils.categoryToString(getContext(),
                 newsItem.getCategory()));
+
+        List<AttachmentsUtils.Attachment> attachmentList = AttachmentsUtils
+                .extractAttachments(newsItem.getAttachments());
+
+        if (attachmentList != null) {
+            
+        }
     }
 
     @Override
