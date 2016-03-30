@@ -84,7 +84,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         final NewsItem item = mNewsItemList.get(position);
 
         holder.title.setText(FormatTextUtils.formatText(item.getTitle()));
-        holder.date.setText(DateUtils.formatTime(item.getFormattedPubDate()));
+        holder.date.setText(DateUtils.formatListViewTime(item.getFormattedPubDate()));
         if (!TextUtils.isEmpty(item.getDescription())) {
             holder.description.setVisibility(View.VISIBLE);
             holder.description.setText(FormatTextUtils.formatText(item.getDescription()));

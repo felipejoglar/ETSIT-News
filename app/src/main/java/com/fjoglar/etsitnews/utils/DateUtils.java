@@ -42,45 +42,31 @@ public class DateUtils {
         return result;
     }
 
-    public static String formatTime(long pDate) {
-        int diffInDays = 0;
-        SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.US);
-        Calendar c = Calendar.getInstance();
-        String formattedDate = format.format(c.getTime());
+    public static String formatListViewTime(long dateInMillis) {
+        long diff = System.currentTimeMillis() - dateInMillis;
+        int diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
 
-        Date d1;
-
-        try {
-            d1 = format.parse(formattedDate);
-            long diff = d1.getTime() - pDate;
-
-            diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
-            if (diffInDays > 0) {
-                if (diffInDays > 0 && diffInDays < 7) {
-                    return diffInDays + "d";
-                } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("d");
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(pDate);
-                    String day = formatter.format(calendar.getTime());
-                    formatter = new SimpleDateFormat("MMM");
-                    String month = FormatTextUtils.capitalizeWord(formatter.format(calendar.getTime()));
-                    return day + " " + month;
-                }
+        if (diffInDays > 0) {
+            if (diffInDays > 0 && diffInDays < 7) {
+                return diffInDays + "d";
             } else {
-                int diffHours = (int) (diff / (60 * 60 * 1000));
-                if (diffHours > 0) {
-                    return diffHours + "h";
-                } else {
-                    int diffMinutes = (int) ((diff / (60 * 1000) % 60));
-                    return diffMinutes + "m";
-                }
+                SimpleDateFormat formatter = new SimpleDateFormat("d");
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(dateInMillis);
+                String day = formatter.format(calendar.getTime());
+                formatter = new SimpleDateFormat("MMM");
+                String month = FormatTextUtils.capitalizeWord(formatter.format(calendar.getTime()));
+                return day + " " + month;
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } else {
+            int diffHours = (int) (diff / (60 * 60 * 1000));
+            if (diffHours > 0) {
+                return diffHours + "h";
+            } else {
+                int diffMinutes = (int) ((diff / (60 * 1000) % 60));
+                return diffMinutes + "m";
+            }
         }
-
-        return "error";
     }
 
 }
