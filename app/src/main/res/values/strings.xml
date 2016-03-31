@@ -26,4 +26,8 @@
     <string name="category_investigacion">Investigación</string>
     <string name="category_otros">Otros</string>
 
+    <!-- DetailView Strings-->
+    <string name="more_info">Más información</string>
+    <string name="attachments">Archivos adjuntos</string>
+
 </resources>

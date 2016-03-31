@@ -69,4 +69,24 @@ public class DateUtils {
         }
     }
 
+    public static String formatDetailViewTime(long dateInMillis){
+
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dateInMillis);
+        String dayName = FormatTextUtils.capitalizeWord(formatter.format(calendar.getTime()));
+
+        formatter = new SimpleDateFormat("d");
+        String dayNumber = String.valueOf(formatter.format(calendar.getTime()));
+
+        formatter = new SimpleDateFormat("MMMM");
+        String month = FormatTextUtils.capitalizeWord(formatter.format(calendar.getTime()));
+
+        formatter = new SimpleDateFormat("yyyy");
+        String year = String.valueOf(formatter.format(calendar.getTime()));
+
+        return dayName + ", " + dayNumber + " de " + month + " de " + year + ".";
+    }
+
+
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (C) 2016 Felipe Joglar Santos
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,47 +49,81 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <com.fjoglar.etsitnews.view.widget.OranienbaumTextView
-                android:id="@+id/detail_date"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:textSize="12sp" />
+                android:layout_marginBottom="16dp">
+
+                <com.fjoglar.etsitnews.view.widget.OranienbaumTextView
+                    android:id="@+id/detail_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="12sp" />
+
+                <com.fjoglar.etsitnews.view.widget.OranienbaumTextView
+                    android:id="@+id/detail_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@drawable/ic_label"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
 
             <com.fjoglar.etsitnews.view.widget.OranienbaumTextView
                 android:id="@+id/detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@android:color/black" />
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/detail_attachments_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone">
 
-                <com.fjoglar.etsitnews.view.widget.OranienbaumTextView
-                    android:id="@+id/detail_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_margin="6dp"
-                    android:gravity="center"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorAccent" />
+                <LinearLayout
+                    android:id="@+id/detail_attachments_card_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+                    android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+                    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+                    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+                    android:paddingTop="8dp">
 
-                <Button
-                    android:id="@+id/detail_link"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="Más información" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attachments"
+                        android:textAllCaps="true" />
 
-            </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/detail_link"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="Más información"
+            android:textAllCaps="true" />
 
     </LinearLayout>
 

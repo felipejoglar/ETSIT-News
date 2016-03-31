@@ -38,12 +38,20 @@ public class AttachmentsUtils {
     }
 
     public static class Attachment {
-        String title;
         String downloadLink;
+        String title;
+        FILE_TYPE fileType;
 
-        public Attachment(String title, String downloadLink) {
-            this.title = title;
+        public enum FILE_TYPE{
+            FILE,
+            IMAGE,
+            LINK
+    }
+
+        public Attachment(String downloadLink, String title) {
             this.downloadLink = downloadLink;
+            this.title = title;
+            this.fileType = setFileType(title);
         }
 
         public String getTitle() {
@@ -54,9 +62,28 @@ public class AttachmentsUtils {
             return downloadLink;
         }
 
+        public FILE_TYPE getFileType() {
+            return fileType;
+        }
+
         @Override
         public String toString() {
             return this.getTitle() + " -----> " + getDownloadLink();
+        }
+
+        private FILE_TYPE setFileType(String title) {
+            String extension = title.substring(title.lastIndexOf(".") + 1, title.length());
+
+            if (extension.equalsIgnoreCase("doc")
+                    || extension.equalsIgnoreCase("pdf")
+                    || extension.equalsIgnoreCase("zip")) {
+                return  FILE_TYPE.FILE;
+            } else if (extension.equalsIgnoreCase("jpg")
+                    || extension.equalsIgnoreCase("png")) {
+                return FILE_TYPE.IMAGE;
+            } else {
+                return FILE_TYPE.LINK;
+            }
         }
     }
 }
