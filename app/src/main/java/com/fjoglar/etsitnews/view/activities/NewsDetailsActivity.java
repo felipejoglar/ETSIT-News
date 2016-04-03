@@ -18,6 +18,7 @@ package com.fjoglar.etsitnews.view.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -29,7 +30,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.executor.ThreadExecutor;
@@ -63,6 +63,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private NewsDetailsPresenter mNewsDetailsPresenter;
     private int mNewsItemId;
     private Context mContext;
+    private String mMoreInfoUrl;
 
     @Bind(R.id.detail_progress_bar) ProgressBar detailProgressBar;
     @Bind(R.id.detail_attachments_card) CardView detailAttachmentsCard;
@@ -71,7 +72,6 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     @Bind(R.id.detail_date) TextView detailDate;
     @Bind(R.id.detail_description) TextView detailDescription;
     @Bind(R.id.detail_category) TextView detailCategory;
-    @Bind(R.id.detail_link) TextView detailLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +145,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @Override
     public void showNewsItem(NewsItem newsItem) {
+        mMoreInfoUrl = newsItem.getLink();
 
         detailTitle.setText(newsItem.getTitle());
         detailDate.setText(DateUtils.formatDetailViewTime(newsItem.getFormattedPubDate()));
@@ -187,7 +188,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @OnClick(R.id.detail_link)
     void showMoreInfo() {
-
+        openUrl(mMoreInfoUrl);
     }
 
     /**
@@ -239,9 +240,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),
-                        downloadLink,
-                        Toast.LENGTH_LONG).show();
+                openUrl(downloadLink);
             }
         });
     }
@@ -256,5 +255,12 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         return Math.round(dp
                 * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
+    }
+
+    private void openUrl (String url) {
+        Intent downloadIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (downloadIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(downloadIntent);
+        }
     }
 }
