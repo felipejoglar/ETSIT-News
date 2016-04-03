@@ -2,4 +2,18 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- RecyclerView cards related. -->
+    <dimen name="card_horizontal_margin">8dp</dimen>
+    <dimen name="card_vertical_margin">4dp</dimen>
+
+    <!-- Detail View related. -->
+    <dimen name="detail_view_padding">16dp</dimen>
+
+    <!-- Font related-->
+    <dimen name="card_view_title">20sp</dimen>
+    <dimen name="card_view_date_and_category">12sp</dimen>
+    <dimen name="detail_view_title">24sp</dimen>
+    <dimen name="detail_view_date_and_category">12sp</dimen>
+
 </resources>
