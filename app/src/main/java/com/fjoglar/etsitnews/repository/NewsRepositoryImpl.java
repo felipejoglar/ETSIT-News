@@ -210,7 +210,9 @@ public class NewsRepositoryImpl implements NewsRepository {
                 Elements links = content.getElementsByTag("a");
                 if (links != null) {
                     for (Element link : links) {
-                        attachments = attachments + link.attr("abs:href") + "___" + link.text() + "___";
+                        attachments = attachments
+                                + link.attr("abs:href") + "___"
+                                + link.text() + "___";
                     }
                 }
             }

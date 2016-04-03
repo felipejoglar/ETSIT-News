@@ -75,6 +75,7 @@ public class AttachmentsUtils {
             String extension = title.substring(title.lastIndexOf(".") + 1, title.length());
 
             if (extension.equalsIgnoreCase("doc")
+                    || extension.equalsIgnoreCase("docx")
                     || extension.equalsIgnoreCase("pdf")
                     || extension.equalsIgnoreCase("zip")) {
                 return  FILE_TYPE.FILE;
