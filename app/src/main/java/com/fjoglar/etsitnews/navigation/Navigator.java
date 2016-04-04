@@ -17,8 +17,12 @@ package com.fjoglar.etsitnews.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 
+import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.view.activities.NewsDetailsActivity;
 import com.fjoglar.etsitnews.view.activities.NewsListActivity;
 
@@ -67,13 +71,37 @@ public class Navigator {
     }
 
     /**
-     * Opens an URL.
+     * Opens an URL in a Chrome Custom tab.
      *
      * @param context   A Context needed to open the destiny activity.
      * @param url       The URL to open.
      */
     public void openUrl (Context context, String url) {
+        final String EXTRA_SESSION =
+                "android.support.customtabs.extra.SESSION";
+        final String EXTRA_TOOLBAR_COLOR =
+                "android.support.customtabs.extra.TOOLBAR_COLOR";
+        final String EXTRA_CLOSE_BUTTON_ICON =
+                "android.support.customtabs.extra.CLOSE_BUTTON_ICON";
+        final String EXTRA_TITLE_VISIBILITY_STATE =
+                "android.support.customtabs.extra.TITLE_VISIBILITY";
+
+        final int SHOW_PAGE_TITLE = 1;
+
         Intent downloadIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            Bundle extras = new Bundle();
+            extras.putBinder(EXTRA_SESSION, null);
+            downloadIntent.putExtras(extras);
+        }
+
+        downloadIntent.putExtra(EXTRA_TOOLBAR_COLOR,
+                context.getResources().getColor(R.color.colorPrimary));
+        downloadIntent.putExtra(EXTRA_CLOSE_BUTTON_ICON,
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back));
+        downloadIntent.putExtra(EXTRA_TITLE_VISIBILITY_STATE, SHOW_PAGE_TITLE);
+
         if (downloadIntent.resolveActivity(context.getPackageManager()) != null) {
             context.startActivity(downloadIntent);
         }
