@@ -17,6 +17,7 @@ package com.fjoglar.etsitnews.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.fjoglar.etsitnews.view.activities.NewsDetailsActivity;
 import com.fjoglar.etsitnews.view.activities.NewsListActivity;
@@ -65,5 +66,17 @@ public class Navigator {
         }
     }
 
+    /**
+     * Opens an URL.
+     *
+     * @param context   A Context needed to open the destiny activity.
+     * @param url       The URL to open.
+     */
+    public void openUrl (Context context, String url) {
+        Intent downloadIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (downloadIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(downloadIntent);
+        }
+    }
 
 }

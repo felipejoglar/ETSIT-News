@@ -17,16 +17,10 @@ package com.fjoglar.etsitnews.view.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,12 +28,14 @@ import android.widget.TextView;
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.navigation.Navigator;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenter;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenterImpl;
 import com.fjoglar.etsitnews.threading.MainThreadImpl;
 import com.fjoglar.etsitnews.utils.AttachmentsUtils;
 import com.fjoglar.etsitnews.utils.DateUtils;
 import com.fjoglar.etsitnews.utils.FormatTextUtils;
+import com.fjoglar.etsitnews.utils.UiUtils;
 
 import java.util.List;
 
@@ -161,10 +157,11 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 detailAttachmentsCard.setVisibility(View.VISIBLE);
                 for (final AttachmentsUtils.Attachment attachment : attachmentList) {
                     final TextView attachmentTextView = new TextView(this);
-                    configureTextView(attachmentTextView,
+                    UiUtils.configureTextView(attachmentTextView,
                             attachment.getTitle(),
                             attachment.getDownloadLink(),
-                            attachment.getFileType());
+                            attachment.getFileType(),
+                            getContext());
                     detailAttachmentsCardContent.addView(attachmentTextView);
                 }
             }
@@ -188,79 +185,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @OnClick(R.id.detail_link)
     void showMoreInfo() {
-        openUrl(mMoreInfoUrl);
+        Navigator.getInstance().openUrl(getContext(), mMoreInfoUrl);
     }
 
-    /**
-     * Configure the TextViews that will show the attachments of the new.
-     *
-     * @param textView      TextView to be configured.
-     * @param title         Text shown in TextView
-     * @param downloadLink  Link attached to TextView.
-     */
-    private void configureTextView(TextView textView,
-                                   String title,
-                                   final String downloadLink,
-                                   AttachmentsUtils.Attachment.FILE_TYPE fileType) {
-
-        final int TEXT_VIEW_MIN_HEIGHT = 40;
-        final int TEXT_VIEW_MARGIN_TOP = 4;
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, convertDpToPx(TEXT_VIEW_MARGIN_TOP), 0, 0);
-        textView.setLayoutParams(params);
-
-        textView.setText(title);
-        textView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
-        textView.setMinHeight(convertDpToPx(TEXT_VIEW_MIN_HEIGHT));
-        textView.setGravity(Gravity.CENTER_VERTICAL);
-
-        switch (fileType) {
-            case FILE:
-                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_file, 0, 0, 0);
-                break;
-            case IMAGE:
-                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_photo, 0, 0, 0);
-                break;
-            default:
-                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_link, 0, 0, 0);
-                break;
-        }
-
-        textView.setCompoundDrawablePadding(convertDpToPx(4));
-
-        TypedValue typedValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
-                typedValue,
-                true);
-        textView.setBackgroundResource(typedValue.resourceId);
-
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openUrl(downloadLink);
-            }
-        });
-    }
-
-    /**
-     * Converts dps into pixels.
-     *
-     * @param dp    Measure in dp.
-     * @return      Measure in px.
-     */
-    private int convertDpToPx(int dp) {
-        return Math.round(dp
-                * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
-
-    }
-
-    private void openUrl (String url) {
-        Intent downloadIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        if (downloadIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(downloadIntent);
-        }
-    }
 }
