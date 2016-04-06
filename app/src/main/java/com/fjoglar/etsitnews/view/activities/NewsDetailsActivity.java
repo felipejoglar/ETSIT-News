@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -61,6 +62,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private Context mContext;
     private String mMoreInfoUrl;
 
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.detail_progress_bar) ProgressBar detailProgressBar;
     @Bind(R.id.detail_attachments_card) CardView detailAttachmentsCard;
     @Bind(R.id.detail_attachments_card_content) LinearLayout detailAttachmentsCardContent;
@@ -133,6 +135,8 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 MainThreadImpl.getInstance(),
                 this,
                 mNewsItemId);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private Context getContext() {

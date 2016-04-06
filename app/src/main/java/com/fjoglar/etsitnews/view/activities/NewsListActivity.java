@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -48,6 +49,7 @@ public class NewsListActivity extends AppCompatActivity
     private NewsListPresenter mNewsListPresenter;
     private Context mContext;
 
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recycler_news_list) RecyclerView recycler_news_list;
     @Bind(R.id.progress_bar) ProgressBar progress_bar;
 
@@ -95,6 +97,7 @@ public class NewsListActivity extends AppCompatActivity
         mNewsListPresenter = new NewsListPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this);
+        setSupportActionBar(toolbar);
         setUpRecyclerView();
     }
 

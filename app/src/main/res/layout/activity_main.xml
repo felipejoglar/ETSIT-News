@@ -20,7 +20,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.fragments.NewsFeedFragment">
+    tools:context=".view.activities.NewsListActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <com.fjoglar.etsitnews.view.widget.MaterialProgressBar
         android:id="@+id/progress_bar"
@@ -29,9 +35,9 @@
         android:layout_height="4dp"
         android:indeterminate="true"
         android:visibility="gone"
+        app:backgroundColour="@color/backgroundColour"
         app:duration="1500"
-        app:progressColour="@color/colorAccent"
-        app:backgroundColour="@color/backgroundColour" />
+        app:progressColour="@color/colorAccent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_news_list"
