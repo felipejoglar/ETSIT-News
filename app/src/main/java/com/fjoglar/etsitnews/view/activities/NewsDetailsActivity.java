@@ -63,7 +63,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private String mMoreInfoUrl;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.detail_progress_bar) ProgressBar detailProgressBar;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
     @Bind(R.id.detail_attachments_card) CardView detailAttachmentsCard;
     @Bind(R.id.detail_attachments_card_content) LinearLayout detailAttachmentsCardContent;
     @Bind(R.id.detail_title) TextView detailTitle;
@@ -136,7 +136,9 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 this,
                 mNewsItemId);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private Context getContext() {
@@ -174,12 +176,12 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @Override
     public void showProgress() {
-        detailProgressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        detailProgressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

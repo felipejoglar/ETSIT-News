@@ -50,8 +50,8 @@ public class NewsListActivity extends AppCompatActivity
     private Context mContext;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.recycler_news_list) RecyclerView recycler_news_list;
-    @Bind(R.id.progress_bar) ProgressBar progress_bar;
+    @Bind(R.id.recycler_news_list) RecyclerView recyclerNewsList;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +103,8 @@ public class NewsListActivity extends AppCompatActivity
 
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
-        recycler_news_list.setAdapter(adapter);
-        recycler_news_list.setLayoutManager(new LinearLayoutManager(getParent(),
+        recyclerNewsList.setAdapter(adapter);
+        recyclerNewsList.setLayoutManager(new LinearLayoutManager(getParent(),
                         LinearLayoutManager.VERTICAL,
                         false)
         );
@@ -121,17 +121,17 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void showProgress() {
-        progress_bar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        progress_bar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showNews(List<NewsItem> newsItemList) {
-        NewsListAdapter adapter = (NewsListAdapter) recycler_news_list.getAdapter();
+        NewsListAdapter adapter = (NewsListAdapter) recyclerNewsList.getAdapter();
         adapter.setNewsListAdapter(newsItemList);
         adapter.notifyDataSetChanged();
     }
