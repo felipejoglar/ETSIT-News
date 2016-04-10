@@ -30,4 +30,10 @@
     <string name="more_info">Más información</string>
     <string name="attachments">Archivos adjuntos</string>
 
+    <!-- Menus Strings-->
+    <string name="action_settings">Ajustes</string>
+    <string name="action_filter">Filtrar</string>
+    <string name="action_share">Compartir</string>
+    <string name="action_bookmark">Añadir a favoritos</string>
+
 </resources>

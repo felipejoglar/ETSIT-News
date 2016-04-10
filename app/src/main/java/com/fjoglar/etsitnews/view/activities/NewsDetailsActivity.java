@@ -21,10 +21,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.executor.ThreadExecutor;
@@ -50,12 +53,6 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             "com.fjoglar.INTENT_PARAM_NEWS_ITEM";
     private static final String INSTANCE_STATE_PARAM_NEWS_ITEM_ID =
             "com.fjoglar.STATE_PARAM_NEWS_ITEM";
-
-    public static Intent getCallingIntent(Context context, int id) {
-        Intent callingIntent = new Intent(context, NewsDetailsActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, id);
-        return callingIntent;
-    }
 
     private NewsDetailsPresenter mNewsDetailsPresenter;
     private int mNewsItemId;
@@ -120,29 +117,27 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         super.onSaveInstanceState(outState);
     }
 
-    /**
-     * Initializes this activity.
-     */
-    private void initializeActivity(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            this.mNewsItemId =
-                    getIntent().getIntExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, 0);
-        } else {
-            this.mNewsItemId =
-                    savedInstanceState.getInt(INSTANCE_STATE_PARAM_NEWS_ITEM_ID);
-        }
-        mNewsDetailsPresenter = new NewsDetailsPresenterImpl(ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                this,
-                mNewsItemId);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
     }
 
-    private Context getContext() {
-        return mContext;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_bookmark:
+                Toast.makeText(this, "Marcado como favorito", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_share:
+                Toast.makeText(this, "Compartir", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+
+        return true;
     }
 
     @Override
@@ -189,9 +184,45 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     }
 
+    public static Intent getCallingIntent(Context context, int id) {
+        Intent callingIntent = new Intent(context, NewsDetailsActivity.class);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, id);
+        return callingIntent;
+    }
+
     @OnClick(R.id.detail_link)
     void showMoreInfo() {
         Navigator.getInstance().openUrl(getContext(), mMoreInfoUrl);
+    }
+
+    /**
+     * Initializes this activity.
+     */
+    private void initializeActivity(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            this.mNewsItemId =
+                    getIntent().getIntExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, 0);
+        } else {
+            this.mNewsItemId =
+                    savedInstanceState.getInt(INSTANCE_STATE_PARAM_NEWS_ITEM_ID);
+        }
+        mNewsDetailsPresenter = new NewsDetailsPresenterImpl(ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this,
+                mNewsItemId);
+        setUpToolbar();
+    }
+
+    private void setUpToolbar() {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    private Context getContext() {
+        return mContext;
     }
 
 }

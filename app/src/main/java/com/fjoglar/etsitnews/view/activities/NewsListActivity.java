@@ -22,8 +22,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.executor.ThreadExecutor;
@@ -41,10 +44,6 @@ import butterknife.ButterKnife;
 
 public class NewsListActivity extends AppCompatActivity
         implements NewsListPresenter.View, NewsListAdapter.ItemClickListener {
-
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, NewsListActivity.class);
-    }
 
     private NewsListPresenter mNewsListPresenter;
     private Context mContext;
@@ -93,25 +92,24 @@ public class NewsListActivity extends AppCompatActivity
         mNewsListPresenter.destroy();
     }
 
-    private void initializeActivity() {
-        mNewsListPresenter = new NewsListPresenterImpl(ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                this);
-        setSupportActionBar(toolbar);
-        setUpRecyclerView();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
-    private void setUpRecyclerView() {
-        final NewsListAdapter adapter = new NewsListAdapter(this);
-        recyclerNewsList.setAdapter(adapter);
-        recyclerNewsList.setLayoutManager(new LinearLayoutManager(getParent(),
-                        LinearLayoutManager.VERTICAL,
-                        false)
-        );
-    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                Toast.makeText(this, "Filtrar", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_settings:
+                Toast.makeText(this, "Ajustes", Toast.LENGTH_SHORT).show();
+                return true;
+        }
 
-    private Context getContext(){
-        return mContext;
+        return true;
     }
 
     @Override
@@ -138,6 +136,35 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void showError(String message) {
+    }
+
+    public static Intent getCallingIntent(Context context) {
+        return new Intent(context, NewsListActivity.class);
+    }
+
+    private void initializeActivity() {
+        mNewsListPresenter = new NewsListPresenterImpl(ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this);
+        setUpRecyclerView();
+        setUpToolbar();
+    }
+
+    private void setUpRecyclerView() {
+        final NewsListAdapter adapter = new NewsListAdapter(this);
+        recyclerNewsList.setAdapter(adapter);
+        recyclerNewsList.setLayoutManager(new LinearLayoutManager(getParent(),
+                LinearLayoutManager.VERTICAL,
+                false)
+        );
+    }
+
+    private void setUpToolbar() {
+        setSupportActionBar(toolbar);
+    }
+
+    private Context getContext() {
+        return mContext;
     }
 
 }
