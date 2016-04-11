@@ -68,75 +68,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public void updateNews() {
-        List<NewsItem> result = null;
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .build();
-        NewsRssServiceAPI newsRssServiceAPI = retrofit.create(NewsRssServiceAPI.class);
-
-        // As we are already in a background thread so we make a Retrofit
-        // synchronous request.
-        Call<NewsRss> call = newsRssServiceAPI.loadNewsRss();
-        try {
-            result = call.execute().body().getChannel().getItemList();
-        } catch (IOException e) {
-            Log.d(LOG_TAG, e.getLocalizedMessage());
-        }
-
-        // Now insert all news into the Data Base.
-        if (result != null) {
-            this.insertNews(result);
-        }
-    }
-
-    @Override
-    public List<NewsItem> getAllNews() {
-        List<NewsItem> result = new ArrayList<>();
-        Cursor cursor;
-
-        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.CONTENT_URI,
-                null,
-                null,
-                null,
-                NewsContract.NewsEntry.COLUMN_PUB_DATE + " DESC");
-
-        if (cursor != null) {
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                result.add(cursorRowToNewsItem(cursor));
-            }
-        }
-
-        return result;
-    }
-
-    @Override
-    public NewsItem getNewsItemById(int id) {
-        NewsItem result = null;
-        Cursor cursor;
-
-        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.buildNewsWithId(id),
-                null,
-                null,
-                null,
-                null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            result = cursorRowToNewsItem(cursor);
-        }
-
-        return result;
-    }
-
-    @Override
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    private void insertNews(List<NewsItem> newsItemList) {
+    public void insertNews(List<NewsItem> newsItemList) {
         Vector<ContentValues> cVVector = new Vector<>();
 
         try {
@@ -165,6 +97,12 @@ public class NewsRepositoryImpl implements NewsRepository {
                     DateUtils.StringToDate(newsItem.getPubDate()).getTime());
             contentValues.put(NewsContract.NewsEntry.COLUMN_ATTACHMENTS,
                     getAttachments(newsItem.getLink()));
+            /**
+             * De momento por defecto is_bookmarked = 0 (false).
+             * TODO: comprobar si la noticia está ya guardada antes de actualizar.
+             */
+            contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED,
+                    0);
 
             cVVector.add(contentValues);
         }
@@ -180,15 +118,215 @@ public class NewsRepositoryImpl implements NewsRepository {
         }
     }
 
+    @Override
+    public List<NewsItem> getAllNews() {
+        List<NewsItem> result = new ArrayList<>();
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                NewsContract.NewsEntry.COLUMN_PUB_DATE + " DESC");
+
+        if (cursor != null) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                result.add(cursorRowToNewsItem(cursor));
+            }
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    @Override
+    public NewsItem getNewsItemById(int id) {
+        NewsItem result = null;
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.buildNewsWithId(id),
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            result = cursorRowToNewsItem(cursor);
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    @Override
+    public void updateNews() {
+        List<NewsItem> result = null;
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_URL)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .build();
+        NewsRssServiceAPI newsRssServiceAPI = retrofit.create(NewsRssServiceAPI.class);
+
+        // As we are already in a background thread so we make a Retrofit
+        // synchronous request.
+        Call<NewsRss> call = newsRssServiceAPI.loadNewsRss();
+        try {
+            result = call.execute().body().getChannel().getItemList();
+        } catch (IOException e) {
+            Log.d(LOG_TAG, e.getLocalizedMessage());
+        }
+
+        // Now insert all news into the Database.
+        if (result != null) {
+            this.insertNews(result);
+        }
+    }
+
+    @Override
+    public void updateNewsItemIsBookmarkedStatusById(boolean status, int id) {
+        int isBookmarked = (status)? 1 : 0;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED, isBookmarked);
+        mContext.getContentResolver().update(NewsContract.NewsEntry.buildNewsWithId(id),
+                contentValues,
+                null,
+                null);
+    }
+
+    @Override
+    public void updateNewsItemIsBookmarkedStatusByTitle(boolean status, String title) {
+        int isBookmarked = (status)? 1 : 0;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED, isBookmarked);
+        mContext.getContentResolver().update(NewsContract.NewsEntry.buildNewsWithTitle(title),
+                contentValues,
+                null,
+                null);
+    }
+
+    @Override
+    public void insertBookmark(NewsItem newsItem) {
+        ContentValues contentValues = new ContentValues();
+        String description = newsItem.getDescription();
+        // Description field cannot be null.
+        if (description == null)
+            description = "";
+
+        String title = FormatTextUtils.formatText(newsItem.getTitle());
+        contentValues.put(NewsContract.NewsEntry.COLUMN_TITLE,
+                title);
+        contentValues.put(NewsContract.NewsEntry.COLUMN_DESCRIPTION,
+                FormatTextUtils.formatText(description));
+        contentValues.put(NewsContract.NewsEntry.COLUMN_LINK,
+                newsItem.getLink());
+        contentValues.put(NewsContract.NewsEntry.COLUMN_CATEGORY,
+                newsItem.getCategory());
+        contentValues.put(NewsContract.NewsEntry.COLUMN_PUB_DATE,
+                DateUtils.StringToDate(newsItem.getPubDate()).getTime());
+        contentValues.put(NewsContract.NewsEntry.COLUMN_ATTACHMENTS,
+                getAttachments(newsItem.getLink()));
+        contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED,
+                1);
+
+        mContext.getContentResolver()
+                .insert(NewsContract.BookmarksEntry.CONTENT_URI, contentValues);
+
+        this.updateNewsItemIsBookmarkedStatusByTitle(true, title);
+    }
+
+    @Override
+    public List<NewsItem> getBookmarkedNews() {
+        List<NewsItem> result = new ArrayList<>();
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver().query(NewsContract.BookmarksEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                NewsContract.BookmarksEntry._ID + " ASC");
+
+        if (cursor != null) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                result.add(cursorRowToNewsItem(cursor));
+            }
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    @Override
+    public NewsItem getBookmarkById(int id) {
+        NewsItem result = null;
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver()
+                .query(NewsContract.BookmarksEntry.buildBookmarksWithId(id),
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            result = cursorRowToNewsItem(cursor);
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    @Override
+    public NewsItem getBookmarkByTitle(String title) {
+        NewsItem result = null;
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver()
+                .query(NewsContract.BookmarksEntry.buildBookmarksWithTitle(title),
+                        null,
+                        null,
+                        null,
+                        null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            result = cursorRowToNewsItem(cursor);
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    @Override
+    public void deleteBookmarkByTitle(String title) {
+        mContext.getContentResolver()
+                .delete(NewsContract.BookmarksEntry.buildBookmarksWithTitle(title)
+                        , null
+                        , null);
+    }
+
+    @Override
+    public void setContext(Context mContext) {
+        this.mContext = mContext;
+    }
+
     private NewsItem cursorRowToNewsItem(Cursor cursor) {
         NewsItem item = new NewsItem();
 
-        item.setTitle(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_TITLE)));
-        item.setDescription(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_DESCRIPTION)));
-        item.setLink(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_LINK)));
-        item.setCategory(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_CATEGORY)));
-        item.setFormattedPubDate(cursor.getLong(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_PUB_DATE)));
-        item.setAttachments(cursor.getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_ATTACHMENTS)));
+        item.setTitle(cursor
+                .getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_TITLE)));
+        item.setDescription(cursor
+                .getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_DESCRIPTION)));
+        item.setLink(cursor
+                .getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_LINK)));
+        item.setCategory(cursor
+                .getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_CATEGORY)));
+        item.setFormattedPubDate(cursor
+                .getLong(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_PUB_DATE)));
+        item.setAttachments(cursor
+                .getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_ATTACHMENTS)));
 
         return item;
     }

@@ -20,6 +20,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.fjoglar.etsitnews.repository.datasource.database.NewsContract.NewsEntry;
+import com.fjoglar.etsitnews.repository.datasource.database.NewsContract.BookmarksEntry;
 
 /**
  * Manages the local database.
@@ -36,17 +37,32 @@ public class NewsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String SQL_CREATE_NEWS_TABLE = "CREATE TABLE " + NewsEntry.TABLE_NAME + " (" +
-                NewsEntry._ID + " INTEGER PRIMARY KEY," +
-                NewsEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                NewsEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
-                NewsEntry.COLUMN_LINK + " TEXT NOT NULL, " +
-                NewsEntry.COLUMN_CATEGORY + " TEXT NOT NULL, " +
-                NewsEntry.COLUMN_PUB_DATE + " INTEGER NOT NULL, " +
-                NewsEntry.COLUMN_ATTACHMENTS + " TEXT" +
-                " );";
+        final String SQL_CREATE_NEWS_TABLE = "CREATE TABLE "
+                + NewsEntry.TABLE_NAME + " ("
+                + NewsEntry._ID + " INTEGER PRIMARY KEY,"
+                + NewsEntry.COLUMN_TITLE + " TEXT NOT NULL, "
+                + NewsEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
+                + NewsEntry.COLUMN_LINK + " TEXT NOT NULL, "
+                + NewsEntry.COLUMN_CATEGORY + " TEXT NOT NULL, "
+                + NewsEntry.COLUMN_PUB_DATE + " INTEGER NOT NULL, "
+                + NewsEntry.COLUMN_ATTACHMENTS + " TEXT, "
+                + NewsEntry.COLUMN_IS_BOOKMARKED + " INTEGER NOT NULL"
+                + " );";
+
+        final String SQL_CREATE_BOOKMARKS_TABLE = "CREATE TABLE " +
+                BookmarksEntry.TABLE_NAME + " ("
+                + BookmarksEntry._ID + " INTEGER PRIMARY KEY,"
+                + BookmarksEntry.COLUMN_TITLE + " TEXT NOT NULL, "
+                + BookmarksEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
+                + BookmarksEntry.COLUMN_LINK + " TEXT NOT NULL, "
+                + BookmarksEntry.COLUMN_CATEGORY + " TEXT NOT NULL, "
+                + BookmarksEntry.COLUMN_PUB_DATE + " INTEGER NOT NULL, "
+                + BookmarksEntry.COLUMN_ATTACHMENTS + " TEXT, "
+                + BookmarksEntry.COLUMN_IS_BOOKMARKED + " INTEGER NOT NULL"
+                + " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_NEWS_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_BOOKMARKS_TABLE);
     }
 
     @Override

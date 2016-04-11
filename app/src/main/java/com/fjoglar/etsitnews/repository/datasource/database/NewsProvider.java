@@ -23,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import com.fjoglar.etsitnews.repository.datasource.database.NewsContract.BookmarksEntry;
 import com.fjoglar.etsitnews.repository.datasource.database.NewsContract.NewsEntry;
 
 public class NewsProvider extends ContentProvider {
@@ -31,14 +32,22 @@ public class NewsProvider extends ContentProvider {
     private NewsDbHelper mNewsDbHelper;
 
     private static final int NEWS = 100;
-    private static final int NEWS_ITEM = 101;
+    private static final int NEWS_ITEM_BY_ID = 101;
+    private static final int NEWS_ITEM_BY_TITLE = 102;
+    private static final int BOOKMARKS = 200;
+    private static final int BOOKMARKS_ITEM_BY_ID = 201;
+    private static final int BOOKMARKS_ITEM_BY_TITLE = 202;
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = NewsContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, NewsContract.PATH_NEWS, NEWS);
-        matcher.addURI(authority, NewsContract.PATH_NEWS + "/#", NEWS_ITEM);
+        matcher.addURI(authority, NewsContract.PATH_NEWS + "/#", NEWS_ITEM_BY_ID);
+        matcher.addURI(authority, NewsContract.PATH_NEWS + "/*", NEWS_ITEM_BY_TITLE);
+        matcher.addURI(authority, NewsContract.PATH_BOOKMARKS, BOOKMARKS);
+        matcher.addURI(authority, NewsContract.PATH_BOOKMARKS + "/#", BOOKMARKS_ITEM_BY_ID);
+        matcher.addURI(authority, NewsContract.PATH_BOOKMARKS + "/*", BOOKMARKS_ITEM_BY_TITLE);
 
         return matcher;
     }
@@ -57,8 +66,16 @@ public class NewsProvider extends ContentProvider {
         switch (match) {
             case NEWS:
                 return NewsEntry.CONTENT_TYPE;
-            case NEWS_ITEM:
+            case NEWS_ITEM_BY_ID:
                 return NewsEntry.CONTENT_ITEM_TYPE;
+            case NEWS_ITEM_BY_TITLE:
+                return NewsEntry.CONTENT_ITEM_TYPE;
+            case BOOKMARKS:
+                return BookmarksEntry.CONTENT_TYPE;
+            case BOOKMARKS_ITEM_BY_ID:
+                return BookmarksEntry.CONTENT_ITEM_TYPE;
+            case BOOKMARKS_ITEM_BY_TITLE:
+                return BookmarksEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -85,19 +102,72 @@ public class NewsProvider extends ContentProvider {
                 break;
             }
             // Query a news item by id.
-            case NEWS_ITEM: {
-                String where = NewsEntry._ID + " = " + uri.getLastPathSegment();
+            case NEWS_ITEM_BY_ID: {
+                selection = NewsEntry._ID + " = " + uri.getLastPathSegment();
                 retCursor = mNewsDbHelper.getReadableDatabase().query(
                         NewsEntry.TABLE_NAME,
                         projection,
-                        where,
+                        selection,
                         selectionArgs,
                         null,
                         null,
                         sortOrder
                 );
                 break;
-
+            }
+            // Query a news item by title.
+            case NEWS_ITEM_BY_TITLE: {
+                selection = NewsEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+                retCursor = mNewsDbHelper.getReadableDatabase().query(
+                        NewsEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case BOOKMARKS: {
+                retCursor = mNewsDbHelper.getReadableDatabase().query(
+                        BookmarksEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            // Query a news item by id.
+            case BOOKMARKS_ITEM_BY_ID: {
+                selection = BookmarksEntry._ID + " = " + uri.getLastPathSegment();
+                retCursor = mNewsDbHelper.getReadableDatabase().query(
+                        BookmarksEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            // Query a news item by title.
+            case BOOKMARKS_ITEM_BY_TITLE: {
+                selection = BookmarksEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+                retCursor = mNewsDbHelper.getReadableDatabase().query(
+                        BookmarksEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -123,6 +193,14 @@ public class NewsProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
+            case BOOKMARKS: {
+                long _id = db.insert(BookmarksEntry.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = BookmarksEntry.buildBookmarksWithId(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -140,6 +218,25 @@ public class NewsProvider extends ContentProvider {
         switch (match) {
             case NEWS:
                 rowsDeleted = db.delete(NewsEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case NEWS_ITEM_BY_ID:
+                selection = NewsEntry._ID + " = " + uri.getLastPathSegment();
+                rowsDeleted = db.delete(NewsEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case NEWS_ITEM_BY_TITLE:
+                selection = NewsEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+                rowsDeleted = db.delete(NewsEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case BOOKMARKS:
+                rowsDeleted = db.delete(BookmarksEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case BOOKMARKS_ITEM_BY_ID:
+                selection = BookmarksEntry._ID + " = " + uri.getLastPathSegment();
+                rowsDeleted = db.delete(BookmarksEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case BOOKMARKS_ITEM_BY_TITLE:
+                selection = BookmarksEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+                rowsDeleted = db.delete(BookmarksEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -159,6 +256,30 @@ public class NewsProvider extends ContentProvider {
         switch (match) {
             case NEWS:
                 rowsUpdated = db.update(NewsEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case NEWS_ITEM_BY_ID:
+                selection = NewsEntry._ID + " = " + uri.getLastPathSegment();
+                rowsUpdated = db.update(NewsEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case NEWS_ITEM_BY_TITLE:
+                selection = NewsEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+                rowsUpdated = db.update(NewsEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case BOOKMARKS:
+                rowsUpdated = db.update(BookmarksEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case BOOKMARKS_ITEM_BY_ID:
+                selection = BookmarksEntry._ID + " = " + uri.getLastPathSegment();
+                rowsUpdated = db.update(BookmarksEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case BOOKMARKS_ITEM_BY_TITLE:
+                selection = BookmarksEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+                rowsUpdated = db.update(BookmarksEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:

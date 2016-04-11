@@ -29,6 +29,7 @@ public class NewsContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_NEWS = "news";
+    public static final String PATH_BOOKMARKS = "bookmarks";
 
     // Class that defines the table contents.
     public static final class NewsEntry implements BaseColumns {
@@ -37,9 +38,11 @@ public class NewsContract {
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_NEWS).build();
 
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_NEWS;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY
+                        + "/" + PATH_NEWS;
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_NEWS;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY
+                        + "/" + PATH_NEWS;
 
         // Table name.
         public static final String TABLE_NAME = "news";
@@ -51,9 +54,49 @@ public class NewsContract {
         // Publication date in milliseconds.
         public static final String COLUMN_PUB_DATE = "pub_date";
         public static final String COLUMN_ATTACHMENTS = "attachments";
+        public static final String COLUMN_IS_BOOKMARKED = "is_bookmarked";
 
         public static Uri buildNewsWithId(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+        public static Uri buildNewsWithTitle(String title) {
+            return CONTENT_URI.buildUpon().appendPath(title).build();
+        }
+    }
+
+    // Class that defines the table contents.
+    public static final class BookmarksEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_BOOKMARKS).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY
+                        + "/" + PATH_BOOKMARKS;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY
+                        + "/" + PATH_BOOKMARKS;
+
+        // Table name.
+        public static final String TABLE_NAME = "bookmarks";
+
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_LINK = "link";
+        public static final String COLUMN_CATEGORY = "category";
+        // Publication date in milliseconds.
+        public static final String COLUMN_PUB_DATE = "pub_date";
+        public static final String COLUMN_ATTACHMENTS = "attachments";
+        public static final String COLUMN_IS_BOOKMARKED = "is_bookmarked";
+
+        public static Uri buildBookmarksWithId(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static Uri buildBookmarksWithTitle(String title) {
+            return CONTENT_URI.buildUpon().appendPath(title).build();
+        }
+
     }
 }

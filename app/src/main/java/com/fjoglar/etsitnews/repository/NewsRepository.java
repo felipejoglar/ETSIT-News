@@ -23,11 +23,27 @@ import java.util.List;
 
 public interface NewsRepository {
 
+    void insertNews(List<NewsItem> newsItemList);
+
     List<NewsItem> getAllNews();
 
     NewsItem getNewsItemById(int id);
 
     void updateNews();
+
+    void updateNewsItemIsBookmarkedStatusById(boolean status, int id);
+
+    void updateNewsItemIsBookmarkedStatusByTitle(boolean status, String title);
+
+    void insertBookmark(NewsItem newsItem);
+
+    List<NewsItem> getBookmarkedNews();
+
+    NewsItem getBookmarkById(int id);
+
+    NewsItem getBookmarkByTitle(String title);
+
+    void deleteBookmarkByTitle(String title);
 
     void setContext(Context context);
 }
