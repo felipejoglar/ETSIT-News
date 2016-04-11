@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Style for title and subtitles texts in Toolbar-->
+    <style name="ToolbarTextAppearance">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+</resources>

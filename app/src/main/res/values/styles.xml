@@ -21,14 +21,29 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="toolbarStyle">@style/ToolbarStyle</item>
     </style>
 
+    <!-- Style for the Toolbar. -->
     <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="titleTextAppearance">@style/ToolbarTextAppearance.Title</item>
+        <item name="subtitleTextColor">@android:color/white</item>
+        <item name="subtitleTextAppearance">@style/ToolbarTextAppearance.Subtitle</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <!-- Style for title and subtitles texts in Toolbar-->
+    <style name="ToolbarTextAppearance"></style>
+
+    <style name="ToolbarTextAppearance.Title">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ToolbarTextAppearance.Subtitle">
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

@@ -161,6 +161,10 @@ public class NewsListActivity extends AppCompatActivity
 
     private void setUpToolbar() {
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        toolbar.setTitle(R.string.news_list_activity_title);
     }
 
     private Context getContext() {

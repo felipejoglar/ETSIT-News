@@ -16,6 +16,11 @@
 <resources>
     <string name="app_name">ETSIT News</string>
 
+    <!-- Activities titles related-->
+    <string name="news_list_activity_title">Noticias</string>
+    <string name="news_bookmarks_activity_title">Favoritos</string>
+    <string name="news_details_activity_title">Noticia</string>
+
     <!-- Category related strings -->
     <string name="category_general">General</string>
     <string name="category_beca">Beca/Empleo</string>

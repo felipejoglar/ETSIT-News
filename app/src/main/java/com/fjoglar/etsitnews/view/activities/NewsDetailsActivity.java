@@ -167,6 +167,8 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 }
             }
         }
+        // Set the NewsItem title as subtitle of the Toolbar.
+        toolbar.setSubtitle(newsItem.getTitle());
     }
 
     @Override
@@ -217,8 +219,9 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+        toolbar.setTitle(R.string.news_details_activity_title);
     }
 
     private Context getContext() {
