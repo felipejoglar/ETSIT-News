@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright (C) 2016 Felipe Joglar Santos
 
@@ -39,11 +40,11 @@
     <style name="ToolbarTextAppearance"></style>
 
     <style name="ToolbarTextAppearance.Title">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="ToolbarTextAppearance.Subtitle">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

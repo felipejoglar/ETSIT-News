@@ -37,5 +37,10 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_shadow" />
+
 </android.support.design.widget.CoordinatorLayout>
 
