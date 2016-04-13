@@ -60,8 +60,8 @@ public class NewsContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri buildNewsWithTitle(String title) {
-            return CONTENT_URI.buildUpon().appendPath(title).build();
+        public static Uri buildNewsWithDate(long date) {
+            return ContentUris.withAppendedId(CONTENT_URI, date);
         }
     }
 
@@ -94,9 +94,8 @@ public class NewsContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static Uri buildBookmarksWithTitle(String title) {
-            return CONTENT_URI.buildUpon().appendPath(title).build();
+        public static Uri buildBookmarksWithDate(long date) {
+            return ContentUris.withAppendedId(CONTENT_URI, date);
         }
-
     }
 }

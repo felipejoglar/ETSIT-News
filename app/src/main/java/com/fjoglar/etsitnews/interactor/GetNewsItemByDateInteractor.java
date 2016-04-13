@@ -13,33 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.repository;
+package com.fjoglar.etsitnews.interactor;
 
-import android.content.Context;
-
+import com.fjoglar.etsitnews.interactor.base.Interactor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 
-import java.util.List;
-
-public interface NewsRepository {
-
-    void insertNews(List<NewsItem> newsItemList);
-
-    List<NewsItem> getAllNews();
-
-    NewsItem getNewsItemByDate(long date);
-
-    void updateNews();
-
-    void updateNewsItemIsBookmarkedStatusByDate(boolean status, long date);
-
-    void insertBookmark(NewsItem newsItem);
-
-    List<NewsItem> getBookmarkedNews();
-
-    NewsItem getBookmarkByDate(long date);
-
-    void deleteBookmarkByDate(long date);
-
-    void setContext(Context context);
+/**
+ * This interactor is responsible for retrieving a item by id.
+ */
+public interface GetNewsItemByDateInteractor extends Interactor {
+    interface Callback {
+        void onNewsItemLoaded(NewsItem newsItem);
+    }
 }

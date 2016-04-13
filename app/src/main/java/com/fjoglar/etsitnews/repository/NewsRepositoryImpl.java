@@ -81,6 +81,7 @@ public class NewsRepositoryImpl implements NewsRepository {
         for (NewsItem newsItem : newsItemList) {
             ContentValues contentValues = new ContentValues();
             String description = newsItem.getDescription();
+            long date = DateUtils.StringToDate(newsItem.getPubDate()).getTime();
             // Description field cannot be null.
             if (description == null)
                 description = "";
@@ -94,15 +95,11 @@ public class NewsRepositoryImpl implements NewsRepository {
             contentValues.put(NewsContract.NewsEntry.COLUMN_CATEGORY,
                     newsItem.getCategory());
             contentValues.put(NewsContract.NewsEntry.COLUMN_PUB_DATE,
-                    DateUtils.StringToDate(newsItem.getPubDate()).getTime());
+                    date);
             contentValues.put(NewsContract.NewsEntry.COLUMN_ATTACHMENTS,
                     getAttachments(newsItem.getLink()));
-            /**
-             * De momento por defecto is_bookmarked = 0 (false).
-             * TODO: comprobar si la noticia está ya guardada antes de actualizar.
-             */
             contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED,
-                    0);
+                    isNewsItemBookmarked(date));
 
             cVVector.add(contentValues);
         }
@@ -116,6 +113,10 @@ public class NewsRepositoryImpl implements NewsRepository {
             mContext.getContentResolver()
                     .bulkInsert(NewsContract.NewsEntry.CONTENT_URI, cvArray);
         }
+
+        // Free resources.
+        mDocAnnouncement = null;
+        mDocTeam = null;
     }
 
     @Override
@@ -129,7 +130,7 @@ public class NewsRepositoryImpl implements NewsRepository {
                 null,
                 NewsContract.NewsEntry.COLUMN_PUB_DATE + " DESC");
 
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 result.add(cursorRowToNewsItem(cursor));
             }
@@ -140,17 +141,17 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public NewsItem getNewsItemById(int id) {
+    public NewsItem getNewsItemByDate(long date) {
         NewsItem result = null;
         Cursor cursor;
 
-        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.buildNewsWithId(id),
+        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.buildNewsWithDate(date),
                 null,
                 null,
                 null,
                 null);
 
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             result = cursorRowToNewsItem(cursor);
             cursor.close();
@@ -185,22 +186,11 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public void updateNewsItemIsBookmarkedStatusById(boolean status, int id) {
+    public void updateNewsItemIsBookmarkedStatusByDate(boolean status, long date) {
         int isBookmarked = (status)? 1 : 0;
         ContentValues contentValues = new ContentValues();
         contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED, isBookmarked);
-        mContext.getContentResolver().update(NewsContract.NewsEntry.buildNewsWithId(id),
-                contentValues,
-                null,
-                null);
-    }
-
-    @Override
-    public void updateNewsItemIsBookmarkedStatusByTitle(boolean status, String title) {
-        int isBookmarked = (status)? 1 : 0;
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED, isBookmarked);
-        mContext.getContentResolver().update(NewsContract.NewsEntry.buildNewsWithTitle(title),
+        mContext.getContentResolver().update(NewsContract.NewsEntry.buildNewsWithDate(date),
                 contentValues,
                 null,
                 null);
@@ -224,7 +214,7 @@ public class NewsRepositoryImpl implements NewsRepository {
         contentValues.put(NewsContract.NewsEntry.COLUMN_CATEGORY,
                 newsItem.getCategory());
         contentValues.put(NewsContract.NewsEntry.COLUMN_PUB_DATE,
-                DateUtils.StringToDate(newsItem.getPubDate()).getTime());
+                newsItem.getFormattedPubDate());
         contentValues.put(NewsContract.NewsEntry.COLUMN_ATTACHMENTS,
                 getAttachments(newsItem.getLink()));
         contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED,
@@ -232,8 +222,6 @@ public class NewsRepositoryImpl implements NewsRepository {
 
         mContext.getContentResolver()
                 .insert(NewsContract.BookmarksEntry.CONTENT_URI, contentValues);
-
-        this.updateNewsItemIsBookmarkedStatusByTitle(true, title);
     }
 
     @Override
@@ -245,9 +233,9 @@ public class NewsRepositoryImpl implements NewsRepository {
                 null,
                 null,
                 null,
-                NewsContract.BookmarksEntry._ID + " ASC");
+                NewsContract.BookmarksEntry._ID + " DESC");
 
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 result.add(cursorRowToNewsItem(cursor));
             }
@@ -258,41 +246,22 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public NewsItem getBookmarkById(int id) {
+    public NewsItem getBookmarkByDate(long date) {
         NewsItem result = null;
         Cursor cursor;
 
         cursor = mContext.getContentResolver()
-                .query(NewsContract.BookmarksEntry.buildBookmarksWithId(id),
-                null,
-                null,
-                null,
-                null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            result = cursorRowToNewsItem(cursor);
-            cursor.close();
-        }
-
-        return result;
-    }
-
-    @Override
-    public NewsItem getBookmarkByTitle(String title) {
-        NewsItem result = null;
-        Cursor cursor;
-
-        cursor = mContext.getContentResolver()
-                .query(NewsContract.BookmarksEntry.buildBookmarksWithTitle(title),
+                .query(NewsContract.BookmarksEntry.buildBookmarksWithDate(date),
                         null,
                         null,
                         null,
                         null);
 
         if (cursor != null) {
-            cursor.moveToFirst();
-            result = cursorRowToNewsItem(cursor);
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                result = cursorRowToNewsItem(cursor);
+            }
             cursor.close();
         }
 
@@ -300,9 +269,9 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public void deleteBookmarkByTitle(String title) {
+    public void deleteBookmarkByDate(long date) {
         mContext.getContentResolver()
-                .delete(NewsContract.BookmarksEntry.buildBookmarksWithTitle(title)
+                .delete(NewsContract.BookmarksEntry.buildBookmarksWithDate(date)
                         , null
                         , null);
     }
@@ -311,6 +280,8 @@ public class NewsRepositoryImpl implements NewsRepository {
     public void setContext(Context mContext) {
         this.mContext = mContext;
     }
+
+
 
     private NewsItem cursorRowToNewsItem(Cursor cursor) {
         NewsItem item = new NewsItem();
@@ -327,6 +298,8 @@ public class NewsRepositoryImpl implements NewsRepository {
                 .getLong(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_PUB_DATE)));
         item.setAttachments(cursor
                 .getString(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_ATTACHMENTS)));
+        item.setBookmarked(cursor
+                .getInt(cursor.getColumnIndex(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED)));
 
         return item;
     }
@@ -357,6 +330,17 @@ public class NewsRepositoryImpl implements NewsRepository {
         }
 
         return attachments;
+    }
+
+    private int isNewsItemBookmarked(long date) {
+        int isBookmarked = 0;
+
+        NewsItem newsItem = getBookmarkByDate(date);
+        if (newsItem != null) {
+            isBookmarked = newsItem.getBookmarked();
+        }
+
+        return isBookmarked;
     }
 
 }

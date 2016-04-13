@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.fjoglar.etsitnews.R;
+import com.fjoglar.etsitnews.view.activities.BookmarksListActivity;
 import com.fjoglar.etsitnews.view.activities.NewsDetailsActivity;
 import com.fjoglar.etsitnews.view.activities.NewsListActivity;
 
@@ -51,9 +52,21 @@ public class Navigator {
      *
      * @param context A Context needed to open the destiny activity.
      */
-    public void navigateToUserList(Context context) {
+    public void navigateToNewsList(Context context) {
         if (context != null) {
             Intent intentToLaunch = NewsListActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
+    /**
+     * Goes to the bookmarks list screen.
+     *
+     * @param context A Context needed to open the destiny activity.
+     */
+    public void navigateToBookmarksList(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = BookmarksListActivity.getCallingIntent(context);
             context.startActivity(intentToLaunch);
         }
     }
@@ -63,9 +76,9 @@ public class Navigator {
      *
      * @param context A Context needed to open the destiny activity.
      */
-    public void navigateToUserDetails(Context context, int id) {
+    public void navigateToNewsDetails(Context context, long date) {
         if (context != null) {
-            Intent intentToLaunch = NewsDetailsActivity.getCallingIntent(context, id);
+            Intent intentToLaunch = NewsDetailsActivity.getCallingIntent(context, date);
             context.startActivity(intentToLaunch);
         }
     }

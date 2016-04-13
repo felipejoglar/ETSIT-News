@@ -22,20 +22,18 @@ import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.repository.NewsRepository;
 
 /**
- * This interactor handles getting all news from the web.
- * News should be sorted by date with the most recent one coming first and the oldest
- * one coming last.
+ * This interactor is responsible for saving the selected bookmark to DB.
  */
-public class GetNewsItemByIdInteractorImpl extends UseCase implements GetNewsItemByIdInteractor {
+public class SaveBookmarksInteractorImpl extends UseCase implements SaveBookmarksInteractor {
 
     private Callback mCallback;
     private NewsRepository mNewsRepository;
-    private int mId;
+    private NewsItem mNewsItem;
 
-    public GetNewsItemByIdInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                         NewsRepository newsRepository,
-                                         Callback callback,
-                                         int id) {
+    public SaveBookmarksInteractorImpl(Executor threadExecutor, MainThread mainThread,
+                                       NewsRepository newsRepository,
+                                       Callback callback,
+                                       NewsItem newsItem) {
         super(threadExecutor, mainThread);
 
         if (newsRepository == null || callback == null) {
@@ -44,18 +42,19 @@ public class GetNewsItemByIdInteractorImpl extends UseCase implements GetNewsIte
 
         mNewsRepository = newsRepository;
         mCallback = callback;
-        mId = id;
+        mNewsItem = newsItem;
     }
 
     @Override
     public void run() {
-        // Get the item.
-        final NewsItem newsItem = mNewsRepository.getNewsItemById(mId);
-        // Show item on the main thread.
+        // Save the bookmarks form the db.
+        mNewsRepository.insertBookmark(mNewsItem);
+        // Update bookmarked status in news table item.
+        mNewsRepository.updateNewsItemIsBookmarkedStatusByDate(true, mNewsItem.getFormattedPubDate());
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onNewsItemLoaded(newsItem);
+                mCallback.onBookmarkSaved();
             }
         });
     }

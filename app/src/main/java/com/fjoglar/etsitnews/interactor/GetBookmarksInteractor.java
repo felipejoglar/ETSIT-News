@@ -18,11 +18,13 @@ package com.fjoglar.etsitnews.interactor;
 import com.fjoglar.etsitnews.interactor.base.Interactor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 
+import java.util.List;
+
 /**
- * This interactor is responsible for retrieving a item by id.
+ * This interactor is responsible for retrieving the list of bookmarks from DB.
  */
-public interface GetNewsItemByIdInteractor extends Interactor {
+public interface GetBookmarksInteractor extends Interactor {
     interface Callback {
-        void onNewsItemLoaded(NewsItem newsItem);
+        void onBookmarksRetrieved(List<NewsItem> newsItemList);
     }
 }

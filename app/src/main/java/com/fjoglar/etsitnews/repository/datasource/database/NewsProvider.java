@@ -32,22 +32,18 @@ public class NewsProvider extends ContentProvider {
     private NewsDbHelper mNewsDbHelper;
 
     private static final int NEWS = 100;
-    private static final int NEWS_ITEM_BY_ID = 101;
-    private static final int NEWS_ITEM_BY_TITLE = 102;
+    private static final int NEWS_ITEM_BY_DATE = 101;
     private static final int BOOKMARKS = 200;
-    private static final int BOOKMARKS_ITEM_BY_ID = 201;
-    private static final int BOOKMARKS_ITEM_BY_TITLE = 202;
+    private static final int BOOKMARKS_ITEM_BY_DATE = 201;
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = NewsContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, NewsContract.PATH_NEWS, NEWS);
-        matcher.addURI(authority, NewsContract.PATH_NEWS + "/#", NEWS_ITEM_BY_ID);
-        matcher.addURI(authority, NewsContract.PATH_NEWS + "/*", NEWS_ITEM_BY_TITLE);
+        matcher.addURI(authority, NewsContract.PATH_NEWS + "/#", NEWS_ITEM_BY_DATE);
         matcher.addURI(authority, NewsContract.PATH_BOOKMARKS, BOOKMARKS);
-        matcher.addURI(authority, NewsContract.PATH_BOOKMARKS + "/#", BOOKMARKS_ITEM_BY_ID);
-        matcher.addURI(authority, NewsContract.PATH_BOOKMARKS + "/*", BOOKMARKS_ITEM_BY_TITLE);
+        matcher.addURI(authority, NewsContract.PATH_BOOKMARKS + "/#", BOOKMARKS_ITEM_BY_DATE);
 
         return matcher;
     }
@@ -66,15 +62,11 @@ public class NewsProvider extends ContentProvider {
         switch (match) {
             case NEWS:
                 return NewsEntry.CONTENT_TYPE;
-            case NEWS_ITEM_BY_ID:
-                return NewsEntry.CONTENT_ITEM_TYPE;
-            case NEWS_ITEM_BY_TITLE:
+            case NEWS_ITEM_BY_DATE:
                 return NewsEntry.CONTENT_ITEM_TYPE;
             case BOOKMARKS:
                 return BookmarksEntry.CONTENT_TYPE;
-            case BOOKMARKS_ITEM_BY_ID:
-                return BookmarksEntry.CONTENT_ITEM_TYPE;
-            case BOOKMARKS_ITEM_BY_TITLE:
+            case BOOKMARKS_ITEM_BY_DATE:
                 return BookmarksEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -101,23 +93,9 @@ public class NewsProvider extends ContentProvider {
                 );
                 break;
             }
-            // Query a news item by id.
-            case NEWS_ITEM_BY_ID: {
-                selection = NewsEntry._ID + " = " + uri.getLastPathSegment();
-                retCursor = mNewsDbHelper.getReadableDatabase().query(
-                        NewsEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
-                break;
-            }
-            // Query a news item by title.
-            case NEWS_ITEM_BY_TITLE: {
-                selection = NewsEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+            // Query a news item by date.
+            case NEWS_ITEM_BY_DATE: {
+                selection = NewsEntry.COLUMN_PUB_DATE + " = " + uri.getLastPathSegment();
                 retCursor = mNewsDbHelper.getReadableDatabase().query(
                         NewsEntry.TABLE_NAME,
                         projection,
@@ -141,23 +119,9 @@ public class NewsProvider extends ContentProvider {
                 );
                 break;
             }
-            // Query a news item by id.
-            case BOOKMARKS_ITEM_BY_ID: {
-                selection = BookmarksEntry._ID + " = " + uri.getLastPathSegment();
-                retCursor = mNewsDbHelper.getReadableDatabase().query(
-                        BookmarksEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
-                break;
-            }
-            // Query a news item by title.
-            case BOOKMARKS_ITEM_BY_TITLE: {
-                selection = BookmarksEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+            // Query a bookmark item by date.
+            case BOOKMARKS_ITEM_BY_DATE: {
+                selection = BookmarksEntry.COLUMN_PUB_DATE + " = " + uri.getLastPathSegment();
                 retCursor = mNewsDbHelper.getReadableDatabase().query(
                         BookmarksEntry.TABLE_NAME,
                         projection,
@@ -219,23 +183,11 @@ public class NewsProvider extends ContentProvider {
             case NEWS:
                 rowsDeleted = db.delete(NewsEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            case NEWS_ITEM_BY_ID:
-                selection = NewsEntry._ID + " = " + uri.getLastPathSegment();
-                rowsDeleted = db.delete(NewsEntry.TABLE_NAME, selection, selectionArgs);
-                break;
-            case NEWS_ITEM_BY_TITLE:
-                selection = NewsEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
-                rowsDeleted = db.delete(NewsEntry.TABLE_NAME, selection, selectionArgs);
-                break;
             case BOOKMARKS:
                 rowsDeleted = db.delete(BookmarksEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            case BOOKMARKS_ITEM_BY_ID:
-                selection = BookmarksEntry._ID + " = " + uri.getLastPathSegment();
-                rowsDeleted = db.delete(BookmarksEntry.TABLE_NAME, selection, selectionArgs);
-                break;
-            case BOOKMARKS_ITEM_BY_TITLE:
-                selection = BookmarksEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+            case BOOKMARKS_ITEM_BY_DATE:
+                selection = BookmarksEntry.COLUMN_PUB_DATE + " = " + uri.getLastPathSegment();
                 rowsDeleted = db.delete(BookmarksEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
@@ -258,27 +210,12 @@ public class NewsProvider extends ContentProvider {
                 rowsUpdated = db.update(NewsEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
-            case NEWS_ITEM_BY_ID:
-                selection = NewsEntry._ID + " = " + uri.getLastPathSegment();
-                rowsUpdated = db.update(NewsEntry.TABLE_NAME, values, selection,
-                        selectionArgs);
-                break;
-            case NEWS_ITEM_BY_TITLE:
-                selection = NewsEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
+            case NEWS_ITEM_BY_DATE:
+                selection = NewsEntry.COLUMN_PUB_DATE + " = " + uri.getLastPathSegment();
                 rowsUpdated = db.update(NewsEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case BOOKMARKS:
-                rowsUpdated = db.update(BookmarksEntry.TABLE_NAME, values, selection,
-                        selectionArgs);
-                break;
-            case BOOKMARKS_ITEM_BY_ID:
-                selection = BookmarksEntry._ID + " = " + uri.getLastPathSegment();
-                rowsUpdated = db.update(BookmarksEntry.TABLE_NAME, values, selection,
-                        selectionArgs);
-                break;
-            case BOOKMARKS_ITEM_BY_TITLE:
-                selection = BookmarksEntry.COLUMN_TITLE + " = " + uri.getLastPathSegment();
                 rowsUpdated = db.update(BookmarksEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;

@@ -32,8 +32,8 @@ import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.navigation.Navigator;
-import com.fjoglar.etsitnews.presenter.NewsListPresenter;
-import com.fjoglar.etsitnews.presenter.NewsListPresenterImpl;
+import com.fjoglar.etsitnews.presenter.BookmarksListPresenter;
+import com.fjoglar.etsitnews.presenter.BookmarksListPresenterImpl;
 import com.fjoglar.etsitnews.threading.MainThreadImpl;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
 
@@ -42,20 +42,20 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewsListActivity extends AppCompatActivity
-        implements NewsListPresenter.View, NewsListAdapter.ItemClickListener {
+public class BookmarksListActivity extends AppCompatActivity
+        implements BookmarksListPresenter.View, NewsListAdapter.ItemClickListener {
 
-    private NewsListPresenter mNewsListPresenter;
+    private BookmarksListPresenter mBookmarksListPresenter;
     private Context mContext;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.recycler_news_list) RecyclerView recyclerNewsList;
+    @Bind(R.id.recycler_bookmarks_list) RecyclerView recyclerBookmarksList;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_bookmarks);
 
         ButterKnife.bind(this);
         mContext = this;
@@ -70,39 +70,39 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mNewsListPresenter.resume();
+        mBookmarksListPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mNewsListPresenter.pause();
+        mBookmarksListPresenter.pause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mNewsListPresenter.stop();
+        mBookmarksListPresenter.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        mNewsListPresenter.destroy();
+        mBookmarksListPresenter.destroy();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_bookmarks, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_collections_bookmarks:
-                Navigator.getInstance().navigateToBookmarksList(getContext());
+            case R.id.action_list:
+                Navigator.getInstance().navigateToNewsList(getContext());
                 return true;
             case R.id.action_filter:
                 Toast.makeText(this, "Filtrar", Toast.LENGTH_SHORT).show();
@@ -132,21 +132,22 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void showNews(List<NewsItem> newsItemList) {
-        NewsListAdapter adapter = (NewsListAdapter) recyclerNewsList.getAdapter();
+        NewsListAdapter adapter = (NewsListAdapter) recyclerBookmarksList.getAdapter();
         adapter.setNewsListAdapter(newsItemList);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     public static Intent getCallingIntent(Context context) {
-        return new Intent(context, NewsListActivity.class);
+        return new Intent(context, BookmarksListActivity.class);
     }
 
     private void initializeActivity() {
-        mNewsListPresenter = new NewsListPresenterImpl(ThreadExecutor.getInstance(),
+        mBookmarksListPresenter = new BookmarksListPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this);
         setUpRecyclerView();
@@ -155,8 +156,8 @@ public class NewsListActivity extends AppCompatActivity
 
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
-        recyclerNewsList.setAdapter(adapter);
-        recyclerNewsList.setLayoutManager(new LinearLayoutManager(getParent(),
+        recyclerBookmarksList.setAdapter(adapter);
+        recyclerBookmarksList.setLayoutManager(new LinearLayoutManager(getParent(),
                 LinearLayoutManager.VERTICAL,
                 false)
         );
@@ -167,7 +168,7 @@ public class NewsListActivity extends AppCompatActivity
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        toolbar.setTitle(R.string.news_list_activity_title);
+        toolbar.setTitle(R.string.bookmarks_list_activity_title);
     }
 
     private Context getContext() {

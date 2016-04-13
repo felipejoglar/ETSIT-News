@@ -18,7 +18,7 @@
 
     <!-- Activities titles related-->
     <string name="news_list_activity_title">Noticias</string>
-    <string name="news_bookmarks_activity_title">Favoritos</string>
+    <string name="bookmarks_list_activity_title">Favoritos</string>
     <string name="news_details_activity_title">Noticia</string>
 
     <!-- Category related strings -->
@@ -40,5 +40,7 @@
     <string name="action_filter">Filtrar</string>
     <string name="action_share">Compartir</string>
     <string name="action_bookmark">Añadir a favoritos</string>
+    <string name="action_collections_bookmarks">Ir a favoritos</string>
+    <string name="action_list">Ir a noticias</string>
 
 </resources>

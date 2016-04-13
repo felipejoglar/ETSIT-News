@@ -13,33 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.repository;
-
-import android.content.Context;
+package com.fjoglar.etsitnews.presenter;
 
 import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.presenter.base.Presenter;
+import com.fjoglar.etsitnews.view.BaseView;
 
 import java.util.List;
 
-public interface NewsRepository {
+public interface BookmarksListPresenter extends Presenter {
+    interface View extends BaseView {
+        void showNews(List<NewsItem> newsItemList);
+    }
 
-    void insertNews(List<NewsItem> newsItemList);
-
-    List<NewsItem> getAllNews();
-
-    NewsItem getNewsItemByDate(long date);
-
-    void updateNews();
-
-    void updateNewsItemIsBookmarkedStatusByDate(boolean status, long date);
-
-    void insertBookmark(NewsItem newsItem);
-
-    List<NewsItem> getBookmarkedNews();
-
-    NewsItem getBookmarkByDate(long date);
-
-    void deleteBookmarkByDate(long date);
-
-    void setContext(Context context);
+    void getBookmarks();
 }

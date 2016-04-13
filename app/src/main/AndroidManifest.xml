@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (C) 2016 Felipe Joglar Santos
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +19,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".EtsitNewsApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".EtsitNewsApp">
+        android:theme="@style/AppTheme">
         <activity android:name=".view.activities.NewsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +39,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.NewsListActivity" />
         </activity>
+        <activity android:name=".view.activities.BookmarksListActivity" />
         <provider
             android:name=".repository.datasource.database.NewsProvider"
             android:authorities="com.fjoglar.etsitnews"

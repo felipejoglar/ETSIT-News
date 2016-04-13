@@ -17,31 +17,28 @@ package com.fjoglar.etsitnews.presenter;
 
 import com.fjoglar.etsitnews.executor.Executor;
 import com.fjoglar.etsitnews.executor.MainThread;
-import com.fjoglar.etsitnews.interactor.GetNewsInteractor;
-import com.fjoglar.etsitnews.interactor.GetNewsInteractorImpl;
-import com.fjoglar.etsitnews.interactor.UpdateNewsInteractor;
-import com.fjoglar.etsitnews.interactor.UpdateNewsInteractorImpl;
+import com.fjoglar.etsitnews.interactor.GetBookmarksInteractor;
+import com.fjoglar.etsitnews.interactor.GetBookmarksInteractorImpl;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.base.BasePresenter;
 import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
 
 import java.util.List;
 
-public class NewsListPresenterImpl extends BasePresenter implements NewsListPresenter,
-        GetNewsInteractor.Callback, UpdateNewsInteractor.Callback {
+public class BookmarksListPresenterImpl extends BasePresenter implements BookmarksListPresenter,
+        GetBookmarksInteractor.Callback {
 
-    private NewsListPresenter.View mView;
+    private View mView;
 
-    public NewsListPresenterImpl(Executor executor, MainThread mainThread,
-                                 View view) {
+    public BookmarksListPresenterImpl(Executor executor, MainThread mainThread,
+                                      View view) {
         super(executor, mainThread);
         mView = view;
     }
 
     @Override
     public void resume() {
-        getNews();
-//        updateNews();
+        getBookmarks();
     }
 
     @Override
@@ -62,30 +59,18 @@ public class NewsListPresenterImpl extends BasePresenter implements NewsListPres
     }
 
     @Override
-    public void getNews() {
-        GetNewsInteractor getNewsInteractor = new GetNewsInteractorImpl(mExecutor, mMainThread,
+    public void getBookmarks() {
+        GetBookmarksInteractor getBookmarksInteractor = new GetBookmarksInteractorImpl(mExecutor, mMainThread,
                 NewsRepositoryImpl.getInstance(), this);
-        getNewsInteractor.execute();
+        getBookmarksInteractor.execute();
     }
 
     @Override
-    public void updateNews() {
-        mView.showProgress();
-        UpdateNewsInteractor updateNewsInteractor = new UpdateNewsInteractorImpl(mExecutor,
-                mMainThread, NewsRepositoryImpl.getInstance(), this);
-        updateNewsInteractor.execute();
+    public void onBookmarksRetrieved(List<NewsItem> itemList) {
+        if (itemList == null || itemList.size() == 0)
+            mView.showError("No hay favoritos guardados");
+
+        mView.showNews(itemList);
     }
 
-    @Override
-    public void onNewsRetrieved(List<NewsItem> itemList) {
-        if (itemList != null) {
-            mView.showNews(itemList);
-        }
-    }
-
-    @Override
-    public void onNewsUpdated() {
-        getNews();
-        mView.hideProgress();
-    }
 }

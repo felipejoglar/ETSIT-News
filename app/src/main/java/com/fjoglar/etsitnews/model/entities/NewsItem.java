@@ -49,6 +49,7 @@ public class NewsItem implements Serializable{
 
     private long formattedPubDate;
     private String attachments;
+    private int bookmarked;
 
     public String getTitle() {
         return title;
@@ -78,6 +79,10 @@ public class NewsItem implements Serializable{
         return attachments;
     }
 
+    public int getBookmarked() {
+        return bookmarked;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -104,6 +109,10 @@ public class NewsItem implements Serializable{
 
     public void setAttachments(String attachments) {
         this.attachments = attachments;
+    }
+
+    public void setBookmarked(int bookmarked) {
+        this.bookmarked = bookmarked;
     }
 
     @Override

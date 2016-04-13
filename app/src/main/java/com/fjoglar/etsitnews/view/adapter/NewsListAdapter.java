@@ -42,7 +42,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     private ItemClickListener mItemClickListener;
 
     public interface ItemClickListener {
-        void itemClicked(int id);
+        void itemClicked(long date);
     }
 
     public NewsListAdapter(@NonNull ItemClickListener itemClickListener) {
@@ -96,7 +96,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.itemClicked(position + 1);
+                mItemClickListener.itemClicked(item.getFormattedPubDate());
             }
         });
     }

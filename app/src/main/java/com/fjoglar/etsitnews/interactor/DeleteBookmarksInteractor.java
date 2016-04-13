@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.presenter;
+package com.fjoglar.etsitnews.interactor;
 
-import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.presenter.base.Presenter;
-import com.fjoglar.etsitnews.view.BaseView;
+import com.fjoglar.etsitnews.interactor.base.Interactor;
 
-public interface NewsDetailsPresenter extends Presenter {
-    interface View extends BaseView {
-        void showNewsItem(NewsItem newsItem);
+/**
+ * This interactor is responsible for deleting the selected bookmark from DB.
+ */
+public interface DeleteBookmarksInteractor extends Interactor {
+    interface Callback {
+        void onBookmarkDeleted();
     }
-
-    void getNewsItemByDate(long date);
-
-    void manageBookmark(NewsItem newsItem);
 }

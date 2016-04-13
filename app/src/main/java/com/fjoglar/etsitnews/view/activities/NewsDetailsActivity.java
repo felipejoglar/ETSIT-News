@@ -49,13 +49,14 @@ import butterknife.OnClick;
 
 public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailsPresenter.View {
 
-    private static final String INTENT_EXTRA_PARAM_NEWS_ITEM_ID =
+    private static final String INTENT_EXTRA_PARAM_NEWS_ITEM_DATE =
             "com.fjoglar.INTENT_PARAM_NEWS_ITEM";
-    private static final String INSTANCE_STATE_PARAM_NEWS_ITEM_ID =
+    private static final String INSTANCE_STATE_PARAM_NEWS_ITEM_DATE =
             "com.fjoglar.STATE_PARAM_NEWS_ITEM";
 
     private NewsDetailsPresenter mNewsDetailsPresenter;
-    private int mNewsItemId;
+    private long mNewsItemDate;
+    private NewsItem mNewsItem;
     private Context mContext;
     private String mMoreInfoUrl;
 
@@ -112,7 +113,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
-            outState.putInt(INSTANCE_STATE_PARAM_NEWS_ITEM_ID, this.mNewsItemId);
+            outState.putLong(INSTANCE_STATE_PARAM_NEWS_ITEM_DATE, this.mNewsItemDate);
         }
         super.onSaveInstanceState(outState);
     }
@@ -130,7 +131,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 onBackPressed();
                 return true;
             case R.id.action_bookmark:
-                Toast.makeText(this, "Marcado como favorito", Toast.LENGTH_SHORT).show();
+                mNewsDetailsPresenter.manageBookmark(mNewsItem);
                 return true;
             case R.id.action_share:
                 Toast.makeText(this, "Compartir", Toast.LENGTH_SHORT).show();
@@ -142,6 +143,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @Override
     public void showNewsItem(NewsItem newsItem) {
+        mNewsItem = newsItem;
         mMoreInfoUrl = newsItem.getLink();
 
         detailTitle.setText(newsItem.getTitle());
@@ -183,12 +185,12 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public static Intent getCallingIntent(Context context, int id) {
+    public static Intent getCallingIntent(Context context, long date) {
         Intent callingIntent = new Intent(context, NewsDetailsActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, id);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_DATE, date);
         return callingIntent;
     }
 
@@ -202,16 +204,16 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
      */
     private void initializeActivity(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            this.mNewsItemId =
-                    getIntent().getIntExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_ID, 0);
+            this.mNewsItemDate =
+                    getIntent().getLongExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_DATE, 0);
         } else {
-            this.mNewsItemId =
-                    savedInstanceState.getInt(INSTANCE_STATE_PARAM_NEWS_ITEM_ID);
+            this.mNewsItemDate =
+                    savedInstanceState.getLong(INSTANCE_STATE_PARAM_NEWS_ITEM_DATE);
         }
         mNewsDetailsPresenter = new NewsDetailsPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                mNewsItemId);
+                mNewsItemDate);
         setUpToolbar();
     }
 
