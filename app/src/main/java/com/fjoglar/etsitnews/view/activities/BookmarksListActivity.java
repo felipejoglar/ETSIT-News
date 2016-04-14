@@ -101,8 +101,8 @@ public class BookmarksListActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_list:
-                Navigator.getInstance().navigateToNewsList(getContext());
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             case R.id.action_filter:
                 Toast.makeText(this, "Filtrar", Toast.LENGTH_SHORT).show();
@@ -166,6 +166,7 @@ public class BookmarksListActivity extends AppCompatActivity
     private void setUpToolbar() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         toolbar.setTitle(R.string.bookmarks_list_activity_title);
