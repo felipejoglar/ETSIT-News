@@ -59,6 +59,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private NewsItem mNewsItem;
     private Context mContext;
     private String mMoreInfoUrl;
+    private Menu mMenu;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
@@ -121,6 +122,10 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
+        mMenu = menu;
+        if (mNewsItem != null) {
+            updateBookmarkIcon(mNewsItem.getBookmarked() == 1);
+        }
         return true;
     }
 
@@ -171,6 +176,21 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         }
         // Set the NewsItem title as subtitle of the Toolbar.
         toolbar.setSubtitle(newsItem.getTitle());
+
+        // Set the bookmark icon.
+        updateBookmarkIcon(newsItem.getBookmarked() == 1);
+    }
+
+    @Override
+    public void updateBookmarkIcon(boolean isBookmarked) {
+        if (mMenu != null) {
+            MenuItem menuItem = mMenu.findItem(R.id.action_bookmark);
+            if (isBookmarked) {
+                menuItem.setIcon(getResources().getDrawable(R.drawable.ic_bookmark));
+            } else {
+                menuItem.setIcon(getResources().getDrawable(R.drawable.ic_bookmark_border));
+            }
+        }
     }
 
     @Override

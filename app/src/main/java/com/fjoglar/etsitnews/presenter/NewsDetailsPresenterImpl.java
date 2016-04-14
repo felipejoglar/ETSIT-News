@@ -32,6 +32,7 @@ public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetai
         DeleteBookmarksInteractor.Callback {
 
     private View mView;
+    private NewsItem mNewsItem;
     private long mDate;
 
     public NewsDetailsPresenterImpl(Executor executor, MainThread mainThread,
@@ -74,6 +75,7 @@ public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetai
 
     @Override
     public void manageBookmark(NewsItem newsItem) {
+        mView.showProgress();
         if (newsItem.getBookmarked() == 0) {
             SaveBookmarksInteractor saveBookmarksInteractor =
                     new SaveBookmarksInteractorImpl(mExecutor,
@@ -95,11 +97,15 @@ public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetai
 
     @Override
     public void onBookmarkSaved() {
+        getNewsItemByDate(mDate);
+        mView.hideProgress();
         mView.showError("Favorito guardado");
     }
 
     @Override
     public void onBookmarkDeleted() {
+        getNewsItemByDate(mDate);
+        mView.hideProgress();
         mView.showError("Favorito borrado");
     }
 }

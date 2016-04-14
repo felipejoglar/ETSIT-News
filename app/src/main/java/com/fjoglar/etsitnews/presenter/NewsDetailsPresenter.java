@@ -22,6 +22,8 @@ import com.fjoglar.etsitnews.view.BaseView;
 public interface NewsDetailsPresenter extends Presenter {
     interface View extends BaseView {
         void showNewsItem(NewsItem newsItem);
+
+        void updateBookmarkIcon(boolean isBookmarked);
     }
 
     void getNewsItemByDate(long date);
