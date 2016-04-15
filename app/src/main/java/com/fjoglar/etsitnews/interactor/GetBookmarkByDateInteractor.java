@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.presenter;
+package com.fjoglar.etsitnews.interactor;
 
+import com.fjoglar.etsitnews.interactor.base.Interactor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.presenter.base.Presenter;
-import com.fjoglar.etsitnews.view.BaseView;
 
-public interface NewsDetailsPresenter extends Presenter {
-    interface View extends BaseView {
-        void showNewsItem(NewsItem newsItem);
-
-        void updateBookmarkIcon(boolean isBookmarked);
+/**
+ * This interactor is responsible for retrieving a item by id.
+ */
+public interface GetBookmarkByDateInteractor extends Interactor {
+    interface Callback {
+        void onBookmarkLoaded(NewsItem newsItem);
     }
-
-    void getNewsItemByDate(long date, String source);
-
-    void manageBookmark(NewsItem newsItem);
 }

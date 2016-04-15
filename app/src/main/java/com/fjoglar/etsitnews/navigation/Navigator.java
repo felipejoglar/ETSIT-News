@@ -76,9 +76,9 @@ public class Navigator {
      *
      * @param context A Context needed to open the destiny activity.
      */
-    public void navigateToNewsDetails(Context context, long date) {
+    public void navigateToNewsDetails(Context context, long date, String source) {
         if (context != null) {
-            Intent intentToLaunch = NewsDetailsActivity.getCallingIntent(context, date);
+            Intent intentToLaunch = NewsDetailsActivity.getCallingIntent(context, date, source);
             context.startActivity(intentToLaunch);
         }
     }

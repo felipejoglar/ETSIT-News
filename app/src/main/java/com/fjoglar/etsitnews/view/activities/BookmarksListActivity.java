@@ -45,6 +45,8 @@ import butterknife.ButterKnife;
 public class BookmarksListActivity extends AppCompatActivity
         implements BookmarksListPresenter.View, NewsListAdapter.ItemClickListener {
 
+    private static final String ACTIVITY_SOURCE = "BOOKMARKS";
+
     private BookmarksListPresenter mBookmarksListPresenter;
     private Context mContext;
 
@@ -117,7 +119,7 @@ public class BookmarksListActivity extends AppCompatActivity
 
     @Override
     public void itemClicked(long date) {
-        Navigator.getInstance().navigateToNewsDetails(getContext(), date);
+        Navigator.getInstance().navigateToNewsDetails(getContext(), date, ACTIVITY_SOURCE);
     }
 
     @Override

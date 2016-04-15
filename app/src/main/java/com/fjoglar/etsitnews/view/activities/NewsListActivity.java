@@ -45,6 +45,8 @@ import butterknife.ButterKnife;
 public class NewsListActivity extends AppCompatActivity
         implements NewsListPresenter.View, NewsListAdapter.ItemClickListener {
 
+    private static final String ACTIVITY_SOURCE = "NEWS";
+
     private NewsListPresenter mNewsListPresenter;
     private Context mContext;
 
@@ -117,7 +119,7 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void itemClicked(long date) {
-        Navigator.getInstance().navigateToNewsDetails(getContext(), date);
+        Navigator.getInstance().navigateToNewsDetails(getContext(), date, ACTIVITY_SOURCE);
     }
 
     @Override

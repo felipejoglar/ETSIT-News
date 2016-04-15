@@ -54,13 +54,19 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             "com.fjoglar.INTENT_PARAM_NEWS_ITEM";
     private static final String INSTANCE_STATE_PARAM_NEWS_ITEM_DATE =
             "com.fjoglar.STATE_PARAM_NEWS_ITEM";
+    private static final String INTENT_EXTRA_PARAM_SOURCE =
+            "com.fjoglar.INTENT_PARAM_SOURCE";
+    private static final String INSTANCE_STATE_PARAM_SOURCE =
+            "com.fjoglar.STATE_PARAM_SOURCE";
 
     private NewsDetailsPresenter mNewsDetailsPresenter;
-    private long mNewsItemDate;
-    private NewsItem mNewsItem;
-    private Context mContext;
+
+    private String mSource;
     private String mMoreInfoUrl;
+    private long mNewsItemDate;
+    private Context mContext;
     private Menu mMenu;
+    private NewsItem mNewsItem;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
@@ -116,6 +122,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     protected void onSaveInstanceState(Bundle outState) {
         if (outState != null) {
             outState.putLong(INSTANCE_STATE_PARAM_NEWS_ITEM_DATE, this.mNewsItemDate);
+            outState.putString(INSTANCE_STATE_PARAM_SOURCE, this.mSource);
         }
         super.onSaveInstanceState(outState);
     }
@@ -149,37 +156,41 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @Override
     public void showNewsItem(NewsItem newsItem) {
-        mNewsItem = newsItem;
-        mMoreInfoUrl = newsItem.getLink();
+        if (newsItem == null) {
+            onBackPressed();
+        } else {
+            mNewsItem = newsItem;
+            mMoreInfoUrl = newsItem.getLink();
 
-        detailTitle.setText(newsItem.getTitle());
-        detailDate.setText(DateUtils.formatDetailViewTime(newsItem.getFormattedPubDate()));
-        detailDescription.setText(FormatTextUtils.formatText(newsItem.getDescription()));
-        detailCategory.setText(FormatTextUtils.categoryToString(getContext(),
-                newsItem.getCategory()));
+            detailTitle.setText(newsItem.getTitle());
+            detailDate.setText(DateUtils.formatDetailViewTime(newsItem.getFormattedPubDate()));
+            detailDescription.setText(FormatTextUtils.formatText(newsItem.getDescription()));
+            detailCategory.setText(FormatTextUtils.categoryToString(getContext(),
+                    newsItem.getCategory()));
 
-        List<Attachment> attachmentList = AttachmentsUtils
-                .extractAttachments(newsItem.getAttachments());
+            List<Attachment> attachmentList = AttachmentsUtils
+                    .extractAttachments(newsItem.getAttachments());
 
-        if (attachmentList != null) {
-            if (detailAttachmentsCard.getVisibility() == View.GONE) {
-                detailAttachmentsCard.setVisibility(View.VISIBLE);
-                for (final Attachment attachment : attachmentList) {
-                    final TextView attachmentTextView = new TextView(this);
-                    UiUtils.configureTextView(attachmentTextView,
-                            attachment.getTitle(),
-                            attachment.getDownloadLink(),
-                            attachment.getFileType(),
-                            getContext());
-                    detailAttachmentsCardContent.addView(attachmentTextView);
+            if (attachmentList != null) {
+                if (detailAttachmentsCard.getVisibility() == View.GONE) {
+                    detailAttachmentsCard.setVisibility(View.VISIBLE);
+                    for (final Attachment attachment : attachmentList) {
+                        final TextView attachmentTextView = new TextView(this);
+                        UiUtils.configureTextView(attachmentTextView,
+                                attachment.getTitle(),
+                                attachment.getDownloadLink(),
+                                attachment.getFileType(),
+                                getContext());
+                        detailAttachmentsCardContent.addView(attachmentTextView);
+                    }
                 }
             }
-        }
-        // Set the NewsItem title as subtitle of the Toolbar.
-        toolbar.setSubtitle(newsItem.getTitle());
+            // Set the NewsItem title as subtitle of the Toolbar.
+            toolbar.setSubtitle(newsItem.getTitle());
 
-        // Set the bookmark icon.
-        updateBookmarkIcon(newsItem.getBookmarked() == 1);
+            // Set the bookmark icon.
+            updateBookmarkIcon(newsItem.getBookmarked() == 1);
+        }
     }
 
     @Override
@@ -202,9 +213,10 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public static Intent getCallingIntent(Context context, long date) {
+    public static Intent getCallingIntent(Context context, long date, String source) {
         Intent callingIntent = new Intent(context, NewsDetailsActivity.class);
         callingIntent.putExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_DATE, date);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_SOURCE, source);
         return callingIntent;
     }
 
@@ -220,14 +232,19 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         if (savedInstanceState == null) {
             this.mNewsItemDate =
                     getIntent().getLongExtra(INTENT_EXTRA_PARAM_NEWS_ITEM_DATE, 0);
+            this.mSource =
+                    getIntent().getStringExtra(INTENT_EXTRA_PARAM_SOURCE);
         } else {
             this.mNewsItemDate =
                     savedInstanceState.getLong(INSTANCE_STATE_PARAM_NEWS_ITEM_DATE);
+            this.mSource =
+                    savedInstanceState.getString(INSTANCE_STATE_PARAM_SOURCE);
         }
         mNewsDetailsPresenter = new NewsDetailsPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
                 this,
-                mNewsItemDate);
+                mNewsItemDate,
+                mSource);
         setUpToolbar();
     }
 

@@ -19,6 +19,8 @@ import com.fjoglar.etsitnews.executor.Executor;
 import com.fjoglar.etsitnews.executor.MainThread;
 import com.fjoglar.etsitnews.interactor.DeleteBookmarksInteractor;
 import com.fjoglar.etsitnews.interactor.DeleteBookmarksInteractorImpl;
+import com.fjoglar.etsitnews.interactor.GetBookmarkByDateInteractor;
+import com.fjoglar.etsitnews.interactor.GetBookmarkByDateInteractorImpl;
 import com.fjoglar.etsitnews.interactor.GetNewsItemByDateInteractor;
 import com.fjoglar.etsitnews.interactor.GetNewsItemByDateInteractorImpl;
 import com.fjoglar.etsitnews.interactor.SaveBookmarksInteractor;
@@ -28,22 +30,24 @@ import com.fjoglar.etsitnews.presenter.base.BasePresenter;
 import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
 
 public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetailsPresenter,
-        GetNewsItemByDateInteractor.Callback, SaveBookmarksInteractor.Callback,
-        DeleteBookmarksInteractor.Callback {
+        GetNewsItemByDateInteractor.Callback, GetBookmarkByDateInteractor.Callback,
+        SaveBookmarksInteractor.Callback, DeleteBookmarksInteractor.Callback {
 
     private View mView;
     private long mDate;
+    private String mSource;
 
     public NewsDetailsPresenterImpl(Executor executor, MainThread mainThread,
-                                    View view, long date) {
+                                    View view, long date, String source) {
         super(executor, mainThread);
         mView = view;
         mDate = date;
+        mSource = source;
     }
 
     @Override
     public void resume() {
-        getNewsItemByDate(mDate);
+        getNewsItemByDate(mDate, mSource);
     }
 
     @Override
@@ -64,12 +68,19 @@ public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetai
     }
 
     @Override
-    public void getNewsItemByDate(long date) {
+    public void getNewsItemByDate(long date, String source) {
         mView.showProgress();
-        GetNewsItemByDateInteractor getNewsItemByDateInteractor =
-                new GetNewsItemByDateInteractorImpl(mExecutor,
-                        mMainThread, NewsRepositoryImpl.getInstance(), this, date);
-        getNewsItemByDateInteractor.execute();
+        if (source.equals("NEWS")) {
+            GetNewsItemByDateInteractor getNewsItemByDateInteractor =
+                    new GetNewsItemByDateInteractorImpl(mExecutor,
+                            mMainThread, NewsRepositoryImpl.getInstance(), this, date);
+            getNewsItemByDateInteractor.execute();
+        } else if (source.equals("BOOKMARKS")) {
+            GetBookmarkByDateInteractor getBookmarkByDateInteractor =
+                    new GetBookmarkByDateInteractorImpl(mExecutor,
+                            mMainThread, NewsRepositoryImpl.getInstance(), this, date);
+            getBookmarkByDateInteractor.execute();
+        }
     }
 
     @Override
@@ -95,15 +106,21 @@ public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetai
     }
 
     @Override
+    public void onBookmarkLoaded(NewsItem newsItem) {
+        mView.showNewsItem(newsItem);
+        mView.hideProgress();
+    }
+
+    @Override
     public void onBookmarkSaved() {
-        getNewsItemByDate(mDate);
+        getNewsItemByDate(mDate, mSource);
         mView.hideProgress();
         mView.showError("Favorito guardado");
     }
 
     @Override
     public void onBookmarkDeleted() {
-        getNewsItemByDate(mDate);
+        getNewsItemByDate(mDate, mSource);
         mView.hideProgress();
         mView.showError("Favorito borrado");
     }
