@@ -216,7 +216,7 @@ public class NewsRepositoryImpl implements NewsRepository {
         contentValues.put(NewsContract.NewsEntry.COLUMN_PUB_DATE,
                 newsItem.getFormattedPubDate());
         contentValues.put(NewsContract.NewsEntry.COLUMN_ATTACHMENTS,
-                getAttachments(newsItem.getLink()));
+                newsItem.getAttachments());
         contentValues.put(NewsContract.NewsEntry.COLUMN_IS_BOOKMARKED,
                 1);
 
