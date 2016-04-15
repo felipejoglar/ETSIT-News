@@ -20,12 +20,15 @@ import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
+import com.fjoglar.etsitnews.model.entities.Attachment;
 import com.fjoglar.etsitnews.navigation.Navigator;
 
 public class UiUtils {
@@ -42,7 +45,7 @@ public class UiUtils {
     public static void configureTextView(TextView textView,
                                    String title,
                                    final String downloadLink,
-                                   AttachmentsUtils.Attachment.FILE_TYPE fileType,
+                                   Attachment.FILE_TYPE fileType,
                                    final Context context) {
 
         final int TEXT_VIEW_MIN_HEIGHT = 40;
@@ -85,6 +88,24 @@ public class UiUtils {
                 Navigator.getInstance().openUrl(context, downloadLink);
             }
         });
+    }
+
+    /**
+     * Update the menu's bookmark icon in function of its status.
+     *
+     * @param menu          Menu container of MenuItem.
+     * @param isBookmarked  Status of bookmark.
+     * @param context       The context of activity.
+     */
+    public static void updateBookmarkIcon(Menu menu, boolean isBookmarked, Context context){
+        if (menu != null) {
+            MenuItem menuItem = menu.findItem(R.id.action_bookmark);
+            if (isBookmarked) {
+                menuItem.setIcon(context.getResources().getDrawable(R.drawable.ic_bookmark));
+            } else {
+                menuItem.setIcon(context.getResources().getDrawable(R.drawable.ic_bookmark_border));
+            }
+        }
     }
 
     /**

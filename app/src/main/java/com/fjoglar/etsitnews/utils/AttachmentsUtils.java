@@ -15,6 +15,8 @@
  */
 package com.fjoglar.etsitnews.utils;
 
+import com.fjoglar.etsitnews.model.entities.Attachment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,54 +39,4 @@ public class AttachmentsUtils {
         return attachmentList;
     }
 
-    public static class Attachment {
-        String downloadLink;
-        String title;
-        FILE_TYPE fileType;
-
-        public enum FILE_TYPE{
-            FILE,
-            IMAGE,
-            LINK
-    }
-
-        public Attachment(String downloadLink, String title) {
-            this.downloadLink = downloadLink;
-            this.title = title;
-            this.fileType = setFileType(title);
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getDownloadLink() {
-            return downloadLink;
-        }
-
-        public FILE_TYPE getFileType() {
-            return fileType;
-        }
-
-        @Override
-        public String toString() {
-            return this.getTitle() + " -----> " + getDownloadLink();
-        }
-
-        private FILE_TYPE setFileType(String title) {
-            String extension = title.substring(title.lastIndexOf(".") + 1, title.length());
-
-            if (extension.equalsIgnoreCase("doc")
-                    || extension.equalsIgnoreCase("docx")
-                    || extension.equalsIgnoreCase("pdf")
-                    || extension.equalsIgnoreCase("zip")) {
-                return  FILE_TYPE.FILE;
-            } else if (extension.equalsIgnoreCase("jpg")
-                    || extension.equalsIgnoreCase("png")) {
-                return FILE_TYPE.IMAGE;
-            } else {
-                return FILE_TYPE.LINK;
-            }
-        }
-    }
 }

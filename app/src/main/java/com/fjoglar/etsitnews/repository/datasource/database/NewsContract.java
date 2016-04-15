@@ -56,10 +56,6 @@ public class NewsContract {
         public static final String COLUMN_ATTACHMENTS = "attachments";
         public static final String COLUMN_IS_BOOKMARKED = "is_bookmarked";
 
-        public static Uri buildNewsWithId(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
         public static Uri buildNewsWithDate(long date) {
             return ContentUris.withAppendedId(CONTENT_URI, date);
         }
@@ -89,10 +85,6 @@ public class NewsContract {
         public static final String COLUMN_PUB_DATE = "pub_date";
         public static final String COLUMN_ATTACHMENTS = "attachments";
         public static final String COLUMN_IS_BOOKMARKED = "is_bookmarked";
-
-        public static Uri buildBookmarksWithId(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
 
         public static Uri buildBookmarksWithDate(long date) {
             return ContentUris.withAppendedId(CONTENT_URI, date);

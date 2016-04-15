@@ -41,7 +41,7 @@ public class NewsListPresenterImpl extends BasePresenter implements NewsListPres
     @Override
     public void resume() {
         getNews();
-//        updateNews();
+        updateNews();
     }
 
     @Override

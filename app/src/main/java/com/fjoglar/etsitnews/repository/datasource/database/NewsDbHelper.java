@@ -29,7 +29,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_NAME = "news.db";
+    static final String DATABASE_NAME = "etsitnews.db";
 
     public NewsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

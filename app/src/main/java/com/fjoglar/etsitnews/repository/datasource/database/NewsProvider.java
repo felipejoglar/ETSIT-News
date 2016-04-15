@@ -80,7 +80,7 @@ public class NewsProvider extends ContentProvider {
 
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
-            // Query all entries in news database.
+            // Query all entries in news table.
             case NEWS: {
                 retCursor = mNewsDbHelper.getReadableDatabase().query(
                         NewsEntry.TABLE_NAME,
@@ -152,7 +152,7 @@ public class NewsProvider extends ContentProvider {
             case NEWS: {
                 long _id = db.insert(NewsEntry.TABLE_NAME, null, values);
                 if (_id > 0)
-                    returnUri = NewsEntry.buildNewsWithId(_id);
+                    returnUri = NewsEntry.buildNewsWithDate(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -160,7 +160,7 @@ public class NewsProvider extends ContentProvider {
             case BOOKMARKS: {
                 long _id = db.insert(BookmarksEntry.TABLE_NAME, null, values);
                 if (_id > 0)
-                    returnUri = BookmarksEntry.buildBookmarksWithId(_id);
+                    returnUri = BookmarksEntry.buildBookmarksWithDate(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;

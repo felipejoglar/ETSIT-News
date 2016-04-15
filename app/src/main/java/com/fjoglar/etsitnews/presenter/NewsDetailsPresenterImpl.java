@@ -32,7 +32,6 @@ public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetai
         DeleteBookmarksInteractor.Callback {
 
     private View mView;
-    private NewsItem mNewsItem;
     private long mDate;
 
     public NewsDetailsPresenterImpl(Executor executor, MainThread mainThread,

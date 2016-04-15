@@ -41,7 +41,7 @@ import com.fjoglar.etsitnews.R;
 /**
  * This class generates a Material Design style ProgressBar for use in Android devices
  * pre Lollipop (v21).
- * <p/>
+ *
  * Custom view based on Mark Allison's article:
  * https://blog.stylingandroid.com/material-progressbar/
  */

@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.executor.ThreadExecutor;
+import com.fjoglar.etsitnews.model.entities.Attachment;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.navigation.Navigator;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenter;
@@ -157,13 +158,13 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         detailCategory.setText(FormatTextUtils.categoryToString(getContext(),
                 newsItem.getCategory()));
 
-        List<AttachmentsUtils.Attachment> attachmentList = AttachmentsUtils
+        List<Attachment> attachmentList = AttachmentsUtils
                 .extractAttachments(newsItem.getAttachments());
 
         if (attachmentList != null) {
             if (detailAttachmentsCard.getVisibility() == View.GONE) {
                 detailAttachmentsCard.setVisibility(View.VISIBLE);
-                for (final AttachmentsUtils.Attachment attachment : attachmentList) {
+                for (final Attachment attachment : attachmentList) {
                     final TextView attachmentTextView = new TextView(this);
                     UiUtils.configureTextView(attachmentTextView,
                             attachment.getTitle(),
@@ -183,14 +184,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @Override
     public void updateBookmarkIcon(boolean isBookmarked) {
-        if (mMenu != null) {
-            MenuItem menuItem = mMenu.findItem(R.id.action_bookmark);
-            if (isBookmarked) {
-                menuItem.setIcon(getResources().getDrawable(R.drawable.ic_bookmark));
-            } else {
-                menuItem.setIcon(getResources().getDrawable(R.drawable.ic_bookmark_border));
-            }
-        }
+        UiUtils.updateBookmarkIcon(mMenu, isBookmarked, getContext());
     }
 
     @Override
