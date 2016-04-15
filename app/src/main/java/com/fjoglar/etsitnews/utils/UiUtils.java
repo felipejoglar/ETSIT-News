@@ -69,6 +69,9 @@ public class UiUtils {
             case IMAGE:
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_photo, 0, 0, 0);
                 break;
+            case FOLDER:
+                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_folder, 0, 0, 0);
+                break;
             default:
                 textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_link, 0, 0, 0);
                 break;

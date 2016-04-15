@@ -24,6 +24,7 @@ public class Attachment {
     public enum FILE_TYPE {
         FILE,
         IMAGE,
+        FOLDER,
         LINK
     }
 
@@ -55,12 +56,13 @@ public class Attachment {
 
         if (extension.equalsIgnoreCase("doc")
                 || extension.equalsIgnoreCase("docx")
-                || extension.equalsIgnoreCase("pdf")
-                || extension.equalsIgnoreCase("zip")) {
+                || extension.equalsIgnoreCase("pdf")) {
             return FILE_TYPE.FILE;
         } else if (extension.equalsIgnoreCase("jpg")
                 || extension.equalsIgnoreCase("png")) {
             return FILE_TYPE.IMAGE;
+        } else if (extension.equalsIgnoreCase("zip")) {
+            return FILE_TYPE.FOLDER;
         } else {
             return FILE_TYPE.LINK;
         }
