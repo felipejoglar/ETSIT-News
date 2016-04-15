@@ -26,9 +26,6 @@
     <!-- Toolbar related. -->
     <dimen name="detail_view_padding">16dp</dimen>
 
-    <!-- Detail View related. -->
-    <dimen name="action_bar_size">56dp</dimen>
-
     <!-- Font related-->
     <dimen name="card_view_title">20sp</dimen>
     <dimen name="card_view_date_and_category">12sp</dimen>
@@ -36,5 +33,7 @@
     <dimen name="detail_view_date_and_category">12sp</dimen>
     <dimen name="toolbar_title">20sp</dimen>
     <dimen name="toolbar_subtitle">14sp</dimen>
+    <dimen name="toolbar_title_land">18sp</dimen>
+    <dimen name="toolbar_subtitle_land">12sp</dimen>
 
 </resources>
