@@ -83,11 +83,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     public void onBindViewHolder(NewsListAdapter.NewsViewHolder holder, final int position) {
         final NewsItem item = mNewsItemList.get(position);
 
-        holder.title.setText(FormatTextUtils.formatText(item.getTitle()));
+        holder.title.setText(item.getTitle());
         holder.date.setText(DateUtils.formatListViewTime(item.getFormattedPubDate()));
         if (!TextUtils.isEmpty(item.getDescription())) {
             holder.description.setVisibility(View.VISIBLE);
-            holder.description.setText(FormatTextUtils.formatText(item.getDescription()));
+            holder.description.setText(item.getDescription());
         } else {
             holder.description.setVisibility(View.GONE);
         }

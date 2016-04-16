@@ -199,16 +199,11 @@ public class NewsRepositoryImpl implements NewsRepository {
     @Override
     public void insertBookmark(NewsItem newsItem) {
         ContentValues contentValues = new ContentValues();
-        String description = newsItem.getDescription();
-        // Description field cannot be null.
-        if (description == null)
-            description = "";
 
-        String title = FormatTextUtils.formatText(newsItem.getTitle());
         contentValues.put(NewsContract.NewsEntry.COLUMN_TITLE,
-                title);
+                newsItem.getTitle());
         contentValues.put(NewsContract.NewsEntry.COLUMN_DESCRIPTION,
-                FormatTextUtils.formatText(description));
+                newsItem.getDescription());
         contentValues.put(NewsContract.NewsEntry.COLUMN_LINK,
                 newsItem.getLink());
         contentValues.put(NewsContract.NewsEntry.COLUMN_CATEGORY,

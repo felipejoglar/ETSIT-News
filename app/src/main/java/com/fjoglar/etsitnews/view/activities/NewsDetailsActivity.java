@@ -164,7 +164,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
             detailTitle.setText(newsItem.getTitle());
             detailDate.setText(DateUtils.formatDetailViewTime(newsItem.getFormattedPubDate()));
-            detailDescription.setText(FormatTextUtils.formatText(newsItem.getDescription()));
+            detailDescription.setText(newsItem.getDescription());
             detailCategory.setText(FormatTextUtils.categoryToString(getContext(),
                     newsItem.getCategory()));
 
