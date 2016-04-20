@@ -29,12 +29,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.executor.ThreadExecutor;
+import com.fjoglar.etsitnews.domain.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.navigation.Navigator;
+import com.fjoglar.etsitnews.view.navigation.Navigator;
 import com.fjoglar.etsitnews.presenter.BookmarksListPresenter;
 import com.fjoglar.etsitnews.presenter.BookmarksListPresenterImpl;
-import com.fjoglar.etsitnews.threading.MainThreadImpl;
+import com.fjoglar.etsitnews.domain.threading.MainThreadImpl;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
 
 import java.util.List;

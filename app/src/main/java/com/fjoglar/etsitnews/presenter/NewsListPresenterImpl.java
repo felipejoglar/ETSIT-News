@@ -15,15 +15,15 @@
  */
 package com.fjoglar.etsitnews.presenter;
 
-import com.fjoglar.etsitnews.executor.Executor;
-import com.fjoglar.etsitnews.executor.MainThread;
-import com.fjoglar.etsitnews.interactor.GetNewsInteractor;
-import com.fjoglar.etsitnews.interactor.GetNewsInteractorImpl;
-import com.fjoglar.etsitnews.interactor.UpdateNewsInteractor;
-import com.fjoglar.etsitnews.interactor.UpdateNewsInteractorImpl;
+import com.fjoglar.etsitnews.domain.executor.Executor;
+import com.fjoglar.etsitnews.domain.executor.MainThread;
+import com.fjoglar.etsitnews.domain.interactor.GetNewsInteractor;
+import com.fjoglar.etsitnews.domain.interactor.GetNewsInteractorImpl;
+import com.fjoglar.etsitnews.domain.interactor.UpdateNewsInteractor;
+import com.fjoglar.etsitnews.domain.interactor.UpdateNewsInteractorImpl;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.base.BasePresenter;
-import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
 
 import java.util.List;
 

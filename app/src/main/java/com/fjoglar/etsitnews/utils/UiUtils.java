@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.Attachment;
-import com.fjoglar.etsitnews.navigation.Navigator;
+import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 public class UiUtils {
 

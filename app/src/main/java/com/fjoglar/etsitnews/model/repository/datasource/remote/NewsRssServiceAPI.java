@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.presenter.base;
+package com.fjoglar.etsitnews.model.repository.datasource.remote;
 
-import com.fjoglar.etsitnews.domain.executor.Executor;
-import com.fjoglar.etsitnews.domain.executor.MainThread;
+import com.fjoglar.etsitnews.model.entities.NewsRss;
 
-public abstract class BasePresenter {
+import retrofit2.Call;
+import retrofit2.http.GET;
 
-    protected Executor mExecutor;
-    protected MainThread mMainThread;
+public interface NewsRssServiceAPI {
 
-    public BasePresenter(Executor executor, MainThread mainThread) {
-        mExecutor = executor;
-        mMainThread = mainThread;
-    }
+    @GET("rss/tablon.xml")
+    Call<NewsRss> loadNewsRss();
 }

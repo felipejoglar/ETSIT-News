@@ -17,7 +17,7 @@ package com.fjoglar.etsitnews;
 
 import android.app.Application;
 
-import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
 
 public class EtsitNewsApp extends Application {
 

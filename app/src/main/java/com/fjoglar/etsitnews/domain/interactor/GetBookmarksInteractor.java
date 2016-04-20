@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.presenter.base;
+package com.fjoglar.etsitnews.domain.interactor;
 
-import com.fjoglar.etsitnews.domain.executor.Executor;
-import com.fjoglar.etsitnews.domain.executor.MainThread;
+import com.fjoglar.etsitnews.domain.interactor.base.Interactor;
+import com.fjoglar.etsitnews.model.entities.NewsItem;
 
-public abstract class BasePresenter {
+import java.util.List;
 
-    protected Executor mExecutor;
-    protected MainThread mMainThread;
-
-    public BasePresenter(Executor executor, MainThread mainThread) {
-        mExecutor = executor;
-        mMainThread = mainThread;
+/**
+ * This interactor is responsible for retrieving the list of bookmarks from DB.
+ */
+public interface GetBookmarksInteractor extends Interactor {
+    interface Callback {
+        void onBookmarksRetrieved(List<NewsItem> newsItemList);
     }
 }

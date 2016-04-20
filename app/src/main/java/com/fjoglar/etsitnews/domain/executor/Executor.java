@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.presenter.base;
+package com.fjoglar.etsitnews.domain.executor;
 
-import com.fjoglar.etsitnews.domain.executor.Executor;
-import com.fjoglar.etsitnews.domain.executor.MainThread;
+import com.fjoglar.etsitnews.domain.interactor.base.UseCase;
 
-public abstract class BasePresenter {
-
-    protected Executor mExecutor;
-    protected MainThread mMainThread;
-
-    public BasePresenter(Executor executor, MainThread mainThread) {
-        mExecutor = executor;
-        mMainThread = mainThread;
-    }
+/**
+ * This executor is responsible for running interactors on background threads.
+ */
+public interface Executor {
+    /**
+     * This method should call the interactor's run method and thus start the
+     * interactor. This should be called on a background thread as interactors
+     * might do lengthy operations.
+     *
+     * @param interactor The interactor to run.
+     */
+    void execute(final UseCase interactor);
 }

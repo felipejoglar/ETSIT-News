@@ -15,19 +15,19 @@
  */
 package com.fjoglar.etsitnews.presenter;
 
-import com.fjoglar.etsitnews.executor.Executor;
-import com.fjoglar.etsitnews.executor.MainThread;
-import com.fjoglar.etsitnews.interactor.DeleteBookmarksInteractor;
-import com.fjoglar.etsitnews.interactor.DeleteBookmarksInteractorImpl;
-import com.fjoglar.etsitnews.interactor.GetBookmarkByDateInteractor;
-import com.fjoglar.etsitnews.interactor.GetBookmarkByDateInteractorImpl;
-import com.fjoglar.etsitnews.interactor.GetNewsItemByDateInteractor;
-import com.fjoglar.etsitnews.interactor.GetNewsItemByDateInteractorImpl;
-import com.fjoglar.etsitnews.interactor.SaveBookmarksInteractor;
-import com.fjoglar.etsitnews.interactor.SaveBookmarksInteractorImpl;
+import com.fjoglar.etsitnews.domain.executor.Executor;
+import com.fjoglar.etsitnews.domain.executor.MainThread;
+import com.fjoglar.etsitnews.domain.interactor.DeleteBookmarksInteractor;
+import com.fjoglar.etsitnews.domain.interactor.DeleteBookmarksInteractorImpl;
+import com.fjoglar.etsitnews.domain.interactor.GetBookmarkByDateInteractor;
+import com.fjoglar.etsitnews.domain.interactor.GetBookmarkByDateInteractorImpl;
+import com.fjoglar.etsitnews.domain.interactor.GetNewsItemByDateInteractor;
+import com.fjoglar.etsitnews.domain.interactor.GetNewsItemByDateInteractorImpl;
+import com.fjoglar.etsitnews.domain.interactor.SaveBookmarksInteractor;
+import com.fjoglar.etsitnews.domain.interactor.SaveBookmarksInteractorImpl;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.base.BasePresenter;
-import com.fjoglar.etsitnews.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
 
 public class NewsDetailsPresenterImpl extends BasePresenter implements NewsDetailsPresenter,
         GetNewsItemByDateInteractor.Callback, GetBookmarkByDateInteractor.Callback,

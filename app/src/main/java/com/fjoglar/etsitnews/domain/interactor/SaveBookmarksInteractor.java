@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.presenter.base;
+package com.fjoglar.etsitnews.domain.interactor;
 
-import com.fjoglar.etsitnews.domain.executor.Executor;
-import com.fjoglar.etsitnews.domain.executor.MainThread;
+import com.fjoglar.etsitnews.domain.interactor.base.Interactor;
 
-public abstract class BasePresenter {
-
-    protected Executor mExecutor;
-    protected MainThread mMainThread;
-
-    public BasePresenter(Executor executor, MainThread mainThread) {
-        mExecutor = executor;
-        mMainThread = mainThread;
+/**
+ * This interactor is responsible for saving the selected bookmark to DB.
+ */
+public interface SaveBookmarksInteractor extends Interactor {
+    interface Callback {
+        void onBookmarkSaved();
     }
 }
