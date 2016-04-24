@@ -18,28 +18,32 @@ package com.fjoglar.etsitnews.domain.usecase;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.error.DataNotAvailableError;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
 import java.util.List;
 
 public class GetBookmarks extends UseCase<GetBookmarks.RequestValues, GetBookmarks.ResponseValue> {
 
-    private final NewsRepository mNewsRepository;
+    private final NewsDataSource mNewsDataSource;
 
-    public GetBookmarks(NewsRepository mNewsRepository) {
-        this.mNewsRepository = mNewsRepository;
+    public GetBookmarks(NewsDataSource mNewsDataSource) {
+        this.mNewsDataSource = mNewsDataSource;
     }
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        List<NewsItem> newsItemList = mNewsRepository.getBookmarkedNews();
+        mNewsDataSource.getBookmarkedNews(new NewsDataSource.LoadNewsCallback() {
+            @Override
+            public void onNewsLoaded(List<NewsItem> newsItemList) {
+                ResponseValue responseValue = new ResponseValue(newsItemList);
+                getUseCaseCallback().onSuccess(responseValue);
+            }
 
-        if (newsItemList == null || newsItemList.size() == 0) {
-            getUseCaseCallback().onError(new DataNotAvailableError());
-        } else {
-            ResponseValue responseValue = new ResponseValue(newsItemList);
-            getUseCaseCallback().onSuccess(responseValue);
-        }
+            @Override
+            public void onDataNotAvailable() {
+                getUseCaseCallback().onError(new DataNotAvailableError());
+            }
+        });
     }
 
     public static class RequestValues extends UseCase.RequestValues {}

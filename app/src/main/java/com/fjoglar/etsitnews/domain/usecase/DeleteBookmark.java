@@ -16,23 +16,23 @@
 package com.fjoglar.etsitnews.domain.usecase;
 
 import com.fjoglar.etsitnews.domain.UseCase;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
 public class DeleteBookmark
         extends UseCase<DeleteBookmark.RequestValues, DeleteBookmark.ResponseValue> {
 
-    private final NewsRepository mNewsRepository;
+    private final NewsDataSource mNewsDataSource;
 
-    public DeleteBookmark(NewsRepository mNewsRepository) {
-        this.mNewsRepository = mNewsRepository;
+    public DeleteBookmark(NewsDataSource mNewsDataSource) {
+        this.mNewsDataSource = mNewsDataSource;
     }
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
         // Save the bookmarks form the db.
-        mNewsRepository.deleteBookmarkByDate(requestValues.getNewsItemPubDate());
+        mNewsDataSource.deleteBookmarkByDate(requestValues.getNewsItemPubDate());
         // Update bookmarked status in news table item.
-        mNewsRepository.updateNewsItemIsBookmarkedStatusByDate(false,
+        mNewsDataSource.updateNewsItemIsBookmarkedStatusByDate(false,
                 requestValues.getNewsItemPubDate());
 
         getUseCaseCallback().onSuccess(new ResponseValue());

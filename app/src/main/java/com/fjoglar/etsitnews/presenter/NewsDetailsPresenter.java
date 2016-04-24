@@ -24,7 +24,7 @@ import com.fjoglar.etsitnews.domain.usecase.GetBookmarkByDate;
 import com.fjoglar.etsitnews.domain.usecase.GetNewsItemByDate;
 import com.fjoglar.etsitnews.domain.usecase.SaveBookmark;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.presenter.contracts.NewsDetailsContract;
 
 public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
@@ -50,7 +50,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
         mNewsDetailsView.showProgress();
         if (source.equals("NEWS")) {
             GetNewsItemByDate getNewsItemByDate =
-                    new GetNewsItemByDate(NewsRepositoryImpl.getInstance());
+                    new GetNewsItemByDate(NewsRepository.getInstance());
             mUseCaseHandler.execute(getNewsItemByDate, new GetNewsItemByDate.RequestValues(date),
                     new UseCase.UseCaseCallback<GetNewsItemByDate.ResponseValue>() {
                         @Override
@@ -66,7 +66,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                     });
         } else if (source.equals("BOOKMARKS")) {
             GetBookmarkByDate getBookmarkByDate =
-                    new GetBookmarkByDate(NewsRepositoryImpl.getInstance());
+                    new GetBookmarkByDate(NewsRepository.getInstance());
             mUseCaseHandler.execute(getBookmarkByDate, new GetBookmarkByDate.RequestValues(date),
                     new UseCase.UseCaseCallback<GetBookmarkByDate.ResponseValue>() {
                         @Override
@@ -88,7 +88,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
     public void manageBookmark(NewsItem newsItem) {
         mNewsDetailsView.showProgress();
         if (newsItem.getBookmarked() == 0) {
-            SaveBookmark saveBookmark = new SaveBookmark(NewsRepositoryImpl.getInstance());
+            SaveBookmark saveBookmark = new SaveBookmark(NewsRepository.getInstance());
             mUseCaseHandler.execute(saveBookmark, new SaveBookmark.RequestValues(newsItem),
                     new UseCase.UseCaseCallback<SaveBookmark.ResponseValue>() {
                         @Override
@@ -104,7 +104,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                         }
                     });
         } else {
-            DeleteBookmark deleteBookmark = new DeleteBookmark(NewsRepositoryImpl.getInstance());
+            DeleteBookmark deleteBookmark = new DeleteBookmark(NewsRepository.getInstance());
             mUseCaseHandler.execute(deleteBookmark,
                     new DeleteBookmark.RequestValues(newsItem.getFormattedPubDate()),
                     new UseCase.UseCaseCallback<DeleteBookmark.ResponseValue>() {

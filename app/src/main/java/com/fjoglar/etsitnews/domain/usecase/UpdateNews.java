@@ -16,19 +16,19 @@
 package com.fjoglar.etsitnews.domain.usecase;
 
 import com.fjoglar.etsitnews.domain.UseCase;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
 public class UpdateNews extends UseCase<UpdateNews.RequestValues, UpdateNews.ResponseValue> {
 
-    private final NewsRepository mNewsRepository;
+    private final NewsDataSource mNewsDataSource;
 
-    public UpdateNews(NewsRepository mNewsRepository) {
-        this.mNewsRepository = mNewsRepository;
+    public UpdateNews(NewsDataSource mNewsDataSource) {
+        this.mNewsDataSource = mNewsDataSource;
     }
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        mNewsRepository.updateNews();
+        mNewsDataSource.updateNews();
     }
 
     public static class RequestValues extends UseCase.RequestValues {

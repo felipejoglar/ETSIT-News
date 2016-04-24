@@ -18,27 +18,32 @@ package com.fjoglar.etsitnews.domain.usecase;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.error.DataNotAvailableError;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
 public class GetBookmarkByDate
         extends UseCase<GetBookmarkByDate.RequestValues, GetBookmarkByDate.ResponseValue> {
 
-    private final NewsRepository mNewsRepository;
+    private final NewsDataSource mNewsDataSource;
 
-    public GetBookmarkByDate(NewsRepository mNewsRepository) {
-        this.mNewsRepository = mNewsRepository;
+    public GetBookmarkByDate(NewsDataSource mNewsDataSource) {
+        this.mNewsDataSource = mNewsDataSource;
     }
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        NewsItem newsItem = mNewsRepository.getBookmarkByDate(requestValues.getNewsItemPubDate());
+        mNewsDataSource.getBookmarkByDate(requestValues.getNewsItemPubDate(),
+                new NewsDataSource.GetNewsItemCallback() {
+                    @Override
+                    public void onNewsItemLoaded(NewsItem newsItem) {
+                        ResponseValue responseValue = new ResponseValue(newsItem);
+                        getUseCaseCallback().onSuccess(responseValue);
+                    }
 
-        if (newsItem == null) {
-            getUseCaseCallback().onError(new DataNotAvailableError());
-        } else {
-            ResponseValue responseValue = new ResponseValue(newsItem);
-            getUseCaseCallback().onSuccess(responseValue);
-        }
+                    @Override
+                    public void onDataNotAvailable() {
+                        getUseCaseCallback().onError(new DataNotAvailableError());
+                    }
+                });
     }
 
     public static class RequestValues extends UseCase.RequestValues {

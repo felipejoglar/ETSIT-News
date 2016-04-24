@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetNews;
-import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
@@ -39,7 +39,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     public void getNews() {
         mNewsListView.showProgress();
 
-        GetNews getNews = new GetNews(NewsRepositoryImpl.getInstance());
+        GetNews getNews = new GetNews(NewsRepository.getInstance());
 
         mUseCaseHandler.execute(getNews, new GetNews.RequestValues(true),
                 new UseCase.UseCaseCallback<GetNews.ResponseValue>() {

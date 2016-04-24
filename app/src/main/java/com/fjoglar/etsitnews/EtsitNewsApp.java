@@ -17,7 +17,7 @@ package com.fjoglar.etsitnews;
 
 import android.app.Application;
 
-import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.model.repository.NewsRepository;
 
 public class EtsitNewsApp extends Application {
 
@@ -25,6 +25,6 @@ public class EtsitNewsApp extends Application {
     public void onCreate() {
         super.onCreate();
         // Set the Context for Repository.
-        NewsRepositoryImpl.getInstance().setContext(this);
+        NewsRepository.getInstance().setContext(this);
     }
 }

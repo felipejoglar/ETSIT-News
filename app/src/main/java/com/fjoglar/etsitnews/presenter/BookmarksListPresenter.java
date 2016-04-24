@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetBookmarks;
-import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.presenter.contracts.BookmarksListContract;
 
 public class BookmarksListPresenter implements BookmarksListContract.Presenter {
@@ -40,7 +40,7 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
     public void getBookmarks() {
         mBookmarksListView.showProgress();
 
-        GetBookmarks getBookmarks = new GetBookmarks(NewsRepositoryImpl.getInstance());
+        GetBookmarks getBookmarks = new GetBookmarks(NewsRepository.getInstance());
         mUseCaseHandler.execute(getBookmarks, new GetBookmarks.RequestValues(),
                 new UseCase.UseCaseCallback<GetBookmarks.ResponseValue>() {
                     @Override

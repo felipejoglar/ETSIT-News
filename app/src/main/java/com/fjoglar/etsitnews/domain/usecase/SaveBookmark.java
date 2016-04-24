@@ -17,22 +17,22 @@ package com.fjoglar.etsitnews.domain.usecase;
 
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
 public class SaveBookmark extends UseCase<SaveBookmark.RequestValues, SaveBookmark.ResponseValue> {
 
-    private final NewsRepository mNewsRepository;
+    private final NewsDataSource mNewsDataSource;
 
-    public SaveBookmark(NewsRepository mNewsRepository) {
-        this.mNewsRepository = mNewsRepository;
+    public SaveBookmark(NewsDataSource mNewsDataSource) {
+        this.mNewsDataSource = mNewsDataSource;
     }
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
         // Save the bookmarks to the db.
-        mNewsRepository.insertBookmark(requestValues.getNewsItem());
+        mNewsDataSource.saveBookmark(requestValues.getNewsItem());
         // Update bookmarked status in news table item.
-        mNewsRepository.updateNewsItemIsBookmarkedStatusByDate(true,
+        mNewsDataSource.updateNewsItemIsBookmarkedStatusByDate(true,
                 requestValues.getNewsItemFormattedDate());
 
         getUseCaseCallback().onSuccess(new ResponseValue());
