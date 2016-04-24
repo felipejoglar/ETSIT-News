@@ -30,17 +30,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.domain.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.Attachment;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.view.navigation.Navigator;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenter;
-import com.fjoglar.etsitnews.presenter.NewsDetailsPresenterImpl;
-import com.fjoglar.etsitnews.domain.threading.MainThreadImpl;
+import com.fjoglar.etsitnews.presenter.contracts.NewsDetailsContract;
 import com.fjoglar.etsitnews.utils.AttachmentsUtils;
 import com.fjoglar.etsitnews.utils.DateUtils;
 import com.fjoglar.etsitnews.utils.FormatTextUtils;
 import com.fjoglar.etsitnews.utils.UiUtils;
+import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.util.List;
 
@@ -48,7 +46,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailsPresenter.View {
+public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailsContract.View {
 
     private static final String INTENT_EXTRA_PARAM_NEWS_ITEM_DATE =
             "com.fjoglar.INTENT_PARAM_NEWS_ITEM";
@@ -59,7 +57,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private static final String INSTANCE_STATE_PARAM_SOURCE =
             "com.fjoglar.STATE_PARAM_SOURCE";
 
-    private NewsDetailsPresenter mNewsDetailsPresenter;
+    private NewsDetailsContract.Presenter mNewsDetailsPresenter;
 
     private String mSource;
     private String mMoreInfoUrl;
@@ -96,26 +94,23 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     @Override
     protected void onResume() {
         super.onResume();
-        mNewsDetailsPresenter.resume();
+        mNewsDetailsPresenter.start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mNewsDetailsPresenter.pause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mNewsDetailsPresenter.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        mNewsDetailsPresenter.destroy();
     }
 
     @Override
@@ -199,6 +194,11 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     }
 
     @Override
+    public void setPresenter(NewsDetailsContract.Presenter presenter) {
+        mNewsDetailsPresenter = presenter;
+    }
+
+    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -240,11 +240,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             this.mSource =
                     savedInstanceState.getString(INSTANCE_STATE_PARAM_SOURCE);
         }
-        mNewsDetailsPresenter = new NewsDetailsPresenterImpl(ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                this,
-                mNewsItemDate,
-                mSource);
+        mNewsDetailsPresenter = new NewsDetailsPresenter(this, mNewsItemDate, mSource);
         setUpToolbar();
     }
 

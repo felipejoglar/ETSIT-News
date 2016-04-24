@@ -15,18 +15,115 @@
  */
 package com.fjoglar.etsitnews.presenter;
 
+import android.support.annotation.NonNull;
+
+import com.fjoglar.etsitnews.domain.UseCase;
+import com.fjoglar.etsitnews.domain.UseCaseHandler;
+import com.fjoglar.etsitnews.domain.usecase.DeleteBookmark;
+import com.fjoglar.etsitnews.domain.usecase.GetBookmarkByDate;
+import com.fjoglar.etsitnews.domain.usecase.GetNewsItemByDate;
+import com.fjoglar.etsitnews.domain.usecase.SaveBookmark;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.presenter.base.Presenter;
-import com.fjoglar.etsitnews.view.BaseView;
+import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.presenter.contracts.NewsDetailsContract;
 
-public interface NewsDetailsPresenter extends Presenter {
-    interface View extends BaseView {
-        void showNewsItem(NewsItem newsItem);
+public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
 
-        void updateBookmarkIcon(boolean isBookmarked);
+    private final NewsDetailsContract.View mNewsDetailsView;
+    private final UseCaseHandler mUseCaseHandler;
+    private final long mDate;
+    private final String mSource;
+
+    public NewsDetailsPresenter(@NonNull NewsDetailsContract.View newsDetailsView,
+                                long date, String source) {
+
+        mNewsDetailsView = newsDetailsView;
+        mDate = date;
+        mSource = source;
+        mUseCaseHandler = UseCaseHandler.getInstance();
+
+        mNewsDetailsView.setPresenter(this);
     }
 
-    void getNewsItemByDate(long date, String source);
+    @Override
+    public void getNewsItemByDate(long date, String source) {
+        mNewsDetailsView.showProgress();
+        if (source.equals("NEWS")) {
+            GetNewsItemByDate getNewsItemByDate =
+                    new GetNewsItemByDate(NewsRepositoryImpl.getInstance());
+            mUseCaseHandler.execute(getNewsItemByDate, new GetNewsItemByDate.RequestValues(date),
+                    new UseCase.UseCaseCallback<GetNewsItemByDate.ResponseValue>() {
+                        @Override
+                        public void onSuccess(GetNewsItemByDate.ResponseValue response) {
+                            mNewsDetailsView.showNewsItem(response.getNewsItem());
+                            mNewsDetailsView.hideProgress();
+                        }
 
-    void manageBookmark(NewsItem newsItem);
+                        @Override
+                        public void onError(Error error) {
+                            mNewsDetailsView.hideProgress();
+                        }
+                    });
+        } else if (source.equals("BOOKMARKS")) {
+            GetBookmarkByDate getBookmarkByDate =
+                    new GetBookmarkByDate(NewsRepositoryImpl.getInstance());
+            mUseCaseHandler.execute(getBookmarkByDate, new GetBookmarkByDate.RequestValues(date),
+                    new UseCase.UseCaseCallback<GetBookmarkByDate.ResponseValue>() {
+                        @Override
+                        public void onSuccess(GetBookmarkByDate.ResponseValue response) {
+                            mNewsDetailsView.showNewsItem(response.getNewsItem());
+                            mNewsDetailsView.hideProgress();
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            mNewsDetailsView.showNewsItem(null);
+                            mNewsDetailsView.hideProgress();
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void manageBookmark(NewsItem newsItem) {
+        mNewsDetailsView.showProgress();
+        if (newsItem.getBookmarked() == 0) {
+            SaveBookmark saveBookmark = new SaveBookmark(NewsRepositoryImpl.getInstance());
+            mUseCaseHandler.execute(saveBookmark, new SaveBookmark.RequestValues(newsItem),
+                    new UseCase.UseCaseCallback<SaveBookmark.ResponseValue>() {
+                        @Override
+                        public void onSuccess(SaveBookmark.ResponseValue response) {
+                            getNewsItemByDate(mDate, mSource);
+                            mNewsDetailsView.hideProgress();
+                            mNewsDetailsView.showError("Favorito guardado");
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            mNewsDetailsView.hideProgress();
+                        }
+                    });
+        } else {
+            DeleteBookmark deleteBookmark = new DeleteBookmark(NewsRepositoryImpl.getInstance());
+            mUseCaseHandler.execute(deleteBookmark,
+                    new DeleteBookmark.RequestValues(newsItem.getFormattedPubDate()),
+                    new UseCase.UseCaseCallback<DeleteBookmark.ResponseValue>() {
+                        @Override
+                        public void onSuccess(DeleteBookmark.ResponseValue response) {
+                            getNewsItemByDate(mDate, mSource);
+                            mNewsDetailsView.hideProgress();
+                            mNewsDetailsView.showError("Favorito borrado");
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            mNewsDetailsView.hideProgress();
+                        }
+                    });
+        }
+    }
+    @Override
+    public void start() {
+        getNewsItemByDate(mDate, mSource);
+    }
 }

@@ -15,17 +15,49 @@
  */
 package com.fjoglar.etsitnews.presenter;
 
-import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.presenter.base.Presenter;
-import com.fjoglar.etsitnews.view.BaseView;
+import android.support.annotation.NonNull;
 
-import java.util.List;
+import com.fjoglar.etsitnews.domain.UseCase;
+import com.fjoglar.etsitnews.domain.UseCaseHandler;
+import com.fjoglar.etsitnews.domain.usecase.GetNews;
+import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 
-public interface NewsListPresenter extends Presenter {
-    interface View extends BaseView {
-        void showNews(List<NewsItem> newsItemList);
+public class NewsListPresenter implements NewsListContract.Presenter {
+
+    private final NewsListContract.View mNewsListView;
+    private final UseCaseHandler mUseCaseHandler;
+
+    public NewsListPresenter(@NonNull NewsListContract.View newsListView) {
+        mNewsListView = newsListView;
+        mUseCaseHandler = UseCaseHandler.getInstance();
+
+        mNewsListView.setPresenter(this);
     }
 
-    void getNews();
-    void updateNews();
+    @Override
+    public void getNews() {
+        mNewsListView.showProgress();
+
+        GetNews getNews = new GetNews(NewsRepositoryImpl.getInstance());
+
+        mUseCaseHandler.execute(getNews, new GetNews.RequestValues(true),
+                new UseCase.UseCaseCallback<GetNews.ResponseValue>() {
+                    @Override
+                    public void onSuccess(GetNews.ResponseValue response) {
+                        mNewsListView.showNews(response.getNewsItemList());
+                        mNewsListView.hideProgress();
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        mNewsListView.hideProgress();
+                    }
+                });
+    }
+
+    @Override
+    public void start() {
+        getNews();
+    }
 }

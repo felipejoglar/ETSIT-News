@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.domain.interactor;
-
-import com.fjoglar.etsitnews.domain.interactor.base.Interactor;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
+package com.fjoglar.etsitnews.domain;
 
 /**
- * This interactor is responsible for retrieving a item by id.
+ * Interface for schedulers, see UseCaseThreadPoolSchedule}.
+ *
  */
-public interface GetNewsItemByDateInteractor extends Interactor {
-    interface Callback {
-        void onNewsItemLoaded(NewsItem newsItem);
-    }
+public interface UseCaseScheduler {
+
+    void execute(Runnable runnable);
+
+    <V extends UseCase.ResponseValue> void notifyResponse(final V response,
+                                                          final UseCase.UseCaseCallback<V> useCaseCallback);
+
+    <V extends UseCase.ResponseValue> void onError(final Error error,
+                                                   final UseCase.UseCaseCallback<V> useCaseCallback);
 }

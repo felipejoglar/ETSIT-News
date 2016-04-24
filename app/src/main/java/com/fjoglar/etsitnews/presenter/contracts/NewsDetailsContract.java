@@ -13,18 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.domain.interactor;
+package com.fjoglar.etsitnews.presenter.contracts;
 
-import com.fjoglar.etsitnews.domain.interactor.base.Interactor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.presenter.BasePresenter;
+import com.fjoglar.etsitnews.view.BaseView;
 
-import java.util.List;
+public interface NewsDetailsContract {
 
-/**
- * This interactor is responsible for retrieving the list of bookmarks from DB.
- */
-public interface GetBookmarksInteractor extends Interactor {
-    interface Callback {
-        void onBookmarksRetrieved(List<NewsItem> newsItemList);
+    interface View extends BaseView<Presenter> {
+
+        void showNewsItem(NewsItem newsItem);
+
+        void updateBookmarkIcon(boolean isBookmarked);
+
+        void showProgress();
+
+        void hideProgress();
+
+        void showError(String message);
+
     }
+
+    interface Presenter extends BasePresenter {
+
+        void getNewsItemByDate(long date, String source);
+
+        void manageBookmark(NewsItem newsItem);
+
+    }
+
 }

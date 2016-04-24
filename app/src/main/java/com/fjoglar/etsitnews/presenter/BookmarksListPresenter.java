@@ -15,16 +15,50 @@
  */
 package com.fjoglar.etsitnews.presenter;
 
-import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.presenter.base.Presenter;
-import com.fjoglar.etsitnews.view.BaseView;
+import android.support.annotation.NonNull;
 
-import java.util.List;
+import com.fjoglar.etsitnews.domain.UseCase;
+import com.fjoglar.etsitnews.domain.UseCaseHandler;
+import com.fjoglar.etsitnews.domain.usecase.GetBookmarks;
+import com.fjoglar.etsitnews.model.repository.NewsRepositoryImpl;
+import com.fjoglar.etsitnews.presenter.contracts.BookmarksListContract;
 
-public interface BookmarksListPresenter extends Presenter {
-    interface View extends BaseView {
-        void showNews(List<NewsItem> newsItemList);
+public class BookmarksListPresenter implements BookmarksListContract.Presenter {
+
+    private final BookmarksListContract.View mBookmarksListView;
+
+    private final UseCaseHandler mUseCaseHandler;
+
+    public BookmarksListPresenter(@NonNull BookmarksListContract.View bookmarksListView) {
+        mBookmarksListView = bookmarksListView;
+        mUseCaseHandler = UseCaseHandler.getInstance();
+
+        mBookmarksListView.setPresenter(this);
     }
 
-    void getBookmarks();
+    @Override
+    public void getBookmarks() {
+        mBookmarksListView.showProgress();
+
+        GetBookmarks getBookmarks = new GetBookmarks(NewsRepositoryImpl.getInstance());
+        mUseCaseHandler.execute(getBookmarks, new GetBookmarks.RequestValues(),
+                new UseCase.UseCaseCallback<GetBookmarks.ResponseValue>() {
+                    @Override
+                    public void onSuccess(GetBookmarks.ResponseValue response) {
+                        mBookmarksListView.showNews(response.getNewsItemList());
+                        mBookmarksListView.hideProgress();
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        mBookmarksListView.hideProgress();
+                    }
+                });
+    }
+
+
+    @Override
+    public void start() {
+        getBookmarks();
+    }
 }

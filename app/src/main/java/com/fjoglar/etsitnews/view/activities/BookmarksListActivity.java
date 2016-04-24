@@ -29,13 +29,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.domain.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.view.navigation.Navigator;
 import com.fjoglar.etsitnews.presenter.BookmarksListPresenter;
-import com.fjoglar.etsitnews.presenter.BookmarksListPresenterImpl;
-import com.fjoglar.etsitnews.domain.threading.MainThreadImpl;
+import com.fjoglar.etsitnews.presenter.contracts.BookmarksListContract;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
+import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.util.List;
 
@@ -43,15 +41,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class BookmarksListActivity extends AppCompatActivity
-        implements BookmarksListPresenter.View, NewsListAdapter.ItemClickListener {
+        implements BookmarksListContract.View, NewsListAdapter.ItemClickListener {
 
     private static final String ACTIVITY_SOURCE = "BOOKMARKS";
 
-    private BookmarksListPresenter mBookmarksListPresenter;
+    private BookmarksListContract.Presenter mBookmarksListPresenter;
     private Context mContext;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.recycler_bookmarks_list) RecyclerView recyclerBookmarksList;
+    @Bind(R.id.recycler_bookmarks_list)  RecyclerView recyclerBookmarksList;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
@@ -72,26 +70,23 @@ public class BookmarksListActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mBookmarksListPresenter.resume();
+        mBookmarksListPresenter.start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mBookmarksListPresenter.pause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mBookmarksListPresenter.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        mBookmarksListPresenter.destroy();
     }
 
     @Override
@@ -123,6 +118,11 @@ public class BookmarksListActivity extends AppCompatActivity
     }
 
     @Override
+    public void setPresenter(BookmarksListContract.Presenter presenter) {
+        mBookmarksListPresenter = presenter;
+    }
+
+    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -149,9 +149,7 @@ public class BookmarksListActivity extends AppCompatActivity
     }
 
     private void initializeActivity() {
-        mBookmarksListPresenter = new BookmarksListPresenterImpl(ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                this);
+        mBookmarksListPresenter = new BookmarksListPresenter(this);
         setUpRecyclerView();
         setUpToolbar();
     }

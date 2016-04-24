@@ -13,19 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.domain.interactor;
+package com.fjoglar.etsitnews.presenter.contracts;
 
-import com.fjoglar.etsitnews.domain.interactor.base.Interactor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.presenter.BasePresenter;
+import com.fjoglar.etsitnews.view.BaseView;
 
 import java.util.List;
 
-/**
- * This interactor is responsible for retrieving the list of news from
- * www.etsit.uva.es.
- */
-public interface GetNewsInteractor extends Interactor {
-    interface Callback {
-        void onNewsRetrieved(List<NewsItem> newsItemList);
+public interface NewsListContract {
+
+    interface View extends BaseView<Presenter> {
+
+        void showNews(List<NewsItem> newsItemList);
+
+        void showProgress();
+
+        void hideProgress();
+
+        void showError(String message);
+
     }
+
+    interface Presenter extends BasePresenter {
+
+        void getNews();
+
+    }
+
 }

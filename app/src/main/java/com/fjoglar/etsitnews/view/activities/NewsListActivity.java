@@ -18,6 +18,7 @@ package com.fjoglar.etsitnews.view.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,13 +30,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.domain.executor.ThreadExecutor;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.view.navigation.Navigator;
 import com.fjoglar.etsitnews.presenter.NewsListPresenter;
-import com.fjoglar.etsitnews.presenter.NewsListPresenterImpl;
-import com.fjoglar.etsitnews.domain.threading.MainThreadImpl;
+import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
+import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.util.List;
 
@@ -43,11 +42,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NewsListActivity extends AppCompatActivity
-        implements NewsListPresenter.View, NewsListAdapter.ItemClickListener {
+        implements NewsListContract.View, NewsListAdapter.ItemClickListener {
 
     private static final String ACTIVITY_SOURCE = "NEWS";
 
-    private NewsListPresenter mNewsListPresenter;
+    private NewsListContract.Presenter mNewsListPresenter;
     private Context mContext;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -72,26 +71,23 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mNewsListPresenter.resume();
+        mNewsListPresenter.start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mNewsListPresenter.pause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mNewsListPresenter.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        mNewsListPresenter.destroy();
     }
 
     @Override
@@ -123,6 +119,11 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     @Override
+    public void setPresenter(@NonNull NewsListContract.Presenter presenter) {
+        mNewsListPresenter = presenter;
+    }
+
+    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -148,9 +149,7 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     private void initializeActivity() {
-        mNewsListPresenter = new NewsListPresenterImpl(ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(),
-                this);
+        mNewsListPresenter = new NewsListPresenter(this);
         setUpRecyclerView();
         setUpToolbar();
     }

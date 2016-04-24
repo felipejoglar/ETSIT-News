@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.domain.interactor;
-
-import com.fjoglar.etsitnews.domain.interactor.base.Interactor;
+package com.fjoglar.etsitnews.domain.error;
 
 /**
- * This interactor is responsible for deleting the selected bookmark from DB.
+ * Error passed when data is not available from the Repository.
  */
-public interface DeleteBookmarksInteractor extends Interactor {
-    interface Callback {
-        void onBookmarkDeleted();
-    }
+public class DataNotAvailableError extends Error {
 }
