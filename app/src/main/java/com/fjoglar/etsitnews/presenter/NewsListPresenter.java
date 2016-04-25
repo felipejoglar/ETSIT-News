@@ -49,15 +49,13 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     public void onSuccess(GetNews.ResponseValue response) {
                         mNewsListView.showNews(response.getNewsItemList());
                         mNewsListView.hideProgress();
-                        if (mFirstLoad) {
-                            updateNews();
-                            mFirstLoad = false;
-                        }
+                        updateIfNeeded();
                     }
 
                     @Override
                     public void onError(Error error) {
                         mNewsListView.hideProgress();
+                        updateIfNeeded();
                     }
                 });
     }
@@ -85,5 +83,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @Override
     public void start() {
         getNews();
+    }
+
+    private void updateIfNeeded() {
+        if (mFirstLoad) {
+            updateNews();
+            mFirstLoad = false;
+        }
     }
 }
