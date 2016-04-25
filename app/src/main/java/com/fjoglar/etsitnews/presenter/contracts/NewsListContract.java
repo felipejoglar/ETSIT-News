@@ -39,6 +39,8 @@ public interface NewsListContract {
 
         void getNews();
 
+        void updateNews();
+
     }
 
 }

@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetNews;
+import com.fjoglar.etsitnews.domain.usecase.UpdateNews;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 
@@ -27,6 +28,8 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     private final NewsListContract.View mNewsListView;
     private final UseCaseHandler mUseCaseHandler;
+
+    private boolean mFirstLoad = true;
 
     public NewsListPresenter(@NonNull NewsListContract.View newsListView) {
         mNewsListView = newsListView;
@@ -40,12 +43,35 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         mNewsListView.showProgress();
 
         GetNews getNews = new GetNews(NewsRepository.getInstance());
-
-        mUseCaseHandler.execute(getNews, new GetNews.RequestValues(true),
+        mUseCaseHandler.execute(getNews, new GetNews.RequestValues(),
                 new UseCase.UseCaseCallback<GetNews.ResponseValue>() {
                     @Override
                     public void onSuccess(GetNews.ResponseValue response) {
                         mNewsListView.showNews(response.getNewsItemList());
+                        mNewsListView.hideProgress();
+                        if (mFirstLoad) {
+                            updateNews();
+                            mFirstLoad = false;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        mNewsListView.hideProgress();
+                    }
+                });
+    }
+
+    @Override
+    public void updateNews() {
+        mNewsListView.showProgress();
+
+        UpdateNews updateNews = new UpdateNews(NewsRepository.getInstance());
+        mUseCaseHandler.execute(updateNews, new UpdateNews.RequestValues(),
+                new UseCase.UseCaseCallback<UpdateNews.ResponseValue>() {
+                    @Override
+                    public void onSuccess(UpdateNews.ResponseValue response) {
+                        getNews();
                         mNewsListView.hideProgress();
                     }
 

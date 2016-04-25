@@ -32,10 +32,6 @@ public class GetNews extends UseCase<GetNews.RequestValues, GetNews.ResponseValu
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        if (requestValues.isForceUpdate()) {
-            mNewsDataSource.updateNews();
-        }
-
         mNewsDataSource.getAllNews(
                 new NewsDataSource.LoadNewsCallback() {
                     @Override
@@ -52,15 +48,6 @@ public class GetNews extends UseCase<GetNews.RequestValues, GetNews.ResponseValu
     }
 
     public static class RequestValues extends UseCase.RequestValues {
-        private final boolean mForceUpdate;
-
-        public RequestValues(boolean forceUpdate) {
-            this.mForceUpdate = forceUpdate;
-        }
-
-        public boolean isForceUpdate() {
-            return mForceUpdate;
-        }
     }
 
     public static class ResponseValue extends UseCase.ResponseValue {
