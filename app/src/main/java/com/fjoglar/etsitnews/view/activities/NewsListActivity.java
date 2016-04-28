@@ -19,6 +19,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +52,8 @@ public class NewsListActivity extends AppCompatActivity
     private NewsListContract.Presenter mNewsListPresenter;
     private Context mContext;
 
+    @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @Bind(R.id.nav_view) NavigationView navigationView;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recycler_news_list) RecyclerView recyclerNewsList;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
@@ -60,7 +65,7 @@ public class NewsListActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
         mContext = this;
-        this.initializeActivity();
+        initializeActivity();
     }
 
     @Override
@@ -99,6 +104,10 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                // Open the navigation drawer when the home icon is selected from the toolbar.
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
             case R.id.action_collections_bookmarks:
                 Navigator.getInstance().navigateToBookmarksList(getContext());
                 return true;
@@ -152,6 +161,7 @@ public class NewsListActivity extends AppCompatActivity
         mNewsListPresenter = new NewsListPresenter(this);
         setUpRecyclerView();
         setUpToolbar();
+        setUpNavigationDrawer();
     }
 
     private void setUpRecyclerView() {
@@ -169,6 +179,39 @@ public class NewsListActivity extends AppCompatActivity
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         toolbar.setTitle(R.string.news_list_activity_title);
+    }
+
+    private void setUpNavigationDrawer() {
+        drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.list_navigation_menu_item:
+                                // Do nothing, we're already on that screen
+                                break;
+                            case R.id.bookmarks_navigation_menu_item:
+                                Navigator.getInstance().navigateToBookmarksList(getContext());
+                                break;
+                            case R.id.settings_navigation_menu_item:
+                                Toast.makeText(getContext(), "Ajustes", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                break;
+                        }
+                        // Close the navigation drawer when an item is selected.
+                        menuItem.setChecked(true);
+                        drawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
     }
 
     private Context getContext() {

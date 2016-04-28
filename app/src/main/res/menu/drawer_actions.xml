@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/list_navigation_menu_item"
+            android:checked="true"
+            android:icon="@drawable/ic_list"
+            android:title="@string/news_list_activity_title" />
+        <item
+            android:id="@+id/bookmarks_navigation_menu_item"
+            android:icon="@drawable/ic_collections_bookmark"
+            android:title="@string/bookmarks_list_activity_title" />
+    </group>
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/settings_navigation_menu_item"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/action_settings" />
+    </group>
+
+</menu>
