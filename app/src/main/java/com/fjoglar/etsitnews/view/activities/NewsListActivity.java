@@ -108,14 +108,11 @@ public class NewsListActivity extends AppCompatActivity
                 // Open the navigation drawer when the home icon is selected from the toolbar.
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_collections_bookmarks:
-                Navigator.getInstance().navigateToBookmarksList(getContext());
-                return true;
             case R.id.action_filter:
                 Toast.makeText(this, "Filtrar", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.action_settings:
-                Toast.makeText(this, "Ajustes", Toast.LENGTH_SHORT).show();
+            case R.id.action_search:
+                Toast.makeText(this, "Buscar", Toast.LENGTH_SHORT).show();
                 return true;
         }
 
@@ -177,14 +174,17 @@ public class NewsListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setTitle(R.string.news_list_activity_title);
     }
 
     private void setUpNavigationDrawer() {
-        drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
+            // We check actual position in Navigation Drawer
+            navigationView.getMenu().getItem(0).setChecked(true);
         }
     }
 
@@ -196,18 +196,22 @@ public class NewsListActivity extends AppCompatActivity
                         switch (menuItem.getItemId()) {
                             case R.id.list_navigation_menu_item:
                                 // Do nothing, we're already on that screen
+                                menuItem.setChecked(true);
                                 break;
                             case R.id.bookmarks_navigation_menu_item:
                                 Navigator.getInstance().navigateToBookmarksList(getContext());
+                                menuItem.setChecked(true);
                                 break;
                             case R.id.settings_navigation_menu_item:
                                 Toast.makeText(getContext(), "Ajustes", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.about_navigation_menu_item:
+                                Toast.makeText(getContext(), "Acerca de", Toast.LENGTH_SHORT).show();
                                 break;
                             default:
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.
-                        menuItem.setChecked(true);
                         drawerLayout.closeDrawers();
                         return true;
                     }

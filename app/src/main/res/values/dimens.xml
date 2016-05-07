@@ -23,6 +23,9 @@
     <dimen name="card_horizontal_margin">8dp</dimen>
     <dimen name="card_vertical_margin">4dp</dimen>
 
+    <!-- Navivation Drawer related. -->
+    <dimen name="navdrawer_header_height">140dp</dimen>
+
     <!-- Toolbar related. -->
     <dimen name="detail_view_padding">16dp</dimen>
 

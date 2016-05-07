@@ -38,10 +38,10 @@
 
     <!-- Menus Strings-->
     <string name="action_settings">Ajustes</string>
+    <string name="action_about">Acerca de</string>
     <string name="action_filter">Filtrar</string>
     <string name="action_share">Compartir</string>
     <string name="action_bookmark">Añadir a favoritos</string>
-    <string name="action_collections_bookmarks">Ir a favoritos</string>
-    <string name="action_list">Ir a noticias</string>
+    <string name="action_search">Buscar</string>
 
 </resources>

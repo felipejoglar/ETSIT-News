@@ -55,6 +55,7 @@ public class Navigator {
     public void navigateToNewsList(Context context) {
         if (context != null) {
             Intent intentToLaunch = NewsListActivity.getCallingIntent(context);
+            intentToLaunch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(intentToLaunch);
         }
     }

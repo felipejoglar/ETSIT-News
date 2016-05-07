@@ -13,11 +13,10 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
---><shape xmlns:android="http://schemas.android.com/apk/res/android">
+-->
+<resources>
 
-    <gradient
-        android:angle="270"
-        android:endColor="@android:color/transparent"
-        android:startColor="#50000000" />
+    <!-- Navivation Drawer related. -->
+    <dimen name="navdrawer_header_height">164dp</dimen>
 
-</shape>
+</resources>
