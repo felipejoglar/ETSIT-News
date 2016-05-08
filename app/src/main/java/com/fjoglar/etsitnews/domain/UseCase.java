@@ -50,15 +50,15 @@ public abstract class UseCase<Q extends UseCase.RequestValues, P extends UseCase
     /**
      * Data passed to a request.
      */
-    public static class RequestValues {  }
+    public interface RequestValues {  }
 
     /**
      * Data received from a request.
      */
-    public static class ResponseValue { }
+    public interface ResponseValue { }
 
     public interface UseCaseCallback<R> {
         void onSuccess(R response);
-        void onError(Error error);
+        void onError();
     }
 }

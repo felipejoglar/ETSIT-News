@@ -16,7 +16,6 @@
 package com.fjoglar.etsitnews.domain.usecase;
 
 import com.fjoglar.etsitnews.domain.UseCase;
-import com.fjoglar.etsitnews.domain.error.DataNotAvailableError;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
@@ -41,12 +40,12 @@ public class GetBookmarkByDate
 
                     @Override
                     public void onDataNotAvailable() {
-                        getUseCaseCallback().onError(new DataNotAvailableError());
+                        getUseCaseCallback().onError();
                     }
                 });
     }
 
-    public static class RequestValues extends UseCase.RequestValues {
+    public static final class RequestValues implements UseCase.RequestValues {
         private final long mNewsItemPubDate;
 
         public RequestValues(long newsItemPubDate) {
@@ -58,7 +57,7 @@ public class GetBookmarkByDate
         }
     }
 
-    public static class ResponseValue extends UseCase.ResponseValue {
+    public static final class ResponseValue implements UseCase.ResponseValue {
         private NewsItem mNewsItem;
 
         public ResponseValue(NewsItem newsItem) {

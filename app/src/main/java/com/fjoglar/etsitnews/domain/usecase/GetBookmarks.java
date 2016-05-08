@@ -16,7 +16,6 @@
 package com.fjoglar.etsitnews.domain.usecase;
 
 import com.fjoglar.etsitnews.domain.UseCase;
-import com.fjoglar.etsitnews.domain.error.DataNotAvailableError;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
@@ -41,14 +40,14 @@ public class GetBookmarks extends UseCase<GetBookmarks.RequestValues, GetBookmar
 
             @Override
             public void onDataNotAvailable() {
-                getUseCaseCallback().onError(new DataNotAvailableError());
+                getUseCaseCallback().onError();
             }
         });
     }
 
-    public static class RequestValues extends UseCase.RequestValues {}
+    public static final class RequestValues implements UseCase.RequestValues {}
 
-    public static class ResponseValue extends UseCase.ResponseValue {
+    public static final class ResponseValue implements UseCase.ResponseValue {
         private List<NewsItem> mNewsItemList;
 
         public ResponseValue(List<NewsItem> newsItemList) {

@@ -32,10 +32,10 @@ public class UpdateNews extends UseCase<UpdateNews.RequestValues, UpdateNews.Res
         getUseCaseCallback().onSuccess(new ResponseValue());
     }
 
-    public static class RequestValues extends UseCase.RequestValues {
+    public static final class RequestValues implements UseCase.RequestValues {
     }
 
-    public static class ResponseValue extends UseCase.ResponseValue {
+    public static final class ResponseValue implements UseCase.ResponseValue {
     }
 
 }

@@ -50,7 +50,7 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
                     }
 
                     @Override
-                    public void onError(Error error) {
+                    public void onError() {
                         mBookmarksListView.hideProgress();
                     }
                 });

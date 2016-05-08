@@ -53,7 +53,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     }
 
                     @Override
-                    public void onError(Error error) {
+                    public void onError() {
                         mNewsListView.hideProgress();
                         updateIfNeeded();
                     }
@@ -74,7 +74,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     }
 
                     @Override
-                    public void onError(Error error) {
+                    public void onError() {
                         mNewsListView.hideProgress();
                     }
                 });

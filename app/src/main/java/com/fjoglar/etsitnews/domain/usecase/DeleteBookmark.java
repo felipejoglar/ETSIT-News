@@ -38,7 +38,7 @@ public class DeleteBookmark
         getUseCaseCallback().onSuccess(new ResponseValue());
     }
 
-    public static class RequestValues extends UseCase.RequestValues {
+    public static final class RequestValues implements UseCase.RequestValues {
         private final long mNewsItemPubDate;
 
         public RequestValues(long newsItemPubDate) {
@@ -50,6 +50,6 @@ public class DeleteBookmark
         }
     }
 
-    public static class ResponseValue extends UseCase.ResponseValue {}
+    public static final class ResponseValue implements UseCase.ResponseValue {}
 
 }

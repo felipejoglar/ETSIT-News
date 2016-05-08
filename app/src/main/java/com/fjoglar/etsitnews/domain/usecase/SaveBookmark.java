@@ -38,7 +38,7 @@ public class SaveBookmark extends UseCase<SaveBookmark.RequestValues, SaveBookma
         getUseCaseCallback().onSuccess(new ResponseValue());
     }
 
-    public static class RequestValues extends UseCase.RequestValues {
+    public static final class RequestValues implements UseCase.RequestValues {
         private final NewsItem mNewsItem;
 
         public RequestValues(NewsItem newsItem) {
@@ -54,6 +54,6 @@ public class SaveBookmark extends UseCase<SaveBookmark.RequestValues, SaveBookma
         }
     }
 
-    public static class ResponseValue extends UseCase.ResponseValue {}
+    public static final class ResponseValue implements UseCase.ResponseValue {}
 
 }

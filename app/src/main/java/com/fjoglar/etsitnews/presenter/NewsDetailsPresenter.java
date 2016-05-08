@@ -60,7 +60,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                         }
 
                         @Override
-                        public void onError(Error error) {
+                        public void onError() {
                             mNewsDetailsView.hideProgress();
                         }
                     });
@@ -76,7 +76,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                         }
 
                         @Override
-                        public void onError(Error error) {
+                        public void onError() {
                             mNewsDetailsView.showNewsItem(null);
                             mNewsDetailsView.hideProgress();
                         }
@@ -99,7 +99,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                         }
 
                         @Override
-                        public void onError(Error error) {
+                        public void onError() {
                             mNewsDetailsView.hideProgress();
                         }
                     });
@@ -116,7 +116,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                         }
 
                         @Override
-                        public void onError(Error error) {
+                        public void onError() {
                             mNewsDetailsView.hideProgress();
                         }
                     });
