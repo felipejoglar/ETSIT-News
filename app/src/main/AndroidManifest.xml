@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
  Copyright (C) 2016 Felipe Joglar Santos
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fjoglar.etsitnews">
 
+    <!-- Required for fetching feed data. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -39,6 +41,16 @@
             android:name=".model.repository.datasource.local.NewsProvider"
             android:authorities="com.fjoglar.etsitnews"
             android:exported="false" />
+
+        <!-- SyncAdapter's dummy authentication service -->
+        <service android:name=".sync.EtsitAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
     </application>
 
 </manifest>
