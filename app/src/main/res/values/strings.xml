@@ -47,5 +47,6 @@
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
     <string name="sync_account_type">etsitnews.fjoglar.com</string>
+    <string name="content_authority">com.fjoglar.etsitnews</string>
 
 </resources>

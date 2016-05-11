@@ -36,6 +36,7 @@ import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.NewsListPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
+import com.fjoglar.etsitnews.sync.EtsitSyncAdapter;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
 import com.fjoglar.etsitnews.view.navigation.Navigator;
 
@@ -66,6 +67,9 @@ public class NewsListActivity extends AppCompatActivity
         ButterKnife.bind(this);
         mContext = this;
         initializeActivity();
+
+        // Add the Account Required by the SyncAdapter Framework.
+        EtsitSyncAdapter.initializeSyncAdapter(getContext());
     }
 
     @Override
