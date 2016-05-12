@@ -18,13 +18,15 @@ package com.fjoglar.etsitnews;
 import android.app.Application;
 
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 
 public class EtsitNewsApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // Set the Context for Repository.
+        // Set the Context for Repository and SharedPreferences.
         NewsRepository.getInstance().setContext(this);
+        NewsSharedPreferences.getInstance().setContext(this);
     }
 }
