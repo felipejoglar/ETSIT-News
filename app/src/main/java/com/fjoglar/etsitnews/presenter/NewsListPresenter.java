@@ -17,11 +17,13 @@ package com.fjoglar.etsitnews.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetNews;
 import com.fjoglar.etsitnews.domain.usecase.UpdateNews;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
@@ -71,6 +73,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     public void onSuccess(UpdateNews.ResponseValue response) {
                         getNews();
                         mNewsListView.hideProgress();
+
+                        // Update last updated time in SharedPreferences.
+                        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+                        newsSharedPreferences.put(
+                                newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key),
+                                System.currentTimeMillis());
                     }
 
                     @Override

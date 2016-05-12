@@ -49,4 +49,7 @@
     <string name="sync_account_type">etsitnews.fjoglar.com</string>
     <string name="content_authority">com.fjoglar.etsitnews</string>
 
+    <!-- SharedPreferences related-->
+    <string name="pref_last_updated_key" translatable="false">last_updated</string>
+
 </resources>

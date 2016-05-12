@@ -86,6 +86,10 @@ public class NewsSharedPreferences {
         return prefs.getLong(key, defaultValue);
     }
 
+    public String getStringFromResId (int ResId) {
+        return mContext.getString(ResId);
+    }
+
     public void setContext(Context context) {
         mContext = context;
     }

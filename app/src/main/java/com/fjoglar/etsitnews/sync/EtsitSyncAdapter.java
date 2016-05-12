@@ -25,15 +25,19 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
+import com.fjoglar.etsitnews.view.notification.Notification;
 
 public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
 
     // Interval at which to sync with the weather, in seconds.
-    public static final int SYNC_INTERVAL = 60 * 5;
+    // One hour interval.
+    public static final int SYNC_INTERVAL = 60 * 60;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     public EtsitSyncAdapter(Context context, boolean autoInitialize) {
@@ -47,6 +51,13 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
         NewsDataSource newsDataSource = NewsRepository.getInstance();
         newsDataSource.updateNews();
 
+        Notification.createNotification(getContext());
+
+        // Update last updated time in SharedPreferences.
+        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+        newsSharedPreferences.put(
+                newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key),
+                System.currentTimeMillis());
     }
 
     /**
@@ -77,19 +88,6 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
         return newAccount;
     }
 
-    private static void onAccountCreated(Account newAccount, Context context) {
-        /*
-         * Since we've created an account
-         */
-        EtsitSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
-
-        /*
-         * Without calling setSyncAutomatically, our periodic sync will not be enabled.
-         */
-        ContentResolver.setSyncAutomatically(
-                newAccount, context.getString(R.string.content_authority), true);
-    }
-
     /**
      * Helper method to schedule the sync adapter periodic execution
      */
@@ -111,6 +109,19 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
+    }
+
+    private static void onAccountCreated(Account newAccount, Context context) {
+        /*
+         * Since we've created an account
+         */
+        EtsitSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+
+        /*
+         * Without calling setSyncAutomatically, our periodic sync will not be enabled.
+         */
+        ContentResolver.setSyncAutomatically(
+                newAccount, context.getString(R.string.content_authority), true);
     }
 
 }
