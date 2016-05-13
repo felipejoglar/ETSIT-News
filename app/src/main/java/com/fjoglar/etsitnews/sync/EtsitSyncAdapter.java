@@ -25,7 +25,6 @@ import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.repository.NewsDataSource;

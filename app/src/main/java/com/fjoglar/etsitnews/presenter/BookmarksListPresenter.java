@@ -57,14 +57,13 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
                         mBookmarksListView.hideProgress();
                     }
                 });
-
-        showLastUpdateTime();
     }
 
 
     @Override
     public void start() {
         getBookmarks();
+        showLastUpdateTime();
     }
 
     private void showLastUpdateTime() {

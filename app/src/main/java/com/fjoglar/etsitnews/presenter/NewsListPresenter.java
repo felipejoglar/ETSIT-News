@@ -93,6 +93,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @Override
     public void start() {
         getNews();
+        showLastUpdateTime();
     }
 
     private void updateIfNeeded() {
