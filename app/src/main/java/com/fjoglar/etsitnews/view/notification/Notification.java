@@ -30,6 +30,7 @@ import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.view.activities.NewsListActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Notification {
@@ -37,24 +38,29 @@ public class Notification {
     private static final int RSS_NOTIFICATION_ID = 8008;
 
     private static List<NewsItem> mUpdatedNewsList;
+    private static List<String> mNotificationText = new ArrayList<>();
     private static int mNewsCount;
-    private static String mNotificationText = "";
 
     public static void createNotification (Context context) {
         if (needToNotify()) {
             String endingText = (mNewsCount > 1) ? " noticias nuevas." : " noticia nuevas.";
+
+            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+            inboxStyle.setBigContentTitle("Tienes " + mNewsCount + endingText);
+            for (String notificationTxt : mNotificationText) {
+                inboxStyle.addLine(notificationTxt);
+            }
 
             // Create the notification.
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.drawable.ic_notification)
                             .setContentTitle("Tienes " + mNewsCount + endingText)
-                            .setContentText(mNotificationText)
+                            .setContentText(mNotificationText.get(0))
                             .setColor(context.getResources().getColor(R.color.colorPrimary))
                             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                             .setAutoCancel(true)
-                            .setStyle(new NotificationCompat.BigTextStyle()
-                                    .bigText(mNotificationText));
+                            .setStyle(inboxStyle);
 
             Intent resultIntent = new Intent(context, NewsListActivity.class);
 
@@ -71,7 +77,7 @@ public class Notification {
 
         // Clear values for next notifications.
         mNewsCount = 0;
-        mNotificationText = "";
+        mNotificationText.clear();
     }
 
     private static boolean needToNotify() {
@@ -94,8 +100,8 @@ public class Notification {
 
         for (NewsItem newsItem : mUpdatedNewsList) {
             if (newsItem.getFormattedPubDate() > lastUpdatedTime) {
+                mNotificationText.add(newsItem.getTitle());
                 mNewsCount += 1;
-                mNotificationText = mNotificationText + newsItem.getTitle() + "\n";
             }
         }
 
