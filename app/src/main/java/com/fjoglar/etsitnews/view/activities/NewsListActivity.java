@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
@@ -59,12 +60,17 @@ public class NewsListActivity extends AppCompatActivity
     @Bind(R.id.recycler_news_list) RecyclerView recyclerNewsList;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
+    TextView lastTimeUpdated;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+        lastTimeUpdated = (TextView) navigationView.getHeaderView(0)
+                .findViewById(R.id.last_time_updated);
+
         mContext = this;
         initializeActivity();
 
@@ -152,6 +158,11 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void showError(String message) {
+    }
+
+    @Override
+    public void showLastUpdateTime(String lastUpdateTime) {
+        lastTimeUpdated.setText(lastUpdateTime);
     }
 
     public static Intent getCallingIntent(Context context) {

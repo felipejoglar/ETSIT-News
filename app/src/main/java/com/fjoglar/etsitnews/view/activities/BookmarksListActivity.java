@@ -29,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
@@ -57,12 +58,17 @@ public class BookmarksListActivity extends AppCompatActivity
     @Bind(R.id.recycler_bookmarks_list)  RecyclerView recyclerBookmarksList;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
 
+    TextView lastTimeUpdated;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
 
         ButterKnife.bind(this);
+        lastTimeUpdated = (TextView) navigationView.getHeaderView(0)
+                .findViewById(R.id.last_time_updated);
+
         mContext = this;
         this.initializeActivity();
     }
@@ -154,6 +160,11 @@ public class BookmarksListActivity extends AppCompatActivity
     @Override
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLastUpdateTime(String lastUpdateTime) {
+        lastTimeUpdated.setText(lastUpdateTime);
     }
 
     public static Intent getCallingIntent(Context context) {

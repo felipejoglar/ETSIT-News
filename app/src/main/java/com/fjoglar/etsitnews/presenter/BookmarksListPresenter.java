@@ -17,11 +17,14 @@ package com.fjoglar.etsitnews.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetBookmarks;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.BookmarksListContract;
+import com.fjoglar.etsitnews.utils.DateUtils;
 
 public class BookmarksListPresenter implements BookmarksListContract.Presenter {
 
@@ -54,6 +57,8 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
                         mBookmarksListView.hideProgress();
                     }
                 });
+
+        showLastUpdateTime();
     }
 
 
@@ -61,4 +66,13 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
     public void start() {
         getBookmarks();
     }
+
+    private void showLastUpdateTime() {
+        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+        long lastUpdateTimeinMillis = newsSharedPreferences.get(
+                newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key), 0L);
+
+        mBookmarksListView.showLastUpdateTime(DateUtils.formatLastUpdateTime(lastUpdateTimeinMillis));
+    }
+
 }

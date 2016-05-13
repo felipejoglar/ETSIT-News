@@ -33,6 +33,8 @@ public interface BookmarksListContract {
 
         void showError(String message);
 
+        void showLastUpdateTime(String lastUpdateTime);
+
     }
 
     interface Presenter extends BasePresenter {

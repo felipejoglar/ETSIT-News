@@ -33,6 +33,8 @@ public interface NewsListContract {
 
         void showError(String message);
 
+        void showLastUpdateTime(String lastUpdateTime);
+
     }
 
     interface Presenter extends BasePresenter {

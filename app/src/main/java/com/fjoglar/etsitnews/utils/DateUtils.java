@@ -69,7 +69,7 @@ public class DateUtils {
         }
     }
 
-    public static String formatDetailViewTime(long dateInMillis){
+    public static String formatDetailViewTime(long dateInMillis) {
 
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
         Calendar calendar = Calendar.getInstance();
@@ -88,5 +88,26 @@ public class DateUtils {
         return dayName + ", " + dayNumber + " de " + month + " de " + year + ".";
     }
 
+    public static String formatLastUpdateTime(long dateInMillis) {
+        String startString = "Última actualización: hace ";
+        long diff = System.currentTimeMillis() - dateInMillis;
+        int diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
+
+        if (diffInDays > 0) {
+            return startString + diffInDays + " días.";
+        } else {
+            int diffHours = (int) (diff / (60 * 60 * 1000));
+            if (diffHours > 0) {
+                return startString + diffHours + " horas.";
+            } else {
+                int diffMinutes = (int) ((diff / (60 * 1000) % 60));
+                if (diffMinutes < 5) {
+                    return startString + " un momento.";
+                } else {
+                    return startString + diffMinutes + " minutos.";
+                }
+            }
+        }
+    }
 
 }

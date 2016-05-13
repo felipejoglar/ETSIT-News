@@ -25,6 +25,7 @@ import com.fjoglar.etsitnews.domain.usecase.UpdateNews;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
+import com.fjoglar.etsitnews.utils.DateUtils;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
 
@@ -79,6 +80,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                         newsSharedPreferences.put(
                                 newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key),
                                 System.currentTimeMillis());
+                        showLastUpdateTime();
                     }
 
                     @Override
@@ -98,5 +100,13 @@ public class NewsListPresenter implements NewsListContract.Presenter {
             updateNews();
             mFirstLoad = false;
         }
+    }
+
+    private void showLastUpdateTime() {
+        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+        long lastUpdateTimeinMillis = newsSharedPreferences.get(
+                newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key), 0L);
+
+        mNewsListView.showLastUpdateTime(DateUtils.formatLastUpdateTime(lastUpdateTimeinMillis));
     }
 }
