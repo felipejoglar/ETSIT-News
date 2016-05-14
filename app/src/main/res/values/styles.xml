@@ -49,4 +49,8 @@
         <item name="android:textSize">@dimen/toolbar_subtitle</item>
     </style>
 
+    <style name="ButtonAccent" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
+
 </resources>

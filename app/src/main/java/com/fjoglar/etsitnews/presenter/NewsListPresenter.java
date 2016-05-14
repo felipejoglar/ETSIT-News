@@ -22,10 +22,13 @@ import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetNews;
 import com.fjoglar.etsitnews.domain.usecase.UpdateNews;
+import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 import com.fjoglar.etsitnews.utils.DateUtils;
+
+import java.util.List;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
 
@@ -44,7 +47,6 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @Override
     public void getNews() {
         mNewsListView.showProgress();
-
         GetNews getNews = new GetNews(NewsRepository.getInstance());
         mUseCaseHandler.execute(getNews, new GetNews.RequestValues(),
                 new UseCase.UseCaseCallback<GetNews.ResponseValue>() {
@@ -52,12 +54,14 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     public void onSuccess(GetNews.ResponseValue response) {
                         mNewsListView.showNews(response.getNewsItemList());
                         mNewsListView.hideProgress();
+                        checkForErrors(response.getNewsItemList());
                         updateIfNeeded();
                     }
 
                     @Override
                     public void onError() {
                         mNewsListView.hideProgress();
+                        mNewsListView.showError();
                         updateIfNeeded();
                     }
                 });
@@ -100,6 +104,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         if (mFirstLoad) {
             updateNews();
             mFirstLoad = false;
+        }
+    }
+
+    private void checkForErrors(List<NewsItem> newsItemList) {
+        if (newsItemList == null || newsItemList.size() == 0) {
+            mNewsListView.showError();
         }
     }
 

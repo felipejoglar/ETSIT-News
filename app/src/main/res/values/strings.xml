@@ -52,4 +52,14 @@
     <!-- SharedPreferences related-->
     <string name="pref_last_updated_key" translatable="false">last_updated</string>
 
+    <!-- Empty state related-->
+    <string name="retry_message">Volver a intentar</string>
+    <string name="back_to_news_message">Volver a noticias</string>
+    <string name="no_internet_msg">¡Ups! Parece que no tienes conexión.</string>
+    <string name="no_internet_msg_hint">Prueba a activar el Wi-Fi o tus datos y vuelve a intentarlo.</string>
+    <string name="no_news_msg">¡Eyy! No hay noticias que mostrarte</string>
+    <string name="no_news_msg_hint">Prueba a modificar el filtro para ver noticias que te interesen.</string>
+    <string name="no_bookmarks_msg">Tu lista de favoritos está vacía.</string>
+    <string name="no_bookmarks_msg_hint">Vuelve al listado de noticias para añadirlas a tus favoritos.</string>
+
 </resources>

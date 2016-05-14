@@ -28,7 +28,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class BookmarksListActivity extends AppCompatActivity
@@ -58,6 +61,10 @@ public class BookmarksListActivity extends AppCompatActivity
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_bookmarks_list)  RecyclerView recyclerBookmarksList;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.empty_state) RelativeLayout emptyState;
+    @BindView(R.id.empty_state_image) ImageView emptyStateImage;
+    @BindView(R.id.empty_state_msg) TextView emptyStateMsg;
+    @BindView(R.id.empty_state_msg_hint) TextView emptyStateMsgHint;
 
     TextView lastTimeUpdated;
 
@@ -155,14 +162,22 @@ public class BookmarksListActivity extends AppCompatActivity
 
     @Override
     public void showNews(List<NewsItem> newsItemList) {
+        emptyState.setVisibility(View.GONE);
+        recyclerBookmarksList.setVisibility(View.VISIBLE);
+
         NewsListAdapter adapter = (NewsListAdapter) recyclerBookmarksList.getAdapter();
         adapter.setNewsListAdapter(newsItemList);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void showError() {
+        emptyState.setVisibility(View.VISIBLE);
+        recyclerBookmarksList.setVisibility(View.GONE);
+        emptyStateImage.setImageDrawable(
+                getResources().getDrawable(R.drawable.img_no_bookmarks));
+        emptyStateMsg.setText(R.string.no_bookmarks_msg);
+        emptyStateMsgHint.setText(R.string.no_bookmarks_msg_hint);
     }
 
     @Override
@@ -172,6 +187,11 @@ public class BookmarksListActivity extends AppCompatActivity
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, BookmarksListActivity.class);
+    }
+
+    @OnClick(R.id.empty_state_button)
+    void backToNewsList() {
+        Navigator.getInstance().navigateToNewsList(getContext());
     }
 
     private void initializeActivity() {

@@ -13,34 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.presenter.contracts;
+package com.fjoglar.etsitnews.utils;
 
-import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.presenter.BasePresenter;
-import com.fjoglar.etsitnews.view.BaseView;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
-import java.util.List;
+public class NetUtils {
 
-public interface BookmarksListContract {
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-    interface View extends BaseView<Presenter> {
-
-        void showNews(List<NewsItem> newsItemList);
-
-        void showProgress();
-
-        void hideProgress();
-
-        void showError();
-
-        void showLastUpdateTime(String lastUpdateTime);
-
-    }
-
-    interface Presenter extends BasePresenter {
-
-        void getBookmarks();
-
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
     }
 
 }

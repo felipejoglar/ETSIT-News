@@ -21,10 +21,13 @@ import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetBookmarks;
+import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.BookmarksListContract;
 import com.fjoglar.etsitnews.utils.DateUtils;
+
+import java.util.List;
 
 public class BookmarksListPresenter implements BookmarksListContract.Presenter {
 
@@ -50,11 +53,13 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
                     public void onSuccess(GetBookmarks.ResponseValue response) {
                         mBookmarksListView.showNews(response.getNewsItemList());
                         mBookmarksListView.hideProgress();
+                        checkForErrors(response.getNewsItemList());
                     }
 
                     @Override
                     public void onError() {
                         mBookmarksListView.hideProgress();
+                        mBookmarksListView.showError();
                     }
                 });
     }
@@ -64,6 +69,12 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
     public void start() {
         getBookmarks();
         showLastUpdateTime();
+    }
+
+    private void checkForErrors(List<NewsItem> newsItemList) {
+        if (newsItemList == null || newsItemList.size() == 0) {
+            mBookmarksListView.showError();
+        }
     }
 
     private void showLastUpdateTime() {

@@ -29,7 +29,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +41,7 @@ import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.NewsListPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 import com.fjoglar.etsitnews.sync.EtsitSyncAdapter;
+import com.fjoglar.etsitnews.utils.NetUtils;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
 import com.fjoglar.etsitnews.view.navigation.Navigator;
 
@@ -45,6 +49,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class NewsListActivity extends AppCompatActivity
@@ -60,6 +65,11 @@ public class NewsListActivity extends AppCompatActivity
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_news_list) RecyclerView recyclerNewsList;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.empty_state) RelativeLayout emptyState;
+    @BindView(R.id.empty_state_image) ImageView emptyStateImage;
+    @BindView(R.id.empty_state_msg) TextView emptyStateMsg;
+    @BindView(R.id.empty_state_msg_hint) TextView emptyStateMsgHint;
+    @BindView(R.id.empty_state_button) Button emptyStateButton;
 
     TextView lastTimeUpdated;
 
@@ -69,6 +79,7 @@ public class NewsListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         unbinder = ButterKnife.bind(this);
         lastTimeUpdated = (TextView) navigationView.getHeaderView(0)
@@ -154,13 +165,31 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void showNews(List<NewsItem> newsItemList) {
+        emptyState.setVisibility(View.GONE);
+        recyclerNewsList.setVisibility(View.VISIBLE);
+
         NewsListAdapter adapter = (NewsListAdapter) recyclerNewsList.getAdapter();
         adapter.setNewsListAdapter(newsItemList);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showError(String message) {
+    public void showError() {
+        emptyState.setVisibility(View.VISIBLE);
+        recyclerNewsList.setVisibility(View.GONE);
+        if (!NetUtils.isNetworkAvailable(getContext())) {
+            emptyStateImage.setImageDrawable(
+                    getResources().getDrawable(R.drawable.img_no_internet_connection));
+            emptyStateMsg.setText(R.string.no_internet_msg);
+            emptyStateMsgHint.setText(R.string.no_internet_msg_hint);
+            emptyStateButton.setVisibility(View.VISIBLE);
+        } else {
+            emptyStateImage.setImageDrawable(
+                    getResources().getDrawable(R.drawable.img_no_news_to_list));
+            emptyStateMsg.setText(R.string.no_news_msg);
+            emptyStateMsgHint.setText(R.string.no_news_msg_hint);
+            emptyStateButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -170,6 +199,11 @@ public class NewsListActivity extends AppCompatActivity
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, NewsListActivity.class);
+    }
+
+    @OnClick(R.id.empty_state_button)
+    void retryConnection() {
+        mNewsListPresenter.updateNews();
     }
 
     private void initializeActivity() {
