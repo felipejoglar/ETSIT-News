@@ -48,7 +48,12 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient provider, SyncResult syncResult) {
 
         NewsDataSource newsDataSource = NewsRepository.getInstance();
-        newsDataSource.updateNews();
+        newsDataSource.updateNews(new NewsDataSource.UpdateNewsCallback() {
+            @Override
+            public void onUpdateFinished(Boolean isUpdated) {
+                // Do nothing
+            }
+        });
 
         Notification.createNotification(getContext());
 

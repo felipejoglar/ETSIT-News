@@ -38,6 +38,12 @@ public interface NewsDataSource {
         void onDataNotAvailable();
     }
 
+    interface UpdateNewsCallback {
+
+        void onUpdateFinished(Boolean isUpdated);
+
+    }
+
     void saveNews(@NonNull List<NewsItem> newsItemList);
 
     void saveBookmark(@NonNull NewsItem newsItem);
@@ -50,7 +56,7 @@ public interface NewsDataSource {
 
     void getBookmarkByDate(long date, @NonNull GetNewsItemCallback callback);
 
-    void updateNews();
+    void updateNews(@NonNull UpdateNewsCallback callback);
 
     void updateNewsItemIsBookmarkedStatusByDate(boolean status, long date);
 

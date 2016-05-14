@@ -238,7 +238,7 @@ public class NewsRepository implements NewsDataSource {
     }
 
     @Override
-    public void updateNews() {
+    public void updateNews(@NonNull UpdateNewsCallback callback) {
         List<NewsItem> result = null;
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -259,7 +259,11 @@ public class NewsRepository implements NewsDataSource {
         // Now insert all news into the Database.
         if (result != null) {
             this.saveNews(result);
+            callback.onUpdateFinished(true);
+        } else {
+            callback.onUpdateFinished(false);
         }
+
     }
 
     @Override

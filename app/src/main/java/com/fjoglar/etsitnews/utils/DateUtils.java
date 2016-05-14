@@ -89,6 +89,9 @@ public class DateUtils {
     }
 
     public static String formatLastUpdateTime(long dateInMillis) {
+        if (dateInMillis == 0) {
+            return "No se ha podido actualizar.";
+        }
         String startString = "Última actualización: hace ";
         long diff = System.currentTimeMillis() - dateInMillis;
         int diffInDays = (int) (diff / (1000 * 60 * 60 * 24));

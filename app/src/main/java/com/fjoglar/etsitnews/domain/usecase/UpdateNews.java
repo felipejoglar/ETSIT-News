@@ -28,8 +28,17 @@ public class UpdateNews extends UseCase<UpdateNews.RequestValues, UpdateNews.Res
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        mNewsDataSource.updateNews();
-        getUseCaseCallback().onSuccess(new ResponseValue());
+        mNewsDataSource.updateNews(new NewsDataSource.UpdateNewsCallback() {
+            @Override
+            public void onUpdateFinished(Boolean isUpdated) {
+                if (isUpdated) {
+                    getUseCaseCallback().onSuccess(new ResponseValue());
+                } else {
+                    getUseCaseCallback().onError();
+                }
+            }
+        });
+
     }
 
     public static final class RequestValues implements UseCase.RequestValues {
