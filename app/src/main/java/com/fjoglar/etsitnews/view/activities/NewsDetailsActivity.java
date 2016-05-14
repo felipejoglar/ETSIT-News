@@ -42,9 +42,10 @@ import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class NewsDetailsActivity extends AppCompatActivity implements NewsDetailsContract.View {
 
@@ -66,21 +67,23 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     private Menu mMenu;
     private NewsItem mNewsItem;
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.progress_bar) ProgressBar progressBar;
-    @Bind(R.id.detail_attachments_card) CardView detailAttachmentsCard;
-    @Bind(R.id.detail_attachments_card_content) LinearLayout detailAttachmentsCardContent;
-    @Bind(R.id.detail_title) TextView detailTitle;
-    @Bind(R.id.detail_date) TextView detailDate;
-    @Bind(R.id.detail_description) TextView detailDescription;
-    @Bind(R.id.detail_category) TextView detailCategory;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.detail_attachments_card) CardView detailAttachmentsCard;
+    @BindView(R.id.detail_attachments_card_content) LinearLayout detailAttachmentsCardContent;
+    @BindView(R.id.detail_title) TextView detailTitle;
+    @BindView(R.id.detail_date) TextView detailDate;
+    @BindView(R.id.detail_description) TextView detailDescription;
+    @BindView(R.id.detail_category) TextView detailCategory;
+
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         mContext = this;
 
         this.initializeActivity(savedInstanceState);
@@ -110,7 +113,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

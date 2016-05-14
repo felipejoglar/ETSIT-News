@@ -31,7 +31,7 @@ import com.fjoglar.etsitnews.utils.FormatTextUtils;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsViewHolder> {
@@ -56,10 +56,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
 
     final static class NewsViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.item_title) TextView title;
-        @Bind(R.id.item_date) TextView date;
-        @Bind(R.id.item_description) TextView description;
-        @Bind(R.id.item_category) TextView category;
+        @BindView(R.id.item_title) TextView title;
+        @BindView(R.id.item_date) TextView date;
+        @BindView(R.id.item_description) TextView description;
+        @BindView(R.id.item_category) TextView category;
 
         public NewsViewHolder(View itemView) {
             super(itemView);

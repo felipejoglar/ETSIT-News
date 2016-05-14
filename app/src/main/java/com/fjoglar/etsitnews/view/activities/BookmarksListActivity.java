@@ -41,8 +41,9 @@ import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class BookmarksListActivity extends AppCompatActivity
         implements BookmarksListContract.View, NewsListAdapter.ItemClickListener {
@@ -52,20 +53,22 @@ public class BookmarksListActivity extends AppCompatActivity
     private BookmarksListContract.Presenter mBookmarksListPresenter;
     private Context mContext;
 
-    @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @Bind(R.id.nav_view) NavigationView navigationView;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.recycler_bookmarks_list)  RecyclerView recyclerBookmarksList;
-    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.recycler_bookmarks_list)  RecyclerView recyclerBookmarksList;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     TextView lastTimeUpdated;
+
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
 
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         lastTimeUpdated = (TextView) navigationView.getHeaderView(0)
                 .findViewById(R.id.last_time_updated);
 
@@ -97,7 +100,7 @@ public class BookmarksListActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

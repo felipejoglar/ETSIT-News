@@ -43,8 +43,9 @@ import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class NewsListActivity extends AppCompatActivity
         implements NewsListContract.View, NewsListAdapter.ItemClickListener {
@@ -54,20 +55,22 @@ public class NewsListActivity extends AppCompatActivity
     private NewsListContract.Presenter mNewsListPresenter;
     private Context mContext;
 
-    @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @Bind(R.id.nav_view) NavigationView navigationView;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.recycler_news_list) RecyclerView recyclerNewsList;
-    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.recycler_news_list) RecyclerView recyclerNewsList;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     TextView lastTimeUpdated;
+
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         lastTimeUpdated = (TextView) navigationView.getHeaderView(0)
                 .findViewById(R.id.last_time_updated);
 
@@ -102,7 +105,7 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override
