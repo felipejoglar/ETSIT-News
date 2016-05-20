@@ -35,32 +35,48 @@ import java.util.List;
 
 public class Notification {
 
-    private static final int RSS_NOTIFICATION_ID = 8008;
+    private static final int ETSIT_NEWS_NOTIFICATION_ID = 8008;
 
     private static List<NewsItem> mUpdatedNewsList;
     private static List<String> mNotificationText = new ArrayList<>();
+    private static List<String> mNotificationDesc = new ArrayList<>();
     private static int mNewsCount;
 
-    public static void createNotification (Context context) {
+    public static void createNotification(Context context) {
         if (needToNotify()) {
-            String endingText = (mNewsCount > 1) ? " noticias nuevas." : " noticia nuevas.";
 
-            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-            inboxStyle.setBigContentTitle("Tienes " + mNewsCount + endingText);
-            for (String notificationTxt : mNotificationText) {
-                inboxStyle.addLine(notificationTxt);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+
+            if (mNewsCount == 1) {
+                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+                bigTextStyle.bigText(mNotificationDesc.get(0))
+                        .setSummaryText(context.getResources().getString(R.string.app_name));
+
+                // Create the notification.
+                mBuilder.setSmallIcon(R.drawable.ic_notification)
+                        .setContentTitle(mNotificationText.get(0))
+                        .setContentText(mNotificationDesc.get(0))
+                        .setColor(context.getResources().getColor(R.color.colorPrimary))
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setAutoCancel(true)
+                        .setStyle(bigTextStyle);
+            } else {
+                NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+                inboxStyle.setBigContentTitle(context.getResources().getString(R.string.app_name));
+                inboxStyle.setSummaryText("Tienes " + mNewsCount + " noticias nuevas.");
+                for (String notificationTxt : mNotificationText) {
+                    inboxStyle.addLine(notificationTxt);
+                }
+
+                // Create the notification.
+                mBuilder.setSmallIcon(R.drawable.ic_notification)
+                        .setContentTitle(context.getResources().getString(R.string.app_name))
+                        .setContentText("Tienes " + mNewsCount + " noticias nuevas.")
+                        .setColor(context.getResources().getColor(R.color.colorPrimary))
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setAutoCancel(true)
+                        .setStyle(inboxStyle);
             }
-
-            // Create the notification.
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.ic_notification)
-                            .setContentTitle("Tienes " + mNewsCount + endingText)
-                            .setContentText(mNotificationText.get(0))
-                            .setColor(context.getResources().getColor(R.color.colorPrimary))
-                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                            .setAutoCancel(true)
-                            .setStyle(inboxStyle);
 
             Intent resultIntent = new Intent(context, NewsListActivity.class);
 
@@ -72,7 +88,7 @@ public class Notification {
 
             NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(RSS_NOTIFICATION_ID, mBuilder.build());
+            mNotificationManager.notify(ETSIT_NEWS_NOTIFICATION_ID, mBuilder.build());
         }
 
         // Clear values for next notifications.
@@ -101,6 +117,7 @@ public class Notification {
         for (NewsItem newsItem : mUpdatedNewsList) {
             if (newsItem.getFormattedPubDate() > lastUpdatedTime) {
                 mNotificationText.add(newsItem.getTitle());
+                mNotificationDesc.add(newsItem.getDescription());
                 mNewsCount += 1;
             }
         }
