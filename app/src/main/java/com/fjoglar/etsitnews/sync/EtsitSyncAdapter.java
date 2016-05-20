@@ -51,17 +51,15 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
         newsDataSource.updateNews(new NewsDataSource.UpdateNewsCallback() {
             @Override
             public void onUpdateFinished(Boolean isUpdated) {
-                // Do nothing
+                // Update last updated time in SharedPreferences.
+                NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key),
+                        System.currentTimeMillis());
             }
         });
 
         Notification.createNotification(getContext());
-
-        // Update last updated time in SharedPreferences.
-        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        newsSharedPreferences.put(
-                newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key),
-                System.currentTimeMillis());
     }
 
     /**
@@ -113,13 +111,14 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
+        configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {
         /*
          * Since we've created an account
          */
-        EtsitSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+        configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
 
         /*
          * Without calling setSyncAutomatically, our periodic sync will not be enabled.
