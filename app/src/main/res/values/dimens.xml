@@ -26,7 +26,14 @@
     <!-- Navivation Drawer related. -->
     <dimen name="navdrawer_header_height">140dp</dimen>
 
+    <!-- Filter Navigation Drawer related. -->
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+
     <!-- Toolbar related. -->
+    <dimen name="toolbar_elevation">4dp</dimen>
+
+    <!-- Detail View related-->
     <dimen name="detail_view_padding">16dp</dimen>
 
     <!-- Font related-->

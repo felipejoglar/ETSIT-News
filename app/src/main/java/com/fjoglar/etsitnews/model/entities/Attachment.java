@@ -46,11 +46,6 @@ public class Attachment {
         return fileType;
     }
 
-    @Override
-    public String toString() {
-        return this.getTitle() + " -----> " + getDownloadLink();
-    }
-
     private FILE_TYPE setFileType(String title) {
         String extension = title.substring(title.lastIndexOf(".") + 1, title.length());
 

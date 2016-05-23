@@ -15,10 +15,6 @@
  */
 package com.fjoglar.etsitnews.utils;
 
-import android.content.Context;
-
-import com.fjoglar.etsitnews.R;
-
 public class FormatTextUtils {
 
     public static String formatText(String text) {
@@ -35,26 +31,4 @@ public class FormatTextUtils {
         return Character.toUpperCase(word.charAt(0)) + word.substring(1);
     }
 
-    public static String categoryToString(Context context, String category) {
-        switch (category){
-            case "1":
-            case "2":
-                return context.getString(R.string.category_general);
-            case "3":
-            case "4":
-                return context.getString(R.string.category_beca);
-            case "5":
-                return context.getString(R.string.category_tfg);
-            case "11":
-                return context.getString(R.string.category_conferencia);
-            case "12":
-                return context.getString(R.string.category_destacado);
-            case "15":
-                return context.getString(R.string.category_junta);
-            case "16":
-                return context.getString(R.string.category_investigacion);
-            default:
-                return context.getString(R.string.category_otros);
-        }
-    }
 }

@@ -35,9 +35,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
+import com.fjoglar.etsitnews.model.entities.Category;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.BookmarksListPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.BookmarksListContract;
+import com.fjoglar.etsitnews.utils.CategoryUtils;
+import com.fjoglar.etsitnews.view.adapter.FilterAdapter;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
 import com.fjoglar.etsitnews.view.navigation.Navigator;
 
@@ -49,7 +52,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class BookmarksListActivity extends AppCompatActivity
-        implements BookmarksListContract.View, NewsListAdapter.ItemClickListener {
+        implements BookmarksListContract.View, NewsListAdapter.ItemClickListener,
+        FilterAdapter.FilterItemClickListener {
 
     private static final String ACTIVITY_SOURCE = "BOOKMARKS";
 
@@ -58,6 +62,7 @@ public class BookmarksListActivity extends AppCompatActivity
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.filter_list) RecyclerView filterList;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_bookmarks_list)  RecyclerView recyclerBookmarksList;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -124,7 +129,7 @@ public class BookmarksListActivity extends AppCompatActivity
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_filter:
-                Toast.makeText(this, "Filtrar", Toast.LENGTH_SHORT).show();
+                drawerLayout.openDrawer(GravityCompat.END);
                 return true;
             case R.id.action_search:
                 Toast.makeText(this, "Buscar", Toast.LENGTH_SHORT).show();
@@ -136,13 +141,24 @@ public class BookmarksListActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Navigator.getInstance().navigateToNewsList(getContext());
-        super.onBackPressed();
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END);
+        } else {
+            Navigator.getInstance().navigateToNewsList(getContext());
+            super.onBackPressed();
+        }
     }
 
     @Override
     public void itemClicked(long date) {
         Navigator.getInstance().navigateToNewsDetails(getContext(), date, ACTIVITY_SOURCE);
+    }
+
+    @Override
+    public void filterItemClicked(Category category) {
+        Toast.makeText(this, category.getCategoriesNumber(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -199,6 +215,7 @@ public class BookmarksListActivity extends AppCompatActivity
         setUpRecyclerView();
         setUpToolbar();
         setUpNavigationDrawer();
+        setUpFilterDrawer();
     }
 
     private void setUpRecyclerView() {
@@ -256,6 +273,16 @@ public class BookmarksListActivity extends AppCompatActivity
                         return true;
                     }
                 });
+    }
+
+    private void setUpFilterDrawer() {
+        final FilterAdapter adapter = new FilterAdapter(this);
+        adapter.setFilterAdapter(CategoryUtils.createCategoryList());
+        filterList.setAdapter(adapter);
+        filterList.setLayoutManager(new LinearLayoutManager(getParent(),
+                LinearLayoutManager.VERTICAL,
+                false)
+        );
     }
 
     private Context getContext() {

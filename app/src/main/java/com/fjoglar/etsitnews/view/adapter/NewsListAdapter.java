@@ -25,8 +25,8 @@ import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.utils.CategoryUtils;
 import com.fjoglar.etsitnews.utils.DateUtils;
-import com.fjoglar.etsitnews.utils.FormatTextUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,13 +41,44 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     private List<NewsItem> mNewsItemList;
     private ItemClickListener mItemClickListener;
 
-    public interface ItemClickListener {
-        void itemClicked(long date);
-    }
-
     public NewsListAdapter(@NonNull ItemClickListener itemClickListener) {
         this.mNewsItemList = Collections.emptyList();
         this.mItemClickListener = itemClickListener;
+    }
+
+    @Override
+    public NewsListAdapter.NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.
+                from(parent.getContext()).
+                inflate(R.layout.item_news_list, parent, false);
+        return new NewsViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(NewsListAdapter.NewsViewHolder holder, final int position) {
+        final NewsItem item = mNewsItemList.get(position);
+
+        holder.title.setText(item.getTitle());
+        holder.date.setText(DateUtils.formatListViewTime(item.getFormattedPubDate()));
+        if (!TextUtils.isEmpty(item.getDescription())) {
+            holder.description.setVisibility(View.VISIBLE);
+            holder.description.setText(item.getDescription().replaceAll("\\n", ""));
+        } else {
+            holder.description.setVisibility(View.GONE);
+        }
+        holder.category.setText(CategoryUtils.categoryToString(holder.category.getContext(),
+                item.getCategory()));
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClickListener.itemClicked(item.getFormattedPubDate());
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return mNewsItemList.size();
     }
 
     public void setNewsListAdapter(List<NewsItem> newsItemList) {
@@ -71,39 +102,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         }
     }
 
-    @Override
-    public NewsListAdapter.NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.
-                from(parent.getContext()).
-                inflate(R.layout.item_news_list, parent, false);
-        return new NewsViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(NewsListAdapter.NewsViewHolder holder, final int position) {
-        final NewsItem item = mNewsItemList.get(position);
-
-        holder.title.setText(item.getTitle());
-        holder.date.setText(DateUtils.formatListViewTime(item.getFormattedPubDate()));
-        if (!TextUtils.isEmpty(item.getDescription())) {
-            holder.description.setVisibility(View.VISIBLE);
-            holder.description.setText(item.getDescription().replaceAll("\\n", ""));
-        } else {
-            holder.description.setVisibility(View.GONE);
-        }
-        holder.category.setText(FormatTextUtils.categoryToString(holder.category.getContext(),
-                item.getCategory()));
-        holder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItemClickListener.itemClicked(item.getFormattedPubDate());
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mNewsItemList.size();
+    public interface ItemClickListener {
+        void itemClicked(long date);
     }
 
 }

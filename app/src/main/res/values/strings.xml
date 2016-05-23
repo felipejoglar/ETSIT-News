@@ -52,6 +52,15 @@
     <!-- SharedPreferences related-->
     <string name="pref_last_updated_key" translatable="false">last_updated</string>
 
+    <string name="pref_filter_1_key" translatable="false">destacados</string>
+    <string name="pref_filter_2_key" translatable="false">generales</string>
+    <string name="pref_filter_3_key" translatable="false">conferencias</string>
+    <string name="pref_filter_4_key" translatable="false">becas_practicas_empleo</string>
+    <string name="pref_filter_5_key" translatable="false">tfg_tfm</string>
+    <string name="pref_filter_6_key" translatable="false">junta_escuela</string>
+    <string name="pref_filter_7_key" translatable="false">investigacion</string>
+    <string name="pref_filter_8_key" translatable="false">otros</string>
+
     <!-- Empty state related-->
     <string name="retry_message">Volver a intentar</string>
     <string name="back_to_news_message">Volver a noticias</string>
@@ -61,5 +70,16 @@
     <string name="no_news_msg_hint">Prueba a modificar el filtro para ver noticias que te interesen.</string>
     <string name="no_bookmarks_msg">Tu lista de favoritos está vacía.</string>
     <string name="no_bookmarks_msg_hint">Vuelve al listado de noticias para añadirlas a tus favoritos.</string>
+
+    <!-- Filter Drawer related-->
+    <string name="filter_title">Filtros</string>
+    <string name="filter_1">Avisos destacados</string>
+    <string name="filter_2">Avisos generales</string>
+    <string name="filter_3">Conferencias/Charlas/Talleres</string>
+    <string name="filter_4">Ofertas de Becas/Prácticas/Empleo</string>
+    <string name="filter_5">Avisos y Ofertas de TFG/TFM</string>
+    <string name="filter_6">Junta de Escuela</string>
+    <string name="filter_7">Investigación</string>
+    <string name="filter_8">Otros</string>
 
 </resources>

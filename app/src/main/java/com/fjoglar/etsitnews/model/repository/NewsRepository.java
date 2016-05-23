@@ -49,6 +49,7 @@ public class NewsRepository implements NewsDataSource {
     private static volatile NewsDataSource INSTANCE;
 
     private final String API_URL = "http://www.tel.uva.es/";
+//    private final String API_URL = "https://242269422d9d61e6af97c8c4814ad5985de2bed1.googledrive.com/host/0B8hd0RDbTmiRbmR4QWo2TkJDcEk/";
     private final String DOC_ANNOUNCEMENTS = API_URL + "tablon/avisos.htm";
     private final String DOC_TEAM = API_URL + "informacion/equipo.htm";
 

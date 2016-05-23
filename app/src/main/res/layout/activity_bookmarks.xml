@@ -33,5 +33,7 @@
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_actions" />
 
+    <include layout="@layout/drawer_filter" />
+
 </android.support.v4.widget.DrawerLayout>
 

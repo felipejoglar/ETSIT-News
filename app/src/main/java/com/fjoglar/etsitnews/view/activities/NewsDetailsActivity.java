@@ -35,8 +35,8 @@ import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.NewsDetailsContract;
 import com.fjoglar.etsitnews.utils.AttachmentsUtils;
+import com.fjoglar.etsitnews.utils.CategoryUtils;
 import com.fjoglar.etsitnews.utils.DateUtils;
-import com.fjoglar.etsitnews.utils.FormatTextUtils;
 import com.fjoglar.etsitnews.utils.UiUtils;
 import com.fjoglar.etsitnews.view.navigation.Navigator;
 
@@ -163,7 +163,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             detailTitle.setText(newsItem.getTitle());
             detailDate.setText(DateUtils.formatDetailViewTime(newsItem.getFormattedPubDate()));
             detailDescription.setText(newsItem.getDescription());
-            detailCategory.setText(FormatTextUtils.categoryToString(getContext(),
+            detailCategory.setText(CategoryUtils.categoryToString(getContext(),
                     newsItem.getCategory()));
 
             List<Attachment> attachmentList = AttachmentsUtils
