@@ -22,10 +22,12 @@ import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetNews;
 import com.fjoglar.etsitnews.domain.usecase.UpdateNews;
+import com.fjoglar.etsitnews.model.entities.Category;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
+import com.fjoglar.etsitnews.utils.CategoryUtils;
 import com.fjoglar.etsitnews.utils.DateUtils;
 
 import java.util.List;
@@ -47,24 +49,31 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @Override
     public void getNews() {
         mNewsListView.showProgress();
-        GetNews getNews = new GetNews(NewsRepository.getInstance());
-        mUseCaseHandler.execute(getNews, new GetNews.RequestValues(),
-                new UseCase.UseCaseCallback<GetNews.ResponseValue>() {
-                    @Override
-                    public void onSuccess(GetNews.ResponseValue response) {
-                        mNewsListView.showNews(response.getNewsItemList());
-                        mNewsListView.hideProgress();
-                        checkForErrors(response.getNewsItemList());
-                        updateIfNeeded();
-                    }
 
-                    @Override
-                    public void onError() {
-                        mNewsListView.hideProgress();
-                        mNewsListView.showError();
-                        updateIfNeeded();
-                    }
-                });
+        if (CategoryUtils.areAllCategoriesActive()) {
+            GetNews getNews = new GetNews(NewsRepository.getInstance());
+            mUseCaseHandler.execute(getNews, new GetNews.RequestValues(),
+                    new UseCase.UseCaseCallback<GetNews.ResponseValue>() {
+                        @Override
+                        public void onSuccess(GetNews.ResponseValue response) {
+                            mNewsListView.showNews(response.getNewsItemList());
+                            mNewsListView.hideProgress();
+                            checkForErrors(response.getNewsItemList());
+                            updateIfNeeded();
+                        }
+
+                        @Override
+                        public void onError() {
+                            mNewsListView.hideProgress();
+                            mNewsListView.showError();
+                            updateIfNeeded();
+                        }
+                    });
+        } else {
+
+        }
+
+
     }
 
     @Override
@@ -92,6 +101,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                         mNewsListView.hideProgress();
                     }
                 });
+    }
+
+    @Override
+    public void filterItemClicked(List<Category> categoryList, int position) {
+        CategoryUtils.updateCategoryFilterStatus(categoryList.get(position));
+        getNews();
     }
 
     @Override

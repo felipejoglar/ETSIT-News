@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -53,7 +54,7 @@ import butterknife.Unbinder;
 
 public class BookmarksListActivity extends AppCompatActivity
         implements BookmarksListContract.View, NewsListAdapter.ItemClickListener,
-        FilterAdapter.FilterItemClickListener {
+        FilterAdapter.FilterItemClickListener, FilterAdapter.FilterItemCheckBoxClickListener {
 
     private static final String ACTIVITY_SOURCE = "BOOKMARKS";
 
@@ -157,8 +158,14 @@ public class BookmarksListActivity extends AppCompatActivity
     }
 
     @Override
-    public void filterItemClicked(Category category) {
-        Toast.makeText(this, category.getCategoriesNumber(), Toast.LENGTH_SHORT).show();
+    public void filterItemClicked(List<Category> categoryList, int position, CheckBox checkBox) {
+        checkBox.setChecked(!checkBox.isChecked());
+        //mBookmarksListPresenter.filterItemClicked(categoryList, position);
+    }
+
+    @Override
+    public void filterItemCheckBoxClicked(List<Category> categoryList, int position) {
+        //mBookmarksListPresenter.filterItemClicked(categoryList, position);
     }
 
     @Override
@@ -276,7 +283,7 @@ public class BookmarksListActivity extends AppCompatActivity
     }
 
     private void setUpFilterDrawer() {
-        final FilterAdapter adapter = new FilterAdapter(this);
+        final FilterAdapter adapter = new FilterAdapter(this, this);
         adapter.setFilterAdapter(CategoryUtils.createCategoryList());
         filterList.setAdapter(adapter);
         filterList.setLayoutManager(new LinearLayoutManager(getParent(),

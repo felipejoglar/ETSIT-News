@@ -50,6 +50,8 @@ public interface NewsDataSource {
 
     void getAllNews(@NonNull LoadNewsCallback callback);
 
+    void getFilteredNews(String filter, @NonNull LoadNewsCallback callback);
+
     void getBookmarkedNews(@NonNull LoadNewsCallback callback);
 
     void getNewsItemByDate(long date, @NonNull GetNewsItemCallback callback);

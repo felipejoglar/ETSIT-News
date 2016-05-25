@@ -36,14 +36,48 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
 
     private List<Category> mFilterList;
     private FilterItemClickListener mFilterItemClickListener;
+    private FilterItemCheckBoxClickListener mFilterItemCheckBoxClickListener;
 
-    public interface FilterItemClickListener {
-        void filterItemClicked(Category category);
-    }
-
-    public FilterAdapter(@NonNull FilterItemClickListener itemClickListener) {
+    public FilterAdapter(@NonNull FilterItemClickListener itemClickListener,
+                         @NonNull FilterItemCheckBoxClickListener itemCheckBoxClickListener) {
         this.mFilterList = Collections.emptyList();
         this.mFilterItemClickListener = itemClickListener;
+        this.mFilterItemCheckBoxClickListener = itemCheckBoxClickListener;
+    }
+
+    @Override
+    public FilterAdapter.FilterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.
+                from(parent.getContext()).
+                inflate(R.layout.drawer_filter_list_item, parent, false);
+        return new FilterViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final FilterAdapter.FilterViewHolder holder, final int position) {
+        final Category category = mFilterList.get(position);
+
+        holder.filterTextView.setText(category.getTitle());
+        holder.filterCheckBox.setChecked(category.isEnabled());
+
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterItemClickListener.filterItemClicked(mFilterList, position, holder.filterCheckBox);
+            }
+        });
+        // Same behavior when touching directly in the CheckBox
+        holder.filterCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterItemCheckBoxClickListener.filterItemCheckBoxClicked(mFilterList, position);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFilterList.size();
     }
 
     public void setFilterAdapter(List<Category> categoryList) {
@@ -65,39 +99,12 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
         }
     }
 
-    @Override
-    public FilterAdapter.FilterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.
-                from(parent.getContext()).
-                inflate(R.layout.drawer_filter_list_item, parent, false);
-        return new FilterViewHolder(itemView);
+    public interface FilterItemClickListener {
+        void filterItemClicked(List<Category> categoryList, int position, CheckBox checkBox);
     }
 
-    @Override
-    public void onBindViewHolder(FilterAdapter.FilterViewHolder holder, final int position) {
-        final Category category = mFilterList.get(position);
-
-        holder.filterTextView.setText(category.getTitle());
-        holder.filterCheckBox.setChecked(category.isEnabled());
-
-        holder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFilterItemClickListener.filterItemClicked(category);
-            }
-        });
-        // Same behavior when touching directly in the CheckBox
-        holder.filterCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFilterItemClickListener.filterItemClicked(category);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mFilterList.size();
+    public interface FilterItemCheckBoxClickListener {
+        void filterItemCheckBoxClicked(List<Category> categoryList, int position);
     }
 
 }

@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -57,7 +58,7 @@ import butterknife.Unbinder;
 
 public class NewsListActivity extends AppCompatActivity
         implements NewsListContract.View, NewsListAdapter.ItemClickListener,
-        FilterAdapter.FilterItemClickListener {
+        FilterAdapter.FilterItemClickListener, FilterAdapter.FilterItemCheckBoxClickListener {
 
     private static final String ACTIVITY_SOURCE = "NEWS";
 
@@ -165,8 +166,14 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     @Override
-    public void filterItemClicked(Category category) {
-        Toast.makeText(this, category.getCategoriesNumber(), Toast.LENGTH_SHORT).show();
+    public void filterItemClicked(List<Category> categoryList, int position, CheckBox checkBox) {
+        checkBox.setChecked(!checkBox.isChecked());
+        mNewsListPresenter.filterItemClicked(categoryList, position);
+    }
+
+    @Override
+    public void filterItemCheckBoxClicked(List<Category> categoryList, int position) {
+        mNewsListPresenter.filterItemClicked(categoryList, position);
     }
 
     @Override
@@ -293,7 +300,7 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     private void setUpFilterDrawer() {
-        final FilterAdapter adapter = new FilterAdapter(this);
+        final FilterAdapter adapter = new FilterAdapter(this, this);
         adapter.setFilterAdapter(CategoryUtils.createCategoryList());
         filterList.setAdapter(adapter);
         filterList.setLayoutManager(new LinearLayoutManager(getParent(),

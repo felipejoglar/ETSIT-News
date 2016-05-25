@@ -83,6 +83,63 @@ public class CategoryUtils {
         return categories;
     }
 
+    public static void updateCategoryFilterStatus(Category category) {
+        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+
+        switch (category.getCategoriesNumber()){
+            case "1,2":
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_1_key),
+                        !category.isEnabled());
+                break;
+            case "3,4":
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_2_key),
+                        !category.isEnabled());
+                break;
+            case "5":
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_3_key),
+                        !category.isEnabled());
+                break;
+            case "11":
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_4_key),
+                        !category.isEnabled());
+                break;
+            case "12":
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_5_key),
+                        !category.isEnabled());
+                break;
+            case "15":
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_6_key),
+                        !category.isEnabled());
+                break;
+            case "16":
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_7_key),
+                        !category.isEnabled());
+                break;
+            default:
+                newsSharedPreferences.put(
+                        newsSharedPreferences.getStringFromResId(R.string.pref_filter_8_key),
+                        !category.isEnabled());
+                break;
+        }
+    }
+
+    public static boolean areAllCategoriesActive() {
+        List<Category> categoryList = createCategoryList();
+        for (Category category : categoryList) {
+            if (!category.isEnabled()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static String categoryToString(Context context, String category) {
         switch (category){
             case "1":

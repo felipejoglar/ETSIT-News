@@ -15,6 +15,7 @@
  */
 package com.fjoglar.etsitnews.presenter.contracts;
 
+import com.fjoglar.etsitnews.model.entities.Category;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.BasePresenter;
 import com.fjoglar.etsitnews.view.BaseView;
@@ -43,6 +44,7 @@ public interface NewsListContract {
 
         void updateNews();
 
+        void filterItemClicked(List<Category> categoryList, int position);
     }
 
 }

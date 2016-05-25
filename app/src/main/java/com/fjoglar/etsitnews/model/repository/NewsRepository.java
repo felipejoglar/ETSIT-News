@@ -163,6 +163,11 @@ public class NewsRepository implements NewsDataSource {
     }
 
     @Override
+    public void getFilteredNews(String filter, @NonNull LoadNewsCallback callback) {
+
+    }
+
+    @Override
     public void getBookmarkedNews(@NonNull LoadNewsCallback callback) {
         List<NewsItem> result = new ArrayList<>();
         Cursor cursor;
