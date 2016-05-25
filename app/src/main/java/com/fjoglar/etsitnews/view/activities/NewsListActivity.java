@@ -210,13 +210,13 @@ public class NewsListActivity extends AppCompatActivity
                     getResources().getDrawable(R.drawable.img_no_internet_connection));
             emptyStateMsg.setText(R.string.no_internet_msg);
             emptyStateMsgHint.setText(R.string.no_internet_msg_hint);
-            emptyStateButton.setVisibility(View.VISIBLE);
+            emptyStateButton.setText(R.string.retry_message);
         } else {
             emptyStateImage.setImageDrawable(
                     getResources().getDrawable(R.drawable.img_no_news_to_list));
             emptyStateMsg.setText(R.string.no_news_msg);
             emptyStateMsgHint.setText(R.string.no_news_msg_hint);
-            emptyStateButton.setVisibility(View.GONE);
+            emptyStateButton.setText(R.string.open_filter_message);
         }
     }
 
@@ -225,13 +225,25 @@ public class NewsListActivity extends AppCompatActivity
         lastTimeUpdated.setText(lastUpdateTime);
     }
 
+    @Override
+    public void updateFilterList() {
+        FilterAdapter adapter = (FilterAdapter) filterList.getAdapter();
+        adapter.setFilterAdapter(CategoryUtils.createCategoryList());
+        adapter.notifyDataSetChanged();
+    }
+
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, NewsListActivity.class);
     }
 
     @OnClick(R.id.empty_state_button)
-    void retryConnection() {
-        mNewsListPresenter.updateNews();
+    void emptyStateButtonClick() {
+        String checkButton = getResources().getString(R.string.retry_message);
+        if (emptyStateButton.getText().equals(checkButton)) {
+            mNewsListPresenter.updateNews();
+        } else {
+            drawerLayout.openDrawer(GravityCompat.END);
+        }
     }
 
     private void initializeActivity() {

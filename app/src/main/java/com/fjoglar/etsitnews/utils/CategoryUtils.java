@@ -16,6 +16,7 @@
 package com.fjoglar.etsitnews.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.Category;
@@ -33,31 +34,31 @@ public class CategoryUtils {
 
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_1),
-                "1,2",
+                "12",
                 newsSharedPreferences.get(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_1_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_2),
-                "3,4",
+                "1,2",
                 newsSharedPreferences.get(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_2_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_3),
-                "5",
+                "11",
                 newsSharedPreferences.get(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_3_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_4),
-                "11",
+                "3,4",
                 newsSharedPreferences.get(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_4_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_5),
-                "12",
+                "5",
                 newsSharedPreferences.get(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_5_key),
                         true)));
@@ -75,11 +76,15 @@ public class CategoryUtils {
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_8),
-                "",
+                "6,7,8,9,10,13,14",
                 newsSharedPreferences.get(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_8_key),
                         true)));
 
+        for (Category category : categories) {
+            if (category.isEnabled())
+                Log.d("Category", "createCategoryList: " + category.getTitle() + " -->" + category.isEnabled());
+        }
         return categories;
     }
 
@@ -87,27 +92,27 @@ public class CategoryUtils {
         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
 
         switch (category.getCategoriesNumber()){
-            case "1,2":
+            case "12":
                 newsSharedPreferences.put(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_1_key),
                         !category.isEnabled());
                 break;
-            case "3,4":
+            case "1,2":
                 newsSharedPreferences.put(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_2_key),
                         !category.isEnabled());
                 break;
-            case "5":
+            case "11":
                 newsSharedPreferences.put(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_3_key),
                         !category.isEnabled());
                 break;
-            case "11":
+            case "3,4":
                 newsSharedPreferences.put(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_4_key),
                         !category.isEnabled());
                 break;
-            case "12":
+            case "5":
                 newsSharedPreferences.put(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_5_key),
                         !category.isEnabled());
@@ -122,7 +127,7 @@ public class CategoryUtils {
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_7_key),
                         !category.isEnabled());
                 break;
-            default:
+            case "6,7,8,9,10,13,14":
                 newsSharedPreferences.put(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_8_key),
                         !category.isEnabled());
@@ -138,6 +143,22 @@ public class CategoryUtils {
             }
         }
         return true;
+    }
+
+    public static List<String> getActiveCategories() {
+        List<String> activeCategories = new ArrayList<>();
+        List<Category> categoryList = createCategoryList();
+        for (Category category : categoryList) {
+            if (category.isEnabled()) {
+                String filterKeys[] = category.getCategoriesNumber().split(",");
+                for (String filterKey : filterKeys) {
+                    if (!filterKey.equals("")) {
+                        activeCategories.add(filterKey);
+                    }
+                }
+            }
+        }
+        return activeCategories;
     }
 
     public static String categoryToString(Context context, String category) {
@@ -158,8 +179,16 @@ public class CategoryUtils {
                 return context.getString(R.string.category_junta);
             case "16":
                 return context.getString(R.string.category_investigacion);
-            default:
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+            case "10":
+            case "13":
+            case "14":
                 return context.getString(R.string.category_otros);
+            default:
+                return "";
         }
     }
 }

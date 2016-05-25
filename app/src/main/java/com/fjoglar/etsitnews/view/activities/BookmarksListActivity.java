@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -71,6 +72,7 @@ public class BookmarksListActivity extends AppCompatActivity
     @BindView(R.id.empty_state_image) ImageView emptyStateImage;
     @BindView(R.id.empty_state_msg) TextView emptyStateMsg;
     @BindView(R.id.empty_state_msg_hint) TextView emptyStateMsgHint;
+    @BindView(R.id.empty_state_button) Button emptyStateButton;
 
     TextView lastTimeUpdated;
 
@@ -160,12 +162,12 @@ public class BookmarksListActivity extends AppCompatActivity
     @Override
     public void filterItemClicked(List<Category> categoryList, int position, CheckBox checkBox) {
         checkBox.setChecked(!checkBox.isChecked());
-        //mBookmarksListPresenter.filterItemClicked(categoryList, position);
+        mBookmarksListPresenter.filterItemClicked(categoryList, position);
     }
 
     @Override
     public void filterItemCheckBoxClicked(List<Category> categoryList, int position) {
-        //mBookmarksListPresenter.filterItemClicked(categoryList, position);
+        mBookmarksListPresenter.filterItemClicked(categoryList, position);
     }
 
     @Override
@@ -197,10 +199,28 @@ public class BookmarksListActivity extends AppCompatActivity
     public void showError() {
         emptyState.setVisibility(View.VISIBLE);
         recyclerBookmarksList.setVisibility(View.GONE);
-        emptyStateImage.setImageDrawable(
-                getResources().getDrawable(R.drawable.img_no_bookmarks));
-        emptyStateMsg.setText(R.string.no_bookmarks_msg);
-        emptyStateMsgHint.setText(R.string.no_bookmarks_msg_hint);
+
+        if (CategoryUtils.areAllCategoriesActive()) {
+            emptyStateImage.setImageDrawable(
+                    getResources().getDrawable(R.drawable.img_no_bookmarks));
+            emptyStateMsg.setText(R.string.no_bookmarks_msg);
+            emptyStateMsgHint.setText(R.string.no_bookmarks_msg_hint);
+            emptyStateButton.setText(R.string.back_to_news_message);
+        } else {
+            emptyStateImage.setImageDrawable(
+                    getResources().getDrawable(R.drawable.img_no_news_to_list));
+            emptyStateMsg.setText(R.string.no_news_msg);
+            emptyStateMsgHint.setText(R.string.no_news_msg_hint);
+            emptyStateButton.setText(R.string.open_filter_message);
+        }
+
+    }
+
+    @Override
+    public void updateFilterList() {
+        FilterAdapter adapter = (FilterAdapter) filterList.getAdapter();
+        adapter.setFilterAdapter(CategoryUtils.createCategoryList());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -213,8 +233,14 @@ public class BookmarksListActivity extends AppCompatActivity
     }
 
     @OnClick(R.id.empty_state_button)
-    void backToNewsList() {
-        Navigator.getInstance().navigateToNewsList(getContext());
+    void emptyStateButtonClick() {
+        String checkButton = getResources().getString(R.string.back_to_news_message);
+        if (emptyStateButton.getText().equals(checkButton)) {
+            Navigator.getInstance().navigateToNewsList(getContext());
+        } else {
+            drawerLayout.openDrawer(GravityCompat.END);
+        }
+
     }
 
     private void initializeActivity() {

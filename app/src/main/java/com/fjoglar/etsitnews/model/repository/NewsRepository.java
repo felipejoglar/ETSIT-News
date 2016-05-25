@@ -163,8 +163,57 @@ public class NewsRepository implements NewsDataSource {
     }
 
     @Override
-    public void getFilteredNews(String filter, @NonNull LoadNewsCallback callback) {
+    public void getFilteredNews(List<String> filterKeys, @NonNull LoadNewsCallback callback) {
+        List<NewsItem> newsItemList = new ArrayList<>();
+        Cursor cursor;
 
+        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                NewsContract.NewsEntry.COLUMN_PUB_DATE + " DESC");
+
+        if (cursor != null && cursor.getCount() > 0) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                newsItemList.add(cursorRowToNewsItem(cursor));
+            }
+            cursor.close();
+        }
+
+        List<NewsItem> filteredNewsItemList = filterByCategory(newsItemList, filterKeys);
+
+        if (filteredNewsItemList.size() != 0) {
+            callback.onNewsLoaded(filteredNewsItemList);
+        } else {
+            callback.onDataNotAvailable();
+        }
+    }
+
+    @Override
+    public void getFilteredBookmarks(List<String> filterKeys, @NonNull LoadNewsCallback callback) {
+        List<NewsItem> bookmarksList = new ArrayList<>();
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver().query(NewsContract.BookmarksEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                NewsContract.BookmarksEntry._ID + " DESC");
+
+        if (cursor != null && cursor.getCount() > 0) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                bookmarksList.add(cursorRowToNewsItem(cursor));
+            }
+            cursor.close();
+        }
+
+        List<NewsItem> filteredBookmarksList = filterByCategory(bookmarksList, filterKeys);
+
+        if (filteredBookmarksList.size() != 0) {
+            callback.onNewsLoaded(filteredBookmarksList);
+        } else {
+            callback.onDataNotAvailable();
+        }
     }
 
     @Override
@@ -359,6 +408,18 @@ public class NewsRepository implements NewsDataSource {
         });
 
         return isBookmarked[0];
+    }
+
+    private List<NewsItem> filterByCategory(List<NewsItem> newsItemList, List<String> filterKeys) {
+        List<NewsItem> filteredNewsItemList = new ArrayList<>();
+        for (NewsItem newsItem : newsItemList) {
+            for (String filterKey : filterKeys) {
+                if (newsItem.getCategory().equals(filterKey)) {
+                    filteredNewsItemList.add(newsItem);
+                }
+            }
+        }
+        return filteredNewsItemList;
     }
 
     public static NewsDataSource getInstance() {

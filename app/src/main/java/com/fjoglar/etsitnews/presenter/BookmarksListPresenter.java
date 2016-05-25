@@ -21,10 +21,13 @@ import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetBookmarks;
+import com.fjoglar.etsitnews.domain.usecase.GetFilteredBookmarks;
+import com.fjoglar.etsitnews.model.entities.Category;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.BookmarksListContract;
+import com.fjoglar.etsitnews.utils.CategoryUtils;
 import com.fjoglar.etsitnews.utils.DateUtils;
 
 import java.util.List;
@@ -46,24 +49,50 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
     public void getBookmarks() {
         mBookmarksListView.showProgress();
 
-        GetBookmarks getBookmarks = new GetBookmarks(NewsRepository.getInstance());
-        mUseCaseHandler.execute(getBookmarks, new GetBookmarks.RequestValues(),
-                new UseCase.UseCaseCallback<GetBookmarks.ResponseValue>() {
-                    @Override
-                    public void onSuccess(GetBookmarks.ResponseValue response) {
-                        mBookmarksListView.showNews(response.getNewsItemList());
-                        mBookmarksListView.hideProgress();
-                        checkForErrors(response.getNewsItemList());
-                    }
+        if (CategoryUtils.areAllCategoriesActive()) {
+            GetBookmarks getBookmarks = new GetBookmarks(NewsRepository.getInstance());
+            mUseCaseHandler.execute(getBookmarks, new GetBookmarks.RequestValues(),
+                    new UseCase.UseCaseCallback<GetBookmarks.ResponseValue>() {
+                        @Override
+                        public void onSuccess(GetBookmarks.ResponseValue response) {
+                            mBookmarksListView.showNews(response.getNewsItemList());
+                            mBookmarksListView.hideProgress();
+                            checkForErrors(response.getNewsItemList());
+                        }
 
-                    @Override
-                    public void onError() {
-                        mBookmarksListView.hideProgress();
-                        mBookmarksListView.showError();
-                    }
-                });
+                        @Override
+                        public void onError() {
+                            mBookmarksListView.hideProgress();
+                            mBookmarksListView.showError();
+                        }
+                    });
+        } else {
+            GetFilteredBookmarks getFilteredNews = new GetFilteredBookmarks(NewsRepository.getInstance());
+            mUseCaseHandler.execute(getFilteredNews,
+                    new GetFilteredBookmarks.RequestValues(CategoryUtils.getActiveCategories()),
+                    new UseCase.UseCaseCallback<GetFilteredBookmarks.ResponseValue>() {
+                        @Override
+                        public void onSuccess(GetFilteredBookmarks.ResponseValue response) {
+                            mBookmarksListView.showNews(response.getNewsItemFilteredList());
+                            mBookmarksListView.hideProgress();
+                            checkForErrors(response.getNewsItemFilteredList());
+                        }
+
+                        @Override
+                        public void onError() {
+                            mBookmarksListView.hideProgress();
+                            mBookmarksListView.showError();
+                        }
+                    });
+        }
     }
 
+    @Override
+    public void filterItemClicked(List<Category> categoryList, int position) {
+        CategoryUtils.updateCategoryFilterStatus(categoryList.get(position));
+        getBookmarks();
+        mBookmarksListView.updateFilterList();
+    }
 
     @Override
     public void start() {

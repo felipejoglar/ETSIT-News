@@ -15,6 +15,7 @@
  */
 package com.fjoglar.etsitnews.presenter.contracts;
 
+import com.fjoglar.etsitnews.model.entities.Category;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.BasePresenter;
 import com.fjoglar.etsitnews.view.BaseView;
@@ -35,11 +36,15 @@ public interface BookmarksListContract {
 
         void showLastUpdateTime(String lastUpdateTime);
 
+        void updateFilterList();
+
     }
 
     interface Presenter extends BasePresenter {
 
         void getBookmarks();
+
+        void filterItemClicked(List<Category> categoryList, int position);
 
     }
 

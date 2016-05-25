@@ -21,11 +21,11 @@ import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
 import java.util.List;
 
-public class GetNews extends UseCase<GetNews.RequestValues, GetNews.ResponseValue> {
+public class GetAllNews extends UseCase<GetAllNews.RequestValues, GetAllNews.ResponseValue> {
 
     private final NewsDataSource mNewsDataSource;
 
-    public GetNews(NewsDataSource mNewsDataSource) {
+    public GetAllNews(NewsDataSource mNewsDataSource) {
         this.mNewsDataSource = mNewsDataSource;
     }
 

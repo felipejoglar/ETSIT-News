@@ -79,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/empty_state_msg_hint"
                 android:layout_centerHorizontal="true"
-                android:text="@string/back_to_news_message"
                 android:theme="@style/ButtonAccent" />
 
         </RelativeLayout>

@@ -21,17 +21,17 @@ import com.fjoglar.etsitnews.model.repository.NewsDataSource;
 
 import java.util.List;
 
-public class GetFilteredNews extends UseCase<GetFilteredNews.RequestValues, GetFilteredNews.ResponseValue> {
+public class GetFilteredBookmarks extends UseCase<GetFilteredBookmarks.RequestValues, GetFilteredBookmarks.ResponseValue> {
 
     private final NewsDataSource mNewsDataSource;
 
-    public GetFilteredNews(NewsDataSource mNewsDataSource) {
+    public GetFilteredBookmarks(NewsDataSource mNewsDataSource) {
         this.mNewsDataSource = mNewsDataSource;
     }
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        mNewsDataSource.getFilteredNews(
+        mNewsDataSource.getFilteredBookmarks(
                 requestValues.getFilterKeysList(),
                 new NewsDataSource.LoadNewsCallback() {
                     @Override

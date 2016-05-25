@@ -36,6 +36,8 @@ public interface NewsListContract {
 
         void showLastUpdateTime(String lastUpdateTime);
 
+        void updateFilterList();
+
     }
 
     interface Presenter extends BasePresenter {
