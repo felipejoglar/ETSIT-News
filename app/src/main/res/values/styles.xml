@@ -24,6 +24,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <!-- Style for the Toolbar. -->
     <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
         <item name="android:layout_width">match_parent</item>
