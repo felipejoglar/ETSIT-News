@@ -16,7 +16,6 @@
 package com.fjoglar.etsitnews.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.Category;
@@ -81,10 +80,6 @@ public class CategoryUtils {
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_8_key),
                         true)));
 
-        for (Category category : categories) {
-            if (category.isEnabled())
-                Log.d("Category", "createCategoryList: " + category.getTitle() + " -->" + category.isEnabled());
-        }
         return categories;
     }
 

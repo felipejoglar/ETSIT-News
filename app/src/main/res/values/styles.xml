@@ -43,7 +43,9 @@
     </style>
 
     <!-- Style for title and subtitles texts in Toolbar-->
-    <style name="ToolbarTextAppearance"></style>
+    <style name="ToolbarTextAppearance">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
 
     <style name="ToolbarTextAppearance.Title">
         <item name="android:textSize">@dimen/toolbar_title</item>
