@@ -109,6 +109,10 @@ public class NewsListActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         mNewsListPresenter.start();
+        setUpRecyclerView();
+        setUpToolbar();
+        setUpNavigationDrawer();
+        setUpFilterDrawer();
     }
 
     @Override
@@ -250,10 +254,6 @@ public class NewsListActivity extends AppCompatActivity
 
     private void initializeActivity() {
         mNewsListPresenter = new NewsListPresenter(this);
-        setUpRecyclerView();
-        setUpToolbar();
-        setUpNavigationDrawer();
-        setUpFilterDrawer();
     }
 
     private void setUpRecyclerView() {
@@ -294,8 +294,8 @@ public class NewsListActivity extends AppCompatActivity
                                 menuItem.setChecked(true);
                                 break;
                             case R.id.bookmarks_navigation_menu_item:
-                                Navigator.getInstance().navigateToBookmarksList(getContext());
                                 menuItem.setChecked(true);
+                                Navigator.getInstance().navigateToBookmarksList(getContext());
                                 break;
                             case R.id.settings_navigation_menu_item:
                                 Toast.makeText(getContext(), "Ajustes", Toast.LENGTH_SHORT).show();

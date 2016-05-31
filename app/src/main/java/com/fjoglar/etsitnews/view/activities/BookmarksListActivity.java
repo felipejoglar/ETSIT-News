@@ -61,6 +61,7 @@ public class BookmarksListActivity extends AppCompatActivity
 
     private BookmarksListContract.Presenter mBookmarksListPresenter;
     private Context mContext;
+    private boolean mBackToListActivity;
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -100,6 +101,10 @@ public class BookmarksListActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         mBookmarksListPresenter.start();
+        setUpRecyclerView();
+        setUpToolbar();
+        setUpNavigationDrawer();
+        setUpFilterDrawer();
     }
 
     @Override
@@ -144,12 +149,13 @@ public class BookmarksListActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mBackToListActivity) {
+            super.onBackPressed();
+        } else if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END);
         } else {
-            Navigator.getInstance().navigateToNewsList(getContext());
             super.onBackPressed();
         }
     }
@@ -236,7 +242,7 @@ public class BookmarksListActivity extends AppCompatActivity
     void emptyStateButtonClick() {
         String checkButton = getResources().getString(R.string.back_to_news_message);
         if (emptyStateButton.getText().equals(checkButton)) {
-            Navigator.getInstance().navigateToNewsList(getContext());
+            onBackPressed();
         } else {
             drawerLayout.openDrawer(GravityCompat.END);
         }
@@ -245,10 +251,7 @@ public class BookmarksListActivity extends AppCompatActivity
 
     private void initializeActivity() {
         mBookmarksListPresenter = new BookmarksListPresenter(this);
-        setUpRecyclerView();
-        setUpToolbar();
-        setUpNavigationDrawer();
-        setUpFilterDrawer();
+        mBackToListActivity = false;
     }
 
     private void setUpRecyclerView() {
@@ -285,8 +288,9 @@ public class BookmarksListActivity extends AppCompatActivity
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.list_navigation_menu_item:
-                                Navigator.getInstance().navigateToNewsList(getContext());
                                 menuItem.setChecked(true);
+                                mBackToListActivity = true;
+                                onBackPressed();
                                 break;
                             case R.id.bookmarks_navigation_menu_item:
                                 // Do nothing, we're already on that screen

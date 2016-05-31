@@ -21,9 +21,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Required to enable our SyncAdapter after it's created. -->
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <!-- Required because we're manually creating a new account for sync. -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:name=".EtsitNewsApp"
@@ -32,7 +32,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activities.NewsListActivity"
+        <activity
+            android:name=".view.activities.NewsListActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +42,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activities.NewsDetailsActivity" />
-        <activity android:name=".view.activities.BookmarksListActivity" />
+        <activity
+            android:name=".view.activities.BookmarksListActivity"
+            android:parentActivityName=".view.activities.NewsListActivity" />
 
         <provider
             android:name=".model.repository.datasource.local.NewsProvider"
