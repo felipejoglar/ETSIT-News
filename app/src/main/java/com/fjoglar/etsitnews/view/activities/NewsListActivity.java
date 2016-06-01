@@ -77,7 +77,8 @@ public class NewsListActivity extends AppCompatActivity
     @BindView(R.id.empty_state_msg_hint) TextView emptyStateMsgHint;
     @BindView(R.id.empty_state_button) Button emptyStateButton;
 
-    TextView lastTimeUpdated;
+    private TextView lastTimeUpdated;
+    private ImageView refreshNews;
 
     private Unbinder unbinder;
 
@@ -88,10 +89,11 @@ public class NewsListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         unbinder = ButterKnife.bind(this);
         lastTimeUpdated = (TextView) navigationView.getHeaderView(0)
                 .findViewById(R.id.last_time_updated);
+        refreshNews = (ImageView) navigationView.getHeaderView(0)
+                .findViewById(R.id.refresh);
 
         mContext = this;
         initializeActivity();
@@ -254,6 +256,12 @@ public class NewsListActivity extends AppCompatActivity
 
     private void initializeActivity() {
         mNewsListPresenter = new NewsListPresenter(this);
+        refreshNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshNews();
+            }
+        });
     }
 
     private void setUpRecyclerView() {
@@ -278,6 +286,7 @@ public class NewsListActivity extends AppCompatActivity
     private void setUpNavigationDrawer() {
         if (navigationView != null) {
             setUpDrawerContent(navigationView);
+            refreshNews.setVisibility(View.VISIBLE);
             // We check actual position in Navigation Drawer
             navigationView.getMenu().getItem(0).setChecked(true);
         }
@@ -321,6 +330,11 @@ public class NewsListActivity extends AppCompatActivity
                 LinearLayoutManager.VERTICAL,
                 false)
         );
+    }
+
+    private void refreshNews() {
+        drawerLayout.closeDrawers();
+        mNewsListPresenter.updateNews();
     }
 
     private Context getContext() {

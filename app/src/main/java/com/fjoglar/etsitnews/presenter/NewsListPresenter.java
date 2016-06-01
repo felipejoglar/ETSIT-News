@@ -38,8 +38,6 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     private final NewsListContract.View mNewsListView;
     private final UseCaseHandler mUseCaseHandler;
 
-    private boolean mFirstLoad = true;
-
     public NewsListPresenter(@NonNull NewsListContract.View newsListView) {
         mNewsListView = newsListView;
         mUseCaseHandler = UseCaseHandler.getInstance();
@@ -60,14 +58,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                             mNewsListView.showNews(response.getNewsItemList());
                             mNewsListView.hideProgress();
                             checkForErrors(response.getNewsItemList());
-                            updateIfNeeded();
                         }
 
                         @Override
                         public void onError() {
                             mNewsListView.hideProgress();
                             mNewsListView.showError();
-                            updateIfNeeded();
                         }
                     });
         } else {
@@ -80,19 +76,15 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                             mNewsListView.showNews(response.getNewsItemFilteredList());
                             mNewsListView.hideProgress();
                             checkForErrors(response.getNewsItemFilteredList());
-                            updateIfNeeded();
                         }
 
                         @Override
                         public void onError() {
                             mNewsListView.hideProgress();
                             mNewsListView.showError();
-                            updateIfNeeded();
                         }
                     });
         }
-
-
     }
 
     @Override
@@ -131,14 +123,18 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     @Override
     public void start() {
-        getNews();
         showLastUpdateTime();
+        getNews();
+        updateIfNeeded();
     }
 
     private void updateIfNeeded() {
-        if (mFirstLoad) {
+        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+        boolean firstStart = newsSharedPreferences.get(
+                newsSharedPreferences.getStringFromResId(R.string.pref_first_start_key),
+                true);
+        if (firstStart) {
             updateNews();
-            mFirstLoad = false;
         }
     }
 

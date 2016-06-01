@@ -75,7 +75,7 @@ public class BookmarksListActivity extends AppCompatActivity
     @BindView(R.id.empty_state_msg_hint) TextView emptyStateMsgHint;
     @BindView(R.id.empty_state_button) Button emptyStateButton;
 
-    TextView lastTimeUpdated;
+    private TextView lastTimeUpdated;
 
     private Unbinder unbinder;
 
@@ -89,7 +89,7 @@ public class BookmarksListActivity extends AppCompatActivity
                 .findViewById(R.id.last_time_updated);
 
         mContext = this;
-        this.initializeActivity();
+        initializeActivity();
     }
 
     @Override
@@ -246,7 +246,6 @@ public class BookmarksListActivity extends AppCompatActivity
         } else {
             drawerLayout.openDrawer(GravityCompat.END);
         }
-
     }
 
     private void initializeActivity() {
