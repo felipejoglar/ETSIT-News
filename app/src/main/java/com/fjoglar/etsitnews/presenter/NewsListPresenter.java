@@ -58,12 +58,14 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                             mNewsListView.showNews(response.getNewsItemList());
                             mNewsListView.hideProgress();
                             checkForErrors(response.getNewsItemList());
+                            updateIfNeeded();
                         }
 
                         @Override
                         public void onError() {
                             mNewsListView.hideProgress();
                             mNewsListView.showError();
+                            updateIfNeeded();
                         }
                     });
         } else {
@@ -125,7 +127,6 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     public void start() {
         showLastUpdateTime();
         getNews();
-        updateIfNeeded();
     }
 
     private void updateIfNeeded() {
@@ -135,6 +136,9 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                 true);
         if (firstStart) {
             updateNews();
+            newsSharedPreferences.put(
+                    newsSharedPreferences.getStringFromResId(R.string.pref_first_start_key),
+                    false);
         }
     }
 
