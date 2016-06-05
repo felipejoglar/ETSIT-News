@@ -47,7 +47,7 @@ buildscript {
 apply plugin: 'com.neenbedankt.android-apt'
 
 ext {
-    supportLibVersion = '23.2.1'
+    supportLibVersion = '23.4.0'
     retrofitLibVersion = '2.0.0'
 }
 
