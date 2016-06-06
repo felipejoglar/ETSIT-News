@@ -21,6 +21,7 @@
     <string name="news_list_activity_title">Noticias</string>
     <string name="bookmarks_list_activity_title">Favoritos</string>
     <string name="news_details_activity_title">Noticia</string>
+    <string name="settings_activity_title">Ajustes</string>
 
     <!-- Category related strings -->
     <string name="category_general">General</string>
@@ -83,5 +84,17 @@
     <string name="filter_6">Junta de Escuela</string>
     <string name="filter_7">Investigación</string>
     <string name="filter_8">Otros</string>
+
+    <!-- Settings related -->
+    <string name="pref_sync_frequency_key" translatable="false">sync_frequency</string>
+    <string name="pref_sync_frequency_label">Frecuencia de sincronización</string>
+    <string name="pref_sync_frequency_label_one">Cada hora</string>
+    <string name="pref_sync_frequency_label_three">Cada 3 horas</string>
+    <string name="pref_sync_frequency_label_six">Cada 6 horas</string>
+    <string name="pref_sync_frequency_label_twelve">Cada 12 horas</string>
+    <string name="pref_sync_frequency_label_twenty_four">Cada día</string>
+
+    <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
+    <string name="pref_enable_notifications_label">Notificaciones</string>
 
 </resources>

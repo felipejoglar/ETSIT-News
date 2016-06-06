@@ -59,4 +59,10 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
+    <!-- Style for Sync Frequency settings dialog -->
+    <style name="SettingsDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>

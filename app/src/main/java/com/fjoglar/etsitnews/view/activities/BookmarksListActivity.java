@@ -296,7 +296,7 @@ public class BookmarksListActivity extends AppCompatActivity
                                 menuItem.setChecked(true);
                                 break;
                             case R.id.settings_navigation_menu_item:
-                                Toast.makeText(getContext(), "Ajustes", Toast.LENGTH_SHORT).show();
+                                Navigator.getInstance().navigateToSettings(getContext());
                                 break;
                             case R.id.about_navigation_menu_item:
                                 Toast.makeText(getContext(), "Acerca de", Toast.LENGTH_SHORT).show();

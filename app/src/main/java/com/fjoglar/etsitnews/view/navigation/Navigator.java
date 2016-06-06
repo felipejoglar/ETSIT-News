@@ -26,6 +26,7 @@ import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.view.activities.BookmarksListActivity;
 import com.fjoglar.etsitnews.view.activities.NewsDetailsActivity;
 import com.fjoglar.etsitnews.view.activities.NewsListActivity;
+import com.fjoglar.etsitnews.view.activities.SettingsActivity;
 
 /**
  * Class used to navigate through the application.
@@ -80,6 +81,18 @@ public class Navigator {
     public void navigateToNewsDetails(Context context, long date, String source) {
         if (context != null) {
             Intent intentToLaunch = NewsDetailsActivity.getCallingIntent(context, date, source);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
+    /**
+     * Goes to the Settings screen.
+     *
+     * @param context A Context needed to open the destiny activity.
+     */
+    public void navigateToSettings(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = SettingsActivity.getCallingIntent(context);
             context.startActivity(intentToLaunch);
         }
     }

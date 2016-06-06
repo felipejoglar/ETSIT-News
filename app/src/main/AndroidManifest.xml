@@ -15,7 +15,7 @@
  limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fjoglar.etsitnews">
+    package="com.fjoglar.etsitnews" >
 
     <!-- Required for fetching feed data. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -31,10 +31,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".view.activities.NewsListActivity"
-            android:theme="@style/AppTheme.Launcher">
+            android:theme="@style/AppTheme.Launcher" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,6 +45,10 @@
         <activity
             android:name=".view.activities.BookmarksListActivity"
             android:parentActivityName=".view.activities.NewsListActivity" />
+        <activity
+            android:name=".view.activities.SettingsActivity"
+            android:parentActivityName=".view.activities.NewsListActivity" >
+        </activity>
 
         <provider
             android:name=".model.repository.datasource.local.NewsProvider"
@@ -53,10 +57,11 @@
             android:syncable="true" />
 
         <!-- SyncAdapter's dummy authentication service -->
-        <service android:name=".sync.EtsitAuthenticatorService">
+        <service android:name=".sync.EtsitAuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
@@ -65,10 +70,11 @@
         <!-- The SyncAdapter service -->
         <service
             android:name=".sync.EtsitSyncService"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
