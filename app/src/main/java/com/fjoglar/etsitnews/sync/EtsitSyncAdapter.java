@@ -94,18 +94,23 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
      * Helper method to schedule the sync adapter periodic execution
      */
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
+        int syncPeriod = newsSharedPreferences.get(
+                newsSharedPreferences.getStringFromResId(R.string.pref_sync_frequency_key),
+                1);
+
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // we can enable inexact timers in our periodic sync
             SyncRequest request = new SyncRequest.Builder().
-                    syncPeriodic(syncInterval, flexTime).
+                    syncPeriodic(syncInterval * syncPeriod, flexTime).
                     setSyncAdapter(account, authority).
                     setExtras(new Bundle()).build();
             ContentResolver.requestSync(request);
         } else {
             ContentResolver.addPeriodicSync(account,
-                    authority, new Bundle(), syncInterval);
+                    authority, new Bundle(), syncInterval * syncPeriod);
         }
     }
 

@@ -98,27 +98,32 @@ public class Notification {
 
     private static boolean needToNotify() {
         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        long lastUpdatedTime = newsSharedPreferences.get(
-                newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key), 0L);
+        boolean isNotificationOn = newsSharedPreferences.get(
+                newsSharedPreferences.getStringFromResId(R.string.pref_enable_notifications_key),
+                true);
+        if (isNotificationOn) {
+            long lastUpdatedTime = newsSharedPreferences.get(
+                    newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key), 0L);
 
-        NewsDataSource newsDataSource = NewsRepository.getInstance();
-        newsDataSource.getAllNews(new NewsDataSource.LoadNewsCallback() {
-            @Override
-            public void onNewsLoaded(List<NewsItem> newsItemList) {
-                mUpdatedNewsList = newsItemList;
-            }
+            NewsDataSource newsDataSource = NewsRepository.getInstance();
+            newsDataSource.getAllNews(new NewsDataSource.LoadNewsCallback() {
+                @Override
+                public void onNewsLoaded(List<NewsItem> newsItemList) {
+                    mUpdatedNewsList = newsItemList;
+                }
 
-            @Override
-            public void onDataNotAvailable() {
+                @Override
+                public void onDataNotAvailable() {
 
-            }
-        });
+                }
+            });
 
-        for (NewsItem newsItem : mUpdatedNewsList) {
-            if (newsItem.getFormattedPubDate() > lastUpdatedTime) {
-                mNotificationText.add(newsItem.getTitle());
-                mNotificationDesc.add(newsItem.getDescription());
-                mNewsCount += 1;
+            for (NewsItem newsItem : mUpdatedNewsList) {
+                if (newsItem.getFormattedPubDate() > lastUpdatedTime) {
+                    mNotificationText.add(newsItem.getTitle());
+                    mNotificationDesc.add(newsItem.getDescription());
+                    mNewsCount += 1;
+                }
             }
         }
 
