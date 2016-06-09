@@ -16,10 +16,7 @@
 -->
 <resources>
 
-    <!-- Navivation Drawer related. -->
-    <dimen name="navdrawer_header_height">164dp</dimen>
-
     <!-- Filter Navigation Drawer related. -->
-    <dimen name="filter_drawer_width">304dp</dimen>
+    <dimen name="filter_drawer_width">320dp</dimen>
 
 </resources>

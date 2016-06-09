@@ -97,11 +97,19 @@ public class DateUtils {
         int diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
 
         if (diffInDays > 0) {
-            return startString + diffInDays + " días.";
+            if (diffInDays > 1) {
+                return startString + diffInDays + " días.";
+            } else {
+                return startString + diffInDays + " día.";
+            }
         } else {
             int diffHours = (int) (diff / (60 * 60 * 1000));
             if (diffHours > 0) {
-                return startString + diffHours + " horas.";
+                if (diffHours > 1 ) {
+                    return startString + diffHours + " horas.";
+                } else {
+                    return startString + diffHours + " hora.";
+                }
             } else {
                 int diffMinutes = (int) ((diff / (60 * 1000) % 60));
                 if (diffMinutes < 5) {
