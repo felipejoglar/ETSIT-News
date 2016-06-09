@@ -23,7 +23,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/ToolbarStyle"
-        app:layout_scrollFlags="scroll|enterAlways|snap" />
+        style="@style/ToolbarStyle" />
+        <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
 
 </android.support.design.widget.AppBarLayout>
