@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +59,8 @@ import butterknife.Unbinder;
 
 public class NewsListActivity extends AppCompatActivity
         implements NewsListContract.View, NewsListAdapter.ItemClickListener,
-        FilterAdapter.FilterItemClickListener, FilterAdapter.FilterItemCheckBoxClickListener {
+        FilterAdapter.FilterItemClickListener, FilterAdapter.FilterItemCheckBoxClickListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACTIVITY_SOURCE = "NEWS";
 
@@ -69,6 +71,7 @@ public class NewsListActivity extends AppCompatActivity
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.filter_list) RecyclerView filterList;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.swipe_to_refresh) SwipeRefreshLayout swipeToRefresh;
     @BindView(R.id.recycler_news_list) RecyclerView recyclerNewsList;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.empty_state) RelativeLayout emptyState;
@@ -78,7 +81,6 @@ public class NewsListActivity extends AppCompatActivity
     @BindView(R.id.empty_state_button) Button emptyStateButton;
 
     private TextView lastTimeUpdated;
-    private ImageView refreshNews;
 
     private Unbinder unbinder;
 
@@ -92,8 +94,6 @@ public class NewsListActivity extends AppCompatActivity
         unbinder = ButterKnife.bind(this);
         lastTimeUpdated = (TextView) navigationView.getHeaderView(0)
                 .findViewById(R.id.last_time_updated);
-        refreshNews = (ImageView) navigationView.getHeaderView(0)
-                .findViewById(R.id.refresh);
 
         mContext = this;
         initializeActivity();
@@ -200,6 +200,16 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     @Override
+    public void showUpdating() {
+        swipeToRefresh.setRefreshing(true);
+    }
+
+    @Override
+    public void hideUpdating() {
+        swipeToRefresh.setRefreshing(false);
+    }
+
+    @Override
     public void showNews(List<NewsItem> newsItemList) {
         emptyState.setVisibility(View.GONE);
         recyclerNewsList.setVisibility(View.VISIBLE);
@@ -240,6 +250,11 @@ public class NewsListActivity extends AppCompatActivity
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onRefresh() {
+        refreshNews();
+    }
+
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, NewsListActivity.class);
     }
@@ -256,12 +271,8 @@ public class NewsListActivity extends AppCompatActivity
 
     private void initializeActivity() {
         mNewsListPresenter = new NewsListPresenter(this);
-        refreshNews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshNews();
-            }
-        });
+        swipeToRefresh.setOnRefreshListener(this);
+        swipeToRefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
     }
 
     private void setUpRecyclerView() {
@@ -286,7 +297,6 @@ public class NewsListActivity extends AppCompatActivity
     private void setUpNavigationDrawer() {
         if (navigationView != null) {
             setUpDrawerContent(navigationView);
-            refreshNews.setVisibility(View.VISIBLE);
             // We check actual position in Navigation Drawer
             navigationView.getMenu().getItem(0).setChecked(true);
         }

@@ -91,7 +91,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     @Override
     public void updateNews() {
-        mNewsListView.showProgress();
+        mNewsListView.showUpdating();
 
         UpdateNews updateNews = new UpdateNews(NewsRepository.getInstance());
         mUseCaseHandler.execute(updateNews, new UpdateNews.RequestValues(),
@@ -99,7 +99,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     @Override
                     public void onSuccess(UpdateNews.ResponseValue response) {
                         getNews();
-                        mNewsListView.hideProgress();
+                        mNewsListView.hideUpdating();
 
                         // Update last updated time in SharedPreferences.
                         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
@@ -111,7 +111,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
                     @Override
                     public void onError() {
-                        mNewsListView.hideProgress();
+                        mNewsListView.hideUpdating();
                     }
                 });
     }

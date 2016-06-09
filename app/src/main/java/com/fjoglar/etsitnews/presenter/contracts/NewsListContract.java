@@ -32,6 +32,10 @@ public interface NewsListContract {
 
         void hideProgress();
 
+        void showUpdating();
+
+        void hideUpdating();
+
         void showError();
 
         void showLastUpdateTime(String lastUpdateTime);
