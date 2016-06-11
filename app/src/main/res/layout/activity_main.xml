@@ -23,89 +23,30 @@
     android:fitsSystemWindows="true">
 
     <!-- ACTIVITY CONTENT -->
-    <android.support.design.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include layout="@layout/toolbar" />
+
+        <include layout="@layout/progressbar" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_to_refresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_news_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <include layout="@layout/progressbar" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_news_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <RelativeLayout
-                        android:id="@+id/empty_state"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:id="@+id/empty_state_image"
-                            android:layout_width="250dp"
-                            android:layout_height="250dp"
-                            android:layout_centerHorizontal="true" />
-
-                        <TextView
-                            android:id="@+id/empty_state_msg"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/empty_state_image"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginLeft="56dp"
-                            android:layout_marginRight="56dp"
-                            android:gravity="center"
-                            android:paddingTop="8dp"
-                            android:textColor="@android:color/black" />
-
-                        <TextView
-                            android:id="@+id/empty_state_msg_hint"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/empty_state_msg"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginLeft="56dp"
-                            android:layout_marginRight="56dp"
-                            android:gravity="center"
-                            android:paddingBottom="8dp"
-                            android:textSize="12sp" />
-
-                        <Button
-                            android:id="@+id/empty_state_button"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/empty_state_msg_hint"
-                            android:layout_centerHorizontal="true"
-                            android:theme="@style/ButtonAccent" />
-
-                    </RelativeLayout>
-
-                </ScrollView>
-
-            </LinearLayout>
+                android:layout_height="match_parent" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-    </android.support.design.widget.CoordinatorLayout>
+        <include layout="@layout/empty_state" />
+
+    </LinearLayout>
 
     <!-- NAVIGATION DRAWER -->
     <android.support.design.widget.NavigationView

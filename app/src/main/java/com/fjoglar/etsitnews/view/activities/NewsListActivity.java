@@ -212,7 +212,7 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     public void showNews(List<NewsItem> newsItemList) {
         emptyState.setVisibility(View.GONE);
-        recyclerNewsList.setVisibility(View.VISIBLE);
+        swipeToRefresh.setVisibility(View.VISIBLE);
 
         NewsListAdapter adapter = (NewsListAdapter) recyclerNewsList.getAdapter();
         adapter.setNewsListAdapter(newsItemList);
@@ -222,7 +222,7 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     public void showError() {
         emptyState.setVisibility(View.VISIBLE);
-        recyclerNewsList.setVisibility(View.GONE);
+        swipeToRefresh.setVisibility(View.GONE);
         if (!NetUtils.isNetworkAvailable(getContext())) {
             emptyStateImage.setImageDrawable(
                     getResources().getDrawable(R.drawable.img_no_internet_connection));
