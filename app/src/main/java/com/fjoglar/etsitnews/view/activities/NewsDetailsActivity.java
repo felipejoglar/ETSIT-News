@@ -57,6 +57,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             "com.fjoglar.INTENT_PARAM_SOURCE";
     private static final String INSTANCE_STATE_PARAM_SOURCE =
             "com.fjoglar.STATE_PARAM_SOURCE";
+    static final String SHARE_HASHTAG = "#NoticiasETSIT";
 
     private NewsDetailsContract.Presenter mNewsDetailsPresenter;
 
@@ -145,7 +146,10 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 mNewsDetailsPresenter.manageBookmark(mNewsItem);
                 return true;
             case R.id.action_share:
-                Toast.makeText(this, "Compartir", Toast.LENGTH_SHORT).show();
+                String shareText =
+                        mNewsItem.getTitle() + ". "
+                        + mNewsItem.getLink() + " " + SHARE_HASHTAG;
+                shareNewsItem(shareText);
                 return true;
         }
 
@@ -254,6 +258,16 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         toolbar.setTitle(R.string.news_details_activity_title);
+    }
+
+    private void shareNewsItem(String text) {
+        Intent sharingIntent = new Intent();
+        sharingIntent.setAction(android.content.Intent.ACTION_SEND);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sharingIntent.setType("text/plain");
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.action_share_title)));
     }
 
     private Context getContext() {

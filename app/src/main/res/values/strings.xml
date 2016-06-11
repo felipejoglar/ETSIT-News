@@ -36,6 +36,7 @@
     <!-- DetailView Strings-->
     <string name="more_info">Más información</string>
     <string name="attachments">Archivos adjuntos</string>
+    <string name="action_share_title">Compartir con&#8230;</string>
 
     <!-- Menus Strings-->
     <string name="action_settings">Ajustes</string>
