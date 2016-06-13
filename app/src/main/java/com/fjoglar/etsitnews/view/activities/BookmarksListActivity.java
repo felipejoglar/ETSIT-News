@@ -15,6 +15,7 @@
  */
 package com.fjoglar.etsitnews.view.activities;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -125,7 +127,11 @@ public class BookmarksListActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_bookmarks, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
@@ -138,9 +144,6 @@ public class BookmarksListActivity extends AppCompatActivity
                 return true;
             case R.id.action_filter:
                 drawerLayout.openDrawer(GravityCompat.END);
-                return true;
-            case R.id.action_search:
-                Toast.makeText(this, "Buscar", Toast.LENGTH_SHORT).show();
                 return true;
         }
 

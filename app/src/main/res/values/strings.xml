@@ -98,4 +98,7 @@
     <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
     <string name="pref_enable_notifications_label">Notificaciones</string>
 
+    <!-- Search -->
+    <string name="search_hint">Buscar noticias</string>
+
 </resources>

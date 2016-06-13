@@ -14,20 +14,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_search"
-        android:title="@string/action_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
-
-    <item
-        android:id="@+id/action_filter"
-        android:icon="@drawable/ic_filter_list"
-        android:title="@string/action_filter"
-        app:showAsAction="ifRoom" />
-
-</menu>
+<searchable
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/app_name"
+    android:hint="@string/search_hint"
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+    android:voicePromptText="@string/search_hint" />
