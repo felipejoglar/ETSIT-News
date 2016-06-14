@@ -45,6 +45,8 @@ import butterknife.Unbinder;
 public class SearchActivity extends AppCompatActivity
         implements SearchContract.View, NewsListAdapter.ItemClickListener {
 
+    public static final String ACTIVITY_SOURCE = "ACTIVITY_SOURCE";
+
     private SearchContract.Presenter mSearchPresenter;
     private Context mContext;
 
@@ -155,7 +157,7 @@ public class SearchActivity extends AppCompatActivity
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             // TODO: something better than a Toast.
-            Toast.makeText(getContext(), query, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), intent.getStringExtra(ACTIVITY_SOURCE), Toast.LENGTH_LONG).show();
 //            showResults(query);
         }
     }

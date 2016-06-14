@@ -18,10 +18,12 @@ package com.fjoglar.etsitnews.view.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -139,9 +141,11 @@ public class NewsListActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        final MenuItem filterMenuItem = menu.findItem(R.id.action_filter);
+
+        setUpSearchView(searchMenuItem,filterMenuItem);
+
         return true;
     }
 
@@ -169,6 +173,15 @@ public class NewsListActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            intent.putExtra(SearchActivity.ACTIVITY_SOURCE, ACTIVITY_SOURCE);
+        }
+
+        super.startActivity(intent);
     }
 
     @Override
@@ -345,8 +358,33 @@ public class NewsListActivity extends AppCompatActivity
         );
     }
 
+    private void setUpSearchView(MenuItem searchMenuItem, final MenuItem filterMenuItem) {
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE );
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        TextView searchText = (TextView)
+                searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+
+        // Hide filter option when SearchView is expanded, restore it when collapsed.
+        MenuItemCompat.setOnActionExpandListener(searchMenuItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        filterMenuItem.setVisible(false);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        filterMenuItem.setVisible(true);
+                        return true;
+                    }
+                });
+    }
+
     private void refreshNews() {
-        drawerLayout.closeDrawers();
         mNewsListPresenter.updateNews();
     }
 
