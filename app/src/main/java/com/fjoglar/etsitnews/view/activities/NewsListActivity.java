@@ -176,15 +176,6 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     @Override
-    public void startActivity(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            intent.putExtra(SearchActivity.ACTIVITY_SOURCE, ACTIVITY_SOURCE);
-        }
-
-        super.startActivity(intent);
-    }
-
-    @Override
     public void itemClicked(long date) {
         Navigator.getInstance().navigateToNewsDetails(getContext(), date, ACTIVITY_SOURCE);
     }

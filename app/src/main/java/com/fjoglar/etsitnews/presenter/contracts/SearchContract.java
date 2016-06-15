@@ -39,6 +39,10 @@ public interface SearchContract {
 
         void performSearch(String query);
 
+        void updateLastSearchQuery(String query);
+
+        String getLastSearchQuery();
+
     }
 
 }

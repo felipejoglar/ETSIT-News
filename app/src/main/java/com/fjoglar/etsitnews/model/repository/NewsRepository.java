@@ -217,6 +217,33 @@ public class NewsRepository implements NewsDataSource {
     }
 
     @Override
+    public void getSearchNews(String query, @NonNull LoadNewsCallback callback) {
+        List<NewsItem> newsItemList = new ArrayList<>();
+        Cursor cursor;
+
+        cursor = mContext.getContentResolver().query(NewsContract.NewsEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                NewsContract.NewsEntry.COLUMN_PUB_DATE + " DESC");
+
+        if (cursor != null && cursor.getCount() > 0) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                newsItemList.add(cursorRowToNewsItem(cursor));
+            }
+            cursor.close();
+        }
+
+        List<NewsItem> searchNewsItemList = performSearch(newsItemList, query);
+
+        if (searchNewsItemList.size() != 0) {
+            callback.onNewsLoaded(searchNewsItemList);
+        } else {
+            callback.onDataNotAvailable();
+        }
+    }
+
+    @Override
     public void getBookmarkedNews(@NonNull LoadNewsCallback callback) {
         List<NewsItem> result = new ArrayList<>();
         Cursor cursor;
@@ -420,6 +447,25 @@ public class NewsRepository implements NewsDataSource {
             }
         }
         return filteredNewsItemList;
+    }
+
+    private List<NewsItem> performSearch(List<NewsItem> newsItemList, String query) {
+        final int MIN_QUERY_WORD_LENGTH = 2;
+        List<NewsItem> searchNewsItemList = new ArrayList<>();
+
+        String[] queryParts = query.split(" ");
+        for (String part : queryParts){
+            if (part.length() > MIN_QUERY_WORD_LENGTH) {
+                for (NewsItem newsItem : newsItemList) {
+                    if (newsItem.getTitle().toUpperCase().contains(query.toUpperCase()) ||
+                            newsItem.getDescription().toUpperCase().contains(query.toUpperCase())) {
+                        searchNewsItemList.add(newsItem);
+                    }
+                }
+            }
+        }
+
+        return searchNewsItemList;
     }
 
     public static NewsDataSource getInstance() {

@@ -18,6 +18,7 @@ package com.fjoglar.etsitnews.view.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,13 +29,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.SearchPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.SearchContract;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;
+import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.util.List;
 
@@ -45,10 +47,9 @@ import butterknife.Unbinder;
 public class SearchActivity extends AppCompatActivity
         implements SearchContract.View, NewsListAdapter.ItemClickListener {
 
-    public static final String ACTIVITY_SOURCE = "ACTIVITY_SOURCE";
-
     private SearchContract.Presenter mSearchPresenter;
     private Context mContext;
+    private String mSearchQuery;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_news_list_search) RecyclerView recyclerNewsListSearch;
@@ -65,7 +66,6 @@ public class SearchActivity extends AppCompatActivity
         mContext = this;
 
         initializeActivity();
-        handleIntent(getIntent());
     }
 
     @Override
@@ -76,9 +76,9 @@ public class SearchActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mSearchPresenter.start();
         setUpRecyclerView();
         setUpToolbar();
+        searchQuery();
     }
 
     @Override
@@ -100,10 +100,7 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        setUpSearchView(menu.findItem(R.id.action_search));
         return true;
     }
 
@@ -120,17 +117,19 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
+        searchQuery(intent);
     }
 
     @Override
     public void itemClicked(long date) {
-
+        Navigator.getInstance().navigateToNewsDetails(getContext(), date, "NEWS");
     }
 
     @Override
     public void showSearchedNews(List<NewsItem> newsItemList) {
-
+        NewsListAdapter adapter = (NewsListAdapter) recyclerNewsListSearch.getAdapter();
+        adapter.setNewsListAdapter(newsItemList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -153,12 +152,16 @@ public class SearchActivity extends AppCompatActivity
         mSearchPresenter = presenter;
     }
 
-    private void handleIntent(Intent intent) {
+    private void searchQuery() {
+        mSearchQuery = mSearchPresenter.getLastSearchQuery();
+        mSearchPresenter.performSearch(mSearchQuery);
+    }
+
+    private void searchQuery(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            // TODO: something better than a Toast.
-            Toast.makeText(getContext(), intent.getStringExtra(ACTIVITY_SOURCE), Toast.LENGTH_LONG).show();
-//            showResults(query);
+            mSearchQuery = intent.getStringExtra(SearchManager.QUERY);
+            mSearchPresenter.updateLastSearchQuery(mSearchQuery);
+            mSearchPresenter.performSearch(mSearchQuery);
         }
     }
 
@@ -182,6 +185,16 @@ public class SearchActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setTitle(R.string.search_hint);
+    }
+
+    private void setUpSearchView(MenuItem searchMenuItem) {
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE );
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        TextView searchText = (TextView)
+                searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
     }
 
     private Context getContext() {

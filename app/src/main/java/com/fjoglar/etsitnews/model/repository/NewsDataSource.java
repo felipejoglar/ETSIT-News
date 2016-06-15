@@ -54,6 +54,8 @@ public interface NewsDataSource {
 
     void getFilteredBookmarks(List<String> filterKeys, @NonNull LoadNewsCallback callback);
 
+    void getSearchNews(String query, @NonNull LoadNewsCallback callback);
+
     void getBookmarkedNews(@NonNull LoadNewsCallback callback);
 
     void getNewsItemByDate(long date, @NonNull GetNewsItemCallback callback);
