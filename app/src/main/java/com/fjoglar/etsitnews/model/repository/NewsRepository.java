@@ -25,6 +25,7 @@ import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.entities.NewsRss;
 import com.fjoglar.etsitnews.model.repository.datasource.local.NewsContract;
 import com.fjoglar.etsitnews.model.repository.datasource.remote.NewsRssServiceAPI;
+import com.fjoglar.etsitnews.model.repository.search.SearchDatabase;
 import com.fjoglar.etsitnews.utils.DateUtils;
 import com.fjoglar.etsitnews.utils.FormatTextUtils;
 
@@ -234,7 +235,7 @@ public class NewsRepository implements NewsDataSource {
             cursor.close();
         }
 
-        List<NewsItem> searchNewsItemList = performSearch(newsItemList, query);
+        List<NewsItem> searchNewsItemList = performSearch(query, newsItemList);
 
         if (searchNewsItemList.size() != 0) {
             callback.onNewsLoaded(searchNewsItemList);
@@ -393,6 +394,21 @@ public class NewsRepository implements NewsDataSource {
         return item;
     }
 
+    private NewsItem searchCursorRowToNewsItem(Cursor cursor) {
+        NewsItem item = new NewsItem();
+
+        item.setTitle(cursor
+                .getString(cursor.getColumnIndex(SearchDatabase.COL_TITLE)));
+        item.setDescription(cursor
+                .getString(cursor.getColumnIndex(SearchDatabase.COL_DESCRIPTION)));
+        item.setCategory(cursor
+                .getString(cursor.getColumnIndex(SearchDatabase.COL_CATEGORY)));
+        item.setFormattedPubDate(cursor
+                .getLong(cursor.getColumnIndex(SearchDatabase.COL_DATE)));
+
+        return item;
+    }
+
     private String getAttachments(String url) {
         Document doc = null;
         String attachments = "";
@@ -449,20 +465,18 @@ public class NewsRepository implements NewsDataSource {
         return filteredNewsItemList;
     }
 
-    private List<NewsItem> performSearch(List<NewsItem> newsItemList, String query) {
-        final int MIN_QUERY_WORD_LENGTH = 2;
+    private List<NewsItem> performSearch(String query, List<NewsItem> newsItemList) {
+        SearchDatabase db = new SearchDatabase(mContext);
+
+        Cursor searchCursor = db.searchNewsItems(query, newsItemList);
+
         List<NewsItem> searchNewsItemList = new ArrayList<>();
 
-        String[] queryParts = query.split(" ");
-        for (String part : queryParts){
-            if (part.length() > MIN_QUERY_WORD_LENGTH) {
-                for (NewsItem newsItem : newsItemList) {
-                    if (newsItem.getTitle().toUpperCase().contains(query.toUpperCase()) ||
-                            newsItem.getDescription().toUpperCase().contains(query.toUpperCase())) {
-                        searchNewsItemList.add(newsItem);
-                    }
-                }
+        if (searchCursor != null && searchCursor.getCount() > 0) {
+            for (searchCursor.moveToFirst(); !searchCursor.isAfterLast(); searchCursor.moveToNext()) {
+                searchNewsItemList.add(searchCursorRowToNewsItem(searchCursor));
             }
+            searchCursor.close();
         }
 
         return searchNewsItemList;

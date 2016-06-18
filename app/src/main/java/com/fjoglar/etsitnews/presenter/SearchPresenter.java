@@ -17,12 +17,10 @@ package com.fjoglar.etsitnews.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetSearch;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
-import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.SearchContract;
 
 public class SearchPresenter implements SearchContract.Presenter {
@@ -59,24 +57,8 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public String getLastSearchQuery() {
-        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        return newsSharedPreferences.get(
-                newsSharedPreferences.getStringFromResId(R.string.pref_last_search_query_key),
-                "");
-    }
-
-    @Override
     public void start() {
-
-    }
-
-    @Override
-    public void updateLastSearchQuery(String query) {
-        NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        newsSharedPreferences.put(
-                newsSharedPreferences.getStringFromResId(R.string.pref_last_search_query_key),
-                query);
+        // Do nothing
     }
 
 }

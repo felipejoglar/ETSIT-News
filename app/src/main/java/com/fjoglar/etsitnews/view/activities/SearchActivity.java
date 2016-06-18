@@ -49,7 +49,6 @@ public class SearchActivity extends AppCompatActivity
 
     private SearchContract.Presenter mSearchPresenter;
     private Context mContext;
-    private String mSearchQuery;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_news_list_search) RecyclerView recyclerNewsListSearch;
@@ -76,6 +75,7 @@ public class SearchActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        mSearchPresenter.start();
         setUpRecyclerView();
         setUpToolbar();
         searchQuery();
@@ -117,7 +117,7 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     protected void onNewIntent(Intent intent) {
-        searchQuery(intent);
+        setIntent(intent);
     }
 
     @Override
@@ -153,15 +153,8 @@ public class SearchActivity extends AppCompatActivity
     }
 
     private void searchQuery() {
-        mSearchQuery = mSearchPresenter.getLastSearchQuery();
-        mSearchPresenter.performSearch(mSearchQuery);
-    }
-
-    private void searchQuery(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            mSearchQuery = intent.getStringExtra(SearchManager.QUERY);
-            mSearchPresenter.updateLastSearchQuery(mSearchQuery);
-            mSearchPresenter.performSearch(mSearchQuery);
+        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
+            mSearchPresenter.performSearch(getIntent().getStringExtra(SearchManager.QUERY));
         }
     }
 
