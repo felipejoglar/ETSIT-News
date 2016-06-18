@@ -54,7 +54,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
     }
 
     @Override
-    public void onBindViewHolder(final FilterAdapter.FilterViewHolder holder, final int position) {
+    public void onBindViewHolder(final FilterAdapter.FilterViewHolder holder, int position) {
         final Category category = mFilterList.get(position);
 
         holder.filterTextView.setText(category.getTitle());
@@ -63,14 +63,17 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFilterItemClickListener.filterItemClicked(mFilterList, position, holder.filterCheckBox);
+                mFilterItemClickListener.filterItemClicked(mFilterList,
+                        holder.getAdapterPosition(),
+                        holder.filterCheckBox);
             }
         });
         // Same behavior when touching directly in the CheckBox
         holder.filterCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFilterItemCheckBoxClickListener.filterItemCheckBoxClicked(mFilterList, position);
+                mFilterItemCheckBoxClickListener.filterItemCheckBoxClicked(mFilterList,
+                        holder.getAdapterPosition());
             }
         });
     }
