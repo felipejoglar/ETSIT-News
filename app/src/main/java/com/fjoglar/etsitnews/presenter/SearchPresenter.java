@@ -20,8 +20,11 @@ import android.support.annotation.NonNull;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetSearch;
+import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.model.repository.NewsRepository;
 import com.fjoglar.etsitnews.presenter.contracts.SearchContract;
+
+import java.util.List;
 
 public class SearchPresenter implements SearchContract.Presenter {
 
@@ -47,11 +50,13 @@ public class SearchPresenter implements SearchContract.Presenter {
                     public void onSuccess(GetSearch.ResponseValue response) {
                         mSearchView.showSearchedNews(response.getNewsItemSearchList());
                         mSearchView.hideProgress();
+                        checkForErrors(response.getNewsItemSearchList());
                     }
 
                     @Override
                     public void onError() {
                         mSearchView.hideProgress();
+                        mSearchView.showError();
                     }
                 });
     }
@@ -59,6 +64,12 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Override
     public void start() {
         // Do nothing
+    }
+
+    private void checkForErrors(List<NewsItem> newsItemList) {
+        if (newsItemList == null || newsItemList.size() == 0) {
+            mSearchView.showError();
+        }
     }
 
 }

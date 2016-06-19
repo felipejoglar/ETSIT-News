@@ -38,11 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/empty_state_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="56dp"
-            android:layout_marginRight="56dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
             android:gravity="center"
             android:paddingTop="8dp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/empty_state_msg_hint"
@@ -50,11 +51,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/empty_state_msg"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="56dp"
-            android:layout_marginRight="56dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
             android:gravity="center"
             android:paddingBottom="8dp"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/empty_state_button"

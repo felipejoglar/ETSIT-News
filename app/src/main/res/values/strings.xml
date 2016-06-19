@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">ETSIT News</string>
 
     <!-- Activities titles related-->
@@ -75,6 +75,8 @@
     <string name="no_news_msg_hint">Prueba a modificar el filtro para ver noticias que te interesen.</string>
     <string name="no_bookmarks_msg">Tu lista de favoritos está vacía.</string>
     <string name="no_bookmarks_msg_hint">Vuelve al listado de noticias para añadirlas a tus favoritos.</string>
+    <string name="no_search_msg">¡Vaya! No hay resultados.</string>
+    <string name="no_searh_msg_hint">No hemos encontrado nada para\n\"<xliff:g id="query" example="example">%s</xliff:g>\"</string>
 
     <!-- Filter Drawer related-->
     <string name="filter_title">Filtros</string>

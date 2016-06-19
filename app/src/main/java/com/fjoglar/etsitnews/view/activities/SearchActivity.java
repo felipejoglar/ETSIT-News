@@ -28,7 +28,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
@@ -49,10 +52,16 @@ public class SearchActivity extends AppCompatActivity
 
     private SearchContract.Presenter mSearchPresenter;
     private Context mContext;
+    private String mQuery;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_news_list_search) RecyclerView recyclerNewsListSearch;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.empty_state) RelativeLayout emptyState;
+    @BindView(R.id.empty_state_image) ImageView emptyStateImage;
+    @BindView(R.id.empty_state_msg) TextView emptyStateMsg;
+    @BindView(R.id.empty_state_msg_hint) TextView emptyStateMsgHint;
+    @BindView(R.id.empty_state_button) Button emptyStateButton;
 
     private Unbinder unbinder;
 
@@ -144,7 +153,14 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     public void showError() {
+        emptyState.setVisibility(View.VISIBLE);
+        recyclerNewsListSearch.setVisibility(View.GONE);
 
+        emptyStateImage.setImageDrawable(
+                getResources().getDrawable(R.drawable.img_no_search));
+        emptyStateMsg.setText(R.string.no_search_msg);
+        emptyStateMsgHint.setText(getString(R.string.no_searh_msg_hint, mQuery));
+        emptyStateButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -154,7 +170,8 @@ public class SearchActivity extends AppCompatActivity
 
     private void searchQuery() {
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-            mSearchPresenter.performSearch(getIntent().getStringExtra(SearchManager.QUERY));
+            mQuery = getIntent().getStringExtra(SearchManager.QUERY);
+            mSearchPresenter.performSearch(mQuery);
         }
     }
 
