@@ -136,6 +136,9 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     public void showSearchedNews(List<NewsItem> newsItemList) {
+        emptyState.setVisibility(View.GONE);
+        recyclerNewsListSearch.setVisibility(View.VISIBLE);
+
         NewsListAdapter adapter = (NewsListAdapter) recyclerNewsListSearch.getAdapter();
         adapter.setNewsListAdapter(newsItemList);
         adapter.notifyDataSetChanged();
@@ -171,6 +174,7 @@ public class SearchActivity extends AppCompatActivity
     private void searchQuery() {
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             mQuery = getIntent().getStringExtra(SearchManager.QUERY);
+            toolbar.setTitle(getString(R.string.search_activity_title, mQuery));
             mSearchPresenter.performSearch(mQuery);
         }
     }
@@ -194,7 +198,6 @@ public class SearchActivity extends AppCompatActivity
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setTitle(R.string.search_hint);
     }
 
     private void setUpSearchView(MenuItem searchMenuItem) {

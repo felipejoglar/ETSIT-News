@@ -22,7 +22,7 @@
     <string name="bookmarks_list_activity_title">Favoritos</string>
     <string name="news_details_activity_title">Noticia</string>
     <string name="settings_activity_title">Ajustes</string>
-    <string name="search_activity_title">Buscar</string>
+    <string name="search_activity_title">Buscar: \"<xliff:g id="query" example="example">%s</xliff:g>\"</string>
     <string name="about_activity_title">Acerca de</string>
 
     <!-- Category related strings -->

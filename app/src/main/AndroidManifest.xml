@@ -53,8 +53,7 @@
                 android:value=".view.activities.SearchActivity" />
         </activity>
         <activity
-            android:name=".view.activities.SettingsActivity"
-            android:parentActivityName=".view.activities.NewsListActivity" />
+            android:name=".view.activities.SettingsActivity" />
         <activity
             android:name=".view.activities.SearchActivity"
             android:launchMode="singleTop">
