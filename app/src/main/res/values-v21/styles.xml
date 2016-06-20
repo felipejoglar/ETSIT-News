@@ -40,4 +40,8 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
+    <style name="LibraryItem">
+        <item name="android:elevation">2dp</item>
+    </style>
+
 </resources>

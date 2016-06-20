@@ -34,7 +34,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.Category;
@@ -296,7 +295,7 @@ public class BookmarksListActivity extends AppCompatActivity
                                 Navigator.getInstance().navigateToSettings(getContext());
                                 break;
                             case R.id.about_navigation_menu_item:
-                                Toast.makeText(getContext(), "Acerca de", Toast.LENGTH_SHORT).show();
+                                Navigator.getInstance().navigateToAbout(getContext());
                                 break;
                             default:
                                 break;

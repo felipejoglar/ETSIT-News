@@ -47,4 +47,7 @@
     <dimen name="toolbar_title_land">18sp</dimen>
     <dimen name="toolbar_subtitle_land">12sp</dimen>
 
+    <!-- About app  related. -->
+    <dimen name="about_header_height">224dp</dimen>
+
 </resources>

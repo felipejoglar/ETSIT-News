@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.fjoglar.etsitnews.R;
+import com.fjoglar.etsitnews.view.activities.AboutActivity;
 import com.fjoglar.etsitnews.view.activities.BookmarksListActivity;
 import com.fjoglar.etsitnews.view.activities.NewsDetailsActivity;
 import com.fjoglar.etsitnews.view.activities.NewsListActivity;
@@ -93,6 +94,18 @@ public class Navigator {
     public void navigateToSettings(Context context) {
         if (context != null) {
             Intent intentToLaunch = SettingsActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
+    /**
+     * Goes to the About screen.
+     *
+     * @param context A Context needed to open the destiny activity.
+     */
+    public void navigateToAbout(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = AboutActivity.getCallingIntent(context);
             context.startActivity(intentToLaunch);
         }
     }

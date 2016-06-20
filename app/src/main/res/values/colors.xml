@@ -24,4 +24,7 @@
     <color name="navdrawer_background">#FFFFFFFF</color>
     <color name="divider">#1f000000</color>
 
+    <color name="page_indicator">#80F3C499</color>
+    <color name="page_indicator_selected">#FFE67E22</color>
+
 </resources>

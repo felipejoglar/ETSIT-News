@@ -65,4 +65,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="LibraryItem">
+    </style>
+
 </resources>

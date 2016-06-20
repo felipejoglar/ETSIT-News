@@ -22,6 +22,8 @@
     <string name="bookmarks_list_activity_title">Favoritos</string>
     <string name="news_details_activity_title">Noticia</string>
     <string name="settings_activity_title">Ajustes</string>
+    <string name="search_activity_title">Buscar</string>
+    <string name="about_activity_title">Acerca de</string>
 
     <!-- Category related strings -->
     <string name="category_general">General</string>
@@ -103,5 +105,27 @@
 
     <!-- Search -->
     <string name="search_hint">Buscar noticias</string>
+
+    <!-- About -->
+    <string name="about_images">
+        Todos los logotipos e imágenes de la ETSIT y AITCyL usadas en esta aplicación, así como sus
+        modificaciones y su uso en el icono de la aplicación son propiedad de la ETSIT de la UVa y
+        AITCyL.
+        \n\n
+        Las ilustraciones utilizadas forman parte de la colección \"Astronomy &amp; Space Icons\"
+        creada por Dale Humphries.
+    </string>
+    <string name="about_etsit_news">
+        Aplicación ganadora del concurso a la mejor app de noticias de la ETSIT – AITCYL en
+        Diciembre de 2015.
+        \n\n
+        Diseñada y desarrollada por Felipe Joglar Santos.
+        \n\n
+        El código fuente está disponible en GitHub.
+    </string>
+    <string name="about_libs_intro">ETSIT Noticias se ha construido con la ayuda de estas increibles
+    librerías</string>
+    <string name="about_lib_link">WebSite</string>
+    <string name="github_link">GitHub</string>
 
 </resources>
