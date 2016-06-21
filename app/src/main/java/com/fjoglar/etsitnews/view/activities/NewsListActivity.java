@@ -27,7 +27,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -284,10 +283,6 @@ public class NewsListActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerNewsList.setAdapter(adapter);
-        recyclerNewsList.setLayoutManager(new LinearLayoutManager(getParent(),
-                LinearLayoutManager.VERTICAL,
-                false)
-        );
     }
 
     private void setUpToolbar() {
@@ -342,10 +337,6 @@ public class NewsListActivity extends AppCompatActivity
         final FilterAdapter adapter = new FilterAdapter(this, this);
         adapter.setFilterAdapter(CategoryUtils.createCategoryList());
         filterList.setAdapter(adapter);
-        filterList.setLayoutManager(new LinearLayoutManager(getParent(),
-                LinearLayoutManager.VERTICAL,
-                false)
-        );
     }
 
     private void setUpSearchView(MenuItem searchMenuItem, final MenuItem filterMenuItem) {

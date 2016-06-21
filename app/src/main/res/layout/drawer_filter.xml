@@ -16,6 +16,7 @@
 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/filter_drawer_width"
     android:layout_height="match_parent"
     android:layout_gravity="end"
@@ -33,7 +34,7 @@
         android:minHeight="?actionBarSize"
         android:text="@string/filter_title"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/toolbar_title"/>
+        android:textSize="@dimen/toolbar_title" />
 
     <View
         android:layout_width="match_parent"
@@ -43,6 +44,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/filter_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
 </LinearLayout>
