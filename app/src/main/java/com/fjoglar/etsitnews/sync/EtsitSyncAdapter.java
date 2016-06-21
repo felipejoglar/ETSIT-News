@@ -51,6 +51,8 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
         newsDataSource.updateNews(new NewsDataSource.UpdateNewsCallback() {
             @Override
             public void onUpdateFinished(Boolean isUpdated) {
+                Notification.createNotification(getContext());
+
                 // Update last updated time in SharedPreferences.
                 NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
                 newsSharedPreferences.put(
@@ -58,8 +60,6 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
                         System.currentTimeMillis());
             }
         });
-
-        Notification.createNotification(getContext());
     }
 
     /**
