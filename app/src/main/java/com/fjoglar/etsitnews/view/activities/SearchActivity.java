@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -186,10 +185,6 @@ public class SearchActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerNewsListSearch.setAdapter(adapter);
-        recyclerNewsListSearch.setLayoutManager(new LinearLayoutManager(getParent(),
-                LinearLayoutManager.VERTICAL,
-                false)
-        );
     }
 
     private void setUpToolbar() {
