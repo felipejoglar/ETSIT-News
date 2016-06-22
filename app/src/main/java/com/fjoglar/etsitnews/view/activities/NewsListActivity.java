@@ -66,7 +66,6 @@ public class NewsListActivity extends AppCompatActivity
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACTIVITY_SOURCE = "NEWS";
-    private static final String STATE_UPDATING = "state_updating";
 
     private NewsListContract.Presenter mNewsListPresenter;
     private Context mContext;
@@ -142,7 +141,6 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        mNewsListPresenter.setView(null);
         PresenterHolder.getInstance().putPresenter(NewsListActivity.class, mNewsListPresenter);
     }
 
@@ -291,20 +289,19 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     private void initializeActivity() {
-        mNewsListPresenter = createPresenter();
+        createPresenter();
         swipeToRefresh.setOnRefreshListener(this);
         swipeToRefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
     }
 
-    public NewsListPresenter createPresenter() {
-        NewsListPresenter presenter = PresenterHolder.getInstance().getPresenter
-                (NewsListActivity.class);
-        if (presenter != null) {
-            presenter.setView(this);
+    public NewsListContract.Presenter createPresenter() {
+        mNewsListPresenter = PresenterHolder.getInstance().getPresenter(NewsListActivity.class);
+        if (mNewsListPresenter != null) {
+            mNewsListPresenter.setView(this);
         } else {
-            presenter = new NewsListPresenter(this);
+            mNewsListPresenter = new NewsListPresenter(this);
         }
-        return presenter;
+        return mNewsListPresenter;
     }
 
     private void setUpRecyclerView() {
