@@ -35,8 +35,9 @@ import java.util.List;
 
 public class NewsListPresenter implements NewsListContract.Presenter {
 
-    private final NewsListContract.View mNewsListView;
+    private NewsListContract.View mNewsListView;
     private final UseCaseHandler mUseCaseHandler;
+    private boolean mUpdateStatus;
 
     public NewsListPresenter(@NonNull NewsListContract.View newsListView) {
         mNewsListView = newsListView;
@@ -92,6 +93,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     @Override
     public void updateNews() {
         mNewsListView.showUpdating();
+        mUpdateStatus = true;
 
         UpdateNews updateNews = new UpdateNews(NewsRepository.getInstance());
         mUseCaseHandler.execute(updateNews, new UpdateNews.RequestValues(),
@@ -100,6 +102,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     public void onSuccess(UpdateNews.ResponseValue response) {
                         getNews();
                         mNewsListView.hideUpdating();
+                        mUpdateStatus = false;
 
                         // Update last updated time in SharedPreferences.
                         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
@@ -112,6 +115,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     @Override
                     public void onError() {
                         mNewsListView.hideUpdating();
+                        mUpdateStatus = false;
                     }
                 });
     }
@@ -124,7 +128,13 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     }
 
     @Override
+    public void setView(NewsListContract.View newsListView) {
+        mNewsListView = newsListView;
+    }
+
+    @Override
     public void start() {
+        checkUpdatingStatus();
         showLastUpdateTime();
         getNews();
     }
@@ -145,6 +155,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     private void checkForErrors(List<NewsItem> newsItemList) {
         if (newsItemList == null || newsItemList.size() == 0) {
             mNewsListView.showError();
+        }
+    }
+
+    private void checkUpdatingStatus() {
+        if (mUpdateStatus) {
+            mNewsListView.showUpdating();
         }
     }
 

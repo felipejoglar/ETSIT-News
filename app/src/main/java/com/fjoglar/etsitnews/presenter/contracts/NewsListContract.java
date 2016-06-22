@@ -50,6 +50,8 @@ public interface NewsListContract {
 
         void updateNews();
 
+        void setView(NewsListContract.View view);
+
         void filterItemClicked(List<Category> categoryList, int position);
     }
 

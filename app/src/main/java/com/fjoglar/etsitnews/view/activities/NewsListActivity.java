@@ -44,6 +44,7 @@ import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.model.entities.Category;
 import com.fjoglar.etsitnews.model.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.NewsListPresenter;
+import com.fjoglar.etsitnews.presenter.PresenterHolder;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;
 import com.fjoglar.etsitnews.sync.EtsitSyncAdapter;
 import com.fjoglar.etsitnews.utils.CategoryUtils;
@@ -65,6 +66,7 @@ public class NewsListActivity extends AppCompatActivity
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACTIVITY_SOURCE = "NEWS";
+    private static final String STATE_UPDATING = "state_updating";
 
     private NewsListContract.Presenter mNewsListPresenter;
     private Context mContext;
@@ -133,6 +135,15 @@ public class NewsListActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        if (this.isFinishing()) {
+            PresenterHolder.getInstance().remove(NewsListActivity.class);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        mNewsListPresenter.setView(null);
+        PresenterHolder.getInstance().putPresenter(NewsListActivity.class, mNewsListPresenter);
     }
 
     @Override
@@ -206,7 +217,12 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void showUpdating() {
-        swipeToRefresh.setRefreshing(true);
+        swipeToRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeToRefresh.setRefreshing(true);
+            }
+        });
     }
 
     @Override
@@ -275,9 +291,20 @@ public class NewsListActivity extends AppCompatActivity
     }
 
     private void initializeActivity() {
-        mNewsListPresenter = new NewsListPresenter(this);
+        mNewsListPresenter = createPresenter();
         swipeToRefresh.setOnRefreshListener(this);
         swipeToRefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
+    }
+
+    public NewsListPresenter createPresenter() {
+        NewsListPresenter presenter = PresenterHolder.getInstance().getPresenter
+                (NewsListActivity.class);
+        if (presenter != null) {
+            presenter.setView(this);
+        } else {
+            presenter = new NewsListPresenter(this);
+        }
+        return presenter;
     }
 
     private void setUpRecyclerView() {
