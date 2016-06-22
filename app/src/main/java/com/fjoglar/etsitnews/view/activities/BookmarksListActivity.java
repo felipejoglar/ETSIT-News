@@ -18,6 +18,7 @@ package com.fjoglar.etsitnews.view.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -56,9 +57,11 @@ public class BookmarksListActivity extends AppCompatActivity
         FilterAdapter.FilterItemClickListener, FilterAdapter.FilterItemCheckBoxClickListener {
 
     private static final String ACTIVITY_SOURCE = "BOOKMARKS";
+    private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
 
     private BookmarksListContract.Presenter mBookmarksListPresenter;
     private Context mContext;
+    private Parcelable recyclerBookmarksListState;
     private boolean mBackToListActivity;
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -88,6 +91,10 @@ public class BookmarksListActivity extends AppCompatActivity
 
         mContext = this;
         initializeActivity();
+
+        if (savedInstanceState != null) {
+            recyclerBookmarksListState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
+        }
     }
 
     @Override
@@ -119,6 +126,12 @@ public class BookmarksListActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(RECYCLER_VIEW_STATE,
+                recyclerBookmarksList.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
@@ -251,6 +264,7 @@ public class BookmarksListActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerBookmarksList.setAdapter(adapter);
+        recyclerBookmarksList.getLayoutManager().onRestoreInstanceState(recyclerBookmarksListState);
     }
 
     private void setUpToolbar() {

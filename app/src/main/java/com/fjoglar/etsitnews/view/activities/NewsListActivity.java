@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -66,9 +67,11 @@ public class NewsListActivity extends AppCompatActivity
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String ACTIVITY_SOURCE = "NEWS";
+    private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
 
     private NewsListContract.Presenter mNewsListPresenter;
     private Context mContext;
+    private Parcelable recyclerNewsListState;
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -100,6 +103,10 @@ public class NewsListActivity extends AppCompatActivity
 
         mContext = this;
         initializeActivity();
+
+        if (savedInstanceState != null) {
+            recyclerNewsListState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
+        }
 
         // Add the Account Required by the SyncAdapter Framework.
         EtsitSyncAdapter.initializeSyncAdapter(getContext());
@@ -141,6 +148,8 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(RECYCLER_VIEW_STATE,
+                recyclerNewsList.getLayoutManager().onSaveInstanceState());
         PresenterHolder.getInstance().putPresenter(NewsListActivity.class, mNewsListPresenter);
     }
 
@@ -307,6 +316,7 @@ public class NewsListActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerNewsList.setAdapter(adapter);
+        recyclerNewsList.getLayoutManager().onRestoreInstanceState(recyclerNewsListState);
     }
 
     private void setUpToolbar() {

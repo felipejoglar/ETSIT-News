@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -49,9 +50,12 @@ import butterknife.Unbinder;
 public class SearchActivity extends AppCompatActivity
         implements SearchContract.View, NewsListAdapter.ItemClickListener {
 
+    private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
+
     private SearchContract.Presenter mSearchPresenter;
     private Context mContext;
     private String mQuery;
+    private Parcelable recyclerNewsListSearchState;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_news_list_search) RecyclerView recyclerNewsListSearch;
@@ -73,6 +77,10 @@ public class SearchActivity extends AppCompatActivity
         mContext = this;
 
         initializeActivity();
+
+        if (savedInstanceState != null) {
+            recyclerNewsListSearchState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
+        }
     }
 
     @Override
@@ -103,6 +111,12 @@ public class SearchActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(RECYCLER_VIEW_STATE,
+                recyclerNewsListSearch.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
@@ -185,6 +199,7 @@ public class SearchActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerNewsListSearch.setAdapter(adapter);
+        recyclerNewsListSearch.getLayoutManager().onRestoreInstanceState(recyclerNewsListSearchState);
     }
 
     private void setUpToolbar() {
