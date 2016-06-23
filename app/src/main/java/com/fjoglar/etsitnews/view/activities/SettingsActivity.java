@@ -26,13 +26,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.presenter.SettingsPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.SettingsContract;
 import com.fjoglar.etsitnews.sync.EtsitSyncAdapter;
+import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,14 +42,15 @@ import butterknife.Unbinder;
 public class SettingsActivity extends AppCompatActivity
         implements SettingsContract.View, SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private static final String ETSIT_URL = "http://www.tel.uva.es";
+    private static final String AITCYL_URL = "http://www.aitcyl.es";
+
     private SettingsContract.Presenter mSettingsPresenter;
     private Context mContext;
     int mSelectedIndex;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.notification) LinearLayout notification;
     @BindView(R.id.notification_switch) SwitchCompat notificationSwitch;
-    @BindView(R.id.sync_frequency) LinearLayout syncFrequency;
     @BindView(R.id.sync_frequency_period) TextView syncFrequencyPeriod;
 
     private Unbinder unbinder;
@@ -108,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity
     // modify our synchronization period here.
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if ( key.equals(getString(R.string.pref_sync_frequency_key)) ) {
+        if (key.equals(getString(R.string.pref_sync_frequency_key))) {
             EtsitSyncAdapter.configurePeriodicSync(this,
                     EtsitSyncAdapter.SYNC_INTERVAL,
                     EtsitSyncAdapter.SYNC_FLEXTIME);
@@ -133,19 +134,29 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     @OnClick(R.id.notification)
-    void notificationSettingClicked(){
+    void notificationSettingClicked() {
         notificationSwitch.setChecked(!notificationSwitch.isChecked());
         mSettingsPresenter.updateNotificationSettings(notificationSwitch.isChecked());
     }
 
     @OnClick(R.id.notification_switch)
-    void notificationSwitchSettingClicked(){
+    void notificationSwitchSettingClicked() {
         mSettingsPresenter.updateNotificationSettings(notificationSwitch.isChecked());
     }
 
     @OnClick(R.id.sync_frequency)
-    void showFrequencySelectionDialog(){
+    void showFrequencySelectionDialog() {
         createFrequencySelectionDialog().show();
+    }
+
+    @OnClick(R.id.etsit_web)
+    void goToEtsitWeb() {
+        Navigator.getInstance().openUrl(getContext(), ETSIT_URL);
+    }
+
+    @OnClick(R.id.aitcyl_web)
+    void goToAitcylWeb() {
+        Navigator.getInstance().openUrl(getContext(), AITCYL_URL);
     }
 
     private void initializeActivity() {

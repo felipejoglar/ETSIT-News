@@ -52,65 +52,116 @@
             android:layout_marginStart="@dimen/card_horizontal_margin_tablet_mode"
             android:layout_marginTop="@dimen/card_vertical_margin_tablet_mode">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/notification"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/listPreferredItemHeight"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/pref_enable_notifications_label"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/notification_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider_height"
-                    android:background="@color/divider" />
-
-                <LinearLayout
-                    android:id="@+id/sync_frequency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:minHeight="?attr/listPreferredItemHeight"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_horizontal_margin">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/pref_sync_frequency_label"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:paddingEnd="@dimen/activity_horizontal_margin"
+                        android:paddingStart="@dimen/activity_horizontal_margin"
+                        android:paddingTop="@dimen/activity_horizontal_margin"
+                        android:text="@string/notifications_title"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/notification"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeight"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="@dimen/activity_horizontal_margin"
+                        android:paddingStart="@dimen/activity_horizontal_margin">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/pref_enable_notifications_label"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/notification_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider_height"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:id="@+id/sync_frequency"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:minHeight="?attr/listPreferredItemHeight"
+                        android:orientation="vertical"
+                        android:padding="@dimen/activity_horizontal_margin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_sync_frequency_label"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/sync_frequency_period"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/sync_frequency_period"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/activity_horizontal_margin"
+                        android:paddingStart="@dimen/activity_horizontal_margin"
+                        android:paddingTop="@dimen/activity_horizontal_margin"
+                        android:text="@string/webs_title"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/etsit_web"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:foreground="?android:selectableItemBackground"
+                        android:maxHeight="@dimen/pref_image_max_height"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/logo_etsit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider_height"
+                        android:background="@color/divider" />
+
+                    <ImageView
+                        android:id="@+id/aitcyl_web"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:foreground="?android:selectableItemBackground"
+                        android:maxHeight="@dimen/pref_image_max_height"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/logo_aitcyl" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </ScrollView>
 
         </android.support.v7.widget.CardView>
 

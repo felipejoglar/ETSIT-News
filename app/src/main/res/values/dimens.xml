@@ -58,4 +58,7 @@
     <dimen name="card_vertical_margin_tablet_mode">8dp</dimen>
     <dimen name="detail_view_padding_tablet_mode">16dp</dimen>
 
+    <!-- Settings -->
+    <dimen name="pref_image_max_height">120dp</dimen>
+
 </resources>
