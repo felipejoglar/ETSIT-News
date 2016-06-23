@@ -15,18 +15,7 @@
  limitations under the License.
 -->
 <resources>
-    <color name="colorPrimary">#FF2C3E50</color>
-    <color name="colorPrimaryDark">#FF1F2B38</color>
-    <color name="colorAccent">#FFE67E22</color>
 
-    <color name="backgroundColour">#FFF9E1CC</color>
-
-    <color name="navdrawer_background">#FFFFFFFF</color>
-    <color name="divider">#1f000000</color>
-
-    <color name="page_indicator">#80F3C499</color>
-    <color name="page_indicator_selected">#FFE67E22</color>
-
-    <color name="about_app_color">#FF2C3E50</color>
+    <color name="about_app_color">#FF425D77</color>
 
 </resources>

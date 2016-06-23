@@ -20,11 +20,11 @@
     style="@style/LibraryItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/padding_normal"
+    android:layout_marginBottom="@dimen/margin_bottom_about_libs_item"
+    android:background="#FFFF"
     android:foreground="?android:selectableItemBackground"
     android:minHeight="?android:listPreferredItemHeight"
     android:paddingBottom="8dp"
-    android:background="#FFFF"
     android:paddingEnd="@dimen/padding_normal"
     android:paddingTop="@dimen/padding_normal">
 

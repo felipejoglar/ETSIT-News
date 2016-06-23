@@ -49,5 +49,12 @@
 
     <!-- About app  related. -->
     <dimen name="about_header_height">224dp</dimen>
+    <dimen name="margin_bottom_about_libs_item">24dp</dimen>
+
+    <!-- Tablet mode -->
+    <dimen name="extra_space_height">64dp</dimen>
+    <dimen name="card_width_tablet_mode">600dp</dimen>
+    <dimen name="card_horizontal_margin_tablet_mode">24dp</dimen>
+    <dimen name="card_vertical_margin_tablet_mode">8dp</dimen>
 
 </resources>

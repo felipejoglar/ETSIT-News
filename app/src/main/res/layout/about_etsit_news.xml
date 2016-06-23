@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/about_header_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/about_app_color"
             android:gravity="center"
             android:paddingEnd="@dimen/padding_normal"
             android:paddingStart="@dimen/padding_normal"
