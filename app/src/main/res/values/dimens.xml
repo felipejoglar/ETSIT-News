@@ -56,5 +56,6 @@
     <dimen name="card_width_tablet_mode">600dp</dimen>
     <dimen name="card_horizontal_margin_tablet_mode">24dp</dimen>
     <dimen name="card_vertical_margin_tablet_mode">8dp</dimen>
+    <dimen name="detail_view_padding_tablet_mode">16dp</dimen>
 
 </resources>

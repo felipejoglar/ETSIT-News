@@ -47,7 +47,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:paddingEnd="@dimen/detail_view_padding"
                     android:paddingStart="@dimen/detail_view_padding"
-                    android:paddingTop="@dimen/detail_view_padding"
+                    android:paddingTop="@dimen/detail_view_padding_tablet_mode"
                     android:textColor="@android:color/black"
                     android:textIsSelectable="true"
                     android:textSize="@dimen/detail_view_title" />
@@ -92,8 +92,8 @@
                     android:id="@+id/detail_attachments_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="@dimen/detail_view_padding"
+                    android:layout_marginRight="@dimen/detail_view_padding"
                     android:layout_marginTop="16dp"
                     android:visibility="gone">
 

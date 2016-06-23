@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- RecyclerView cards related. -->
+    <dimen name="card_horizontal_margin">24dp</dimen>
+
+    <!-- Detail View related-->
+    <dimen name="detail_view_padding">32dp</dimen>
+
+</resources>

@@ -74,9 +74,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="sans-serif-condensed"
-                            android:paddingEnd="@dimen/detail_view_padding"
-                            android:paddingStart="@dimen/detail_view_padding"
-                            android:paddingTop="@dimen/detail_view_padding"
+                            android:paddingEnd="@dimen/detail_view_padding_tablet_mode"
+                            android:paddingStart="@dimen/detail_view_padding_tablet_mode"
+                            android:paddingTop="@dimen/detail_view_padding_tablet_mode"
                             android:textColor="@android:color/black"
                             android:textIsSelectable="true"
                             android:textSize="@dimen/detail_view_title" />
@@ -85,8 +85,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
-                            android:paddingEnd="@dimen/detail_view_padding"
-                            android:paddingStart="@dimen/detail_view_padding">
+                            android:paddingEnd="@dimen/detail_view_padding_tablet_mode"
+                            android:paddingStart="@dimen/detail_view_padding_tablet_mode">
 
                             <TextView
                                 android:id="@+id/detail_date"
@@ -112,8 +112,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:lineSpacingMultiplier="1.2"
-                            android:paddingEnd="@dimen/detail_view_padding"
-                            android:paddingStart="@dimen/detail_view_padding"
+                            android:paddingEnd="@dimen/detail_view_padding_tablet_mode"
+                            android:paddingStart="@dimen/detail_view_padding_tablet_mode"
                             android:textColor="@android:color/black"
                             android:textIsSelectable="true" />
 
