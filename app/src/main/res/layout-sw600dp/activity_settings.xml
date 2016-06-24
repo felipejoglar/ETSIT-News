@@ -142,7 +142,8 @@
                         android:foreground="?android:selectableItemBackground"
                         android:maxHeight="@dimen/pref_image_max_height"
                         android:padding="@dimen/activity_horizontal_margin"
-                        android:src="@drawable/logo_etsit" />
+                        android:src="@drawable/logo_etsit"
+                        android:contentDescription="@string/etsit_web" />
 
                     <View
                         android:layout_width="match_parent"
@@ -157,7 +158,8 @@
                         android:foreground="?android:selectableItemBackground"
                         android:maxHeight="@dimen/pref_image_max_height"
                         android:padding="@dimen/activity_horizontal_margin"
-                        android:src="@drawable/logo_aitcyl" />
+                        android:src="@drawable/logo_aitcyl"
+                        android:contentDescription="@string/aitcyl_web"/>
 
                 </LinearLayout>
 

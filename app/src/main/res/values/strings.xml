@@ -130,5 +130,7 @@
     librerías y proyectos</string>
     <string name="about_lib_link">WebSite</string>
     <string name="github_link">GitHub</string>
+    <string name="etsit_web">ETSIT web</string>
+    <string name="aitcyl_web">AITCyL web</string>
 
 </resources>
