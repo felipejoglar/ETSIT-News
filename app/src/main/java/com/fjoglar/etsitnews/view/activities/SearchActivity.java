@@ -55,7 +55,7 @@ public class SearchActivity extends AppCompatActivity
     private SearchContract.Presenter mSearchPresenter;
     private Context mContext;
     private String mQuery;
-    private Parcelable recyclerNewsListSearchState;
+    private Parcelable mRecyclerNewsListSearchState;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_news_list_search) RecyclerView recyclerNewsListSearch;
@@ -79,7 +79,7 @@ public class SearchActivity extends AppCompatActivity
         initializeActivity();
 
         if (savedInstanceState != null) {
-            recyclerNewsListSearchState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
+            mRecyclerNewsListSearchState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
         }
     }
 
@@ -99,6 +99,7 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
+        mRecyclerNewsListSearchState = recyclerNewsListSearch.getLayoutManager().onSaveInstanceState();
         super.onPause();
     }
 
@@ -117,6 +118,7 @@ public class SearchActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(RECYCLER_VIEW_STATE,
                 recyclerNewsListSearch.getLayoutManager().onSaveInstanceState());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -199,7 +201,7 @@ public class SearchActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerNewsListSearch.setAdapter(adapter);
-        recyclerNewsListSearch.getLayoutManager().onRestoreInstanceState(recyclerNewsListSearchState);
+        recyclerNewsListSearch.getLayoutManager().onRestoreInstanceState(mRecyclerNewsListSearchState);
     }
 
     private void setUpToolbar() {

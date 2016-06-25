@@ -61,7 +61,7 @@ public class BookmarksListActivity extends AppCompatActivity
 
     private BookmarksListContract.Presenter mBookmarksListPresenter;
     private Context mContext;
-    private Parcelable recyclerBookmarksListState;
+    private Parcelable mRecyclerBookmarksListState;
     private boolean mBackToListActivity;
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -93,7 +93,7 @@ public class BookmarksListActivity extends AppCompatActivity
         initializeActivity();
 
         if (savedInstanceState != null) {
-            recyclerBookmarksListState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
+            mRecyclerBookmarksListState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
         }
     }
 
@@ -114,6 +114,7 @@ public class BookmarksListActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
+        mRecyclerBookmarksListState = recyclerBookmarksList.getLayoutManager().onSaveInstanceState();
         super.onPause();
     }
 
@@ -132,6 +133,7 @@ public class BookmarksListActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(RECYCLER_VIEW_STATE,
                 recyclerBookmarksList.getLayoutManager().onSaveInstanceState());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -264,7 +266,7 @@ public class BookmarksListActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerBookmarksList.setAdapter(adapter);
-        recyclerBookmarksList.getLayoutManager().onRestoreInstanceState(recyclerBookmarksListState);
+        recyclerBookmarksList.getLayoutManager().onRestoreInstanceState(mRecyclerBookmarksListState);
     }
 
     private void setUpToolbar() {

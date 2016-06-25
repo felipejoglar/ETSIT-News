@@ -71,7 +71,7 @@ public class NewsListActivity extends AppCompatActivity
 
     private NewsListContract.Presenter mNewsListPresenter;
     private Context mContext;
-    private Parcelable recyclerNewsListState;
+    private Parcelable mRecyclerNewsListState;
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.nav_view) NavigationView navigationView;
@@ -105,7 +105,7 @@ public class NewsListActivity extends AppCompatActivity
         initializeActivity();
 
         if (savedInstanceState != null) {
-            recyclerNewsListState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
+            mRecyclerNewsListState = savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
         }
 
         // Add the Account Required by the SyncAdapter Framework.
@@ -129,6 +129,7 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
+        mRecyclerNewsListState = recyclerNewsList.getLayoutManager().onSaveInstanceState();
         super.onPause();
     }
 
@@ -151,6 +152,7 @@ public class NewsListActivity extends AppCompatActivity
         outState.putParcelable(RECYCLER_VIEW_STATE,
                 recyclerNewsList.getLayoutManager().onSaveInstanceState());
         PresenterHolder.getInstance().putPresenter(NewsListActivity.class, mNewsListPresenter);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -316,7 +318,7 @@ public class NewsListActivity extends AppCompatActivity
     private void setUpRecyclerView() {
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerNewsList.setAdapter(adapter);
-        recyclerNewsList.getLayoutManager().onRestoreInstanceState(recyclerNewsListState);
+        recyclerNewsList.getLayoutManager().onRestoreInstanceState(mRecyclerNewsListState);
     }
 
     private void setUpToolbar() {
