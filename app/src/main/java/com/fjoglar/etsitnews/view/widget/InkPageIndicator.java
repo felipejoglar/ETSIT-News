@@ -20,6 +20,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -42,6 +43,7 @@ import java.util.Arrays;
 /**
  * An ink inspired widget for indicating pages in a {@link ViewPager}.
  */
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class InkPageIndicator extends View implements ViewPager.OnPageChangeListener,
         View.OnAttachStateChangeListener {
 

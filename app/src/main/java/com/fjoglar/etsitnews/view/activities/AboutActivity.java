@@ -22,11 +22,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.view.adapter.AboutViewPagerAdapter;
 import com.fjoglar.etsitnews.view.widget.InkPageIndicator;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +41,7 @@ public class AboutActivity extends AppCompatActivity {
     @BindView(R.id.frame_layout) FrameLayout frameLayout;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.pager) ViewPager pager;
-    @BindView(R.id.page_indicator) InkPageIndicator pageIndicator;
+    @BindView(R.id.page_indicator) View viewIndicator;
 
     private Unbinder unbinder;
 
@@ -106,7 +108,15 @@ public class AboutActivity extends AppCompatActivity {
 
     private void setUpViewPager() {
         pager.setAdapter(new AboutViewPagerAdapter(this));
-        pageIndicator.setViewPager(pager);
+
+        if (viewIndicator instanceof InkPageIndicator) {
+            InkPageIndicator inkPageIndicator = (InkPageIndicator) viewIndicator;
+            inkPageIndicator.setViewPager(pager);
+
+        } else {
+            CirclePageIndicator circlePageIndicator = (CirclePageIndicator) viewIndicator;
+            circlePageIndicator.setViewPager(pager);
+        }
     }
 
     private Context getContext() {
