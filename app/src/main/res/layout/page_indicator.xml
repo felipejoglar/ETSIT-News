@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<com.viewpagerindicator.CirclePageIndicator
+<com.fjoglar.etsitnews.view.widget.DotsPageIndicator
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/page_indicator"
@@ -22,6 +22,4 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/padding_normal"
     app:fillColor="@color/page_indicator_selected"
-    app:pageColor="@color/page_indicator"
-    app:radius="4dp"
-    app:strokeWidth="0dp" />
+    app:pageColor="@color/page_indicator" />

@@ -27,8 +27,8 @@ import android.widget.FrameLayout;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.view.adapter.AboutViewPagerAdapter;
+import com.fjoglar.etsitnews.view.widget.DotsPageIndicator;
 import com.fjoglar.etsitnews.view.widget.InkPageIndicator;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,7 +114,7 @@ public class AboutActivity extends AppCompatActivity {
             inkPageIndicator.setViewPager(pager);
 
         } else {
-            CirclePageIndicator circlePageIndicator = (CirclePageIndicator) viewIndicator;
+            DotsPageIndicator circlePageIndicator = (DotsPageIndicator) viewIndicator;
             circlePageIndicator.setViewPager(pager);
         }
     }

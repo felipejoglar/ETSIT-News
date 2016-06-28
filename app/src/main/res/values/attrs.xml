@@ -31,4 +31,16 @@
         <attr name="currentPageIndicatorColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="DotsPageIndicator">
+        <attr name="centered" format="boolean" />
+        <attr name="fillColor" format="color" />
+        <attr name="pageColor" format="color" />
+        <attr name="android:orientation"/>
+        <attr name="radius" format="dimension" />
+        <attr name="snap" format="boolean" />
+        <attr name="strokeColor" format="color" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="android:background"/>
+    </declare-styleable>
+
 </resources>

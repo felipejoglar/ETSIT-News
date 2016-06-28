@@ -75,6 +75,5 @@ dependencies {
 
     // Other third party libraries
     compile 'org.jsoup:jsoup:1.9.1'
-    compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
 
 }
