@@ -157,6 +157,12 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
     public void showNewsItem(NewsItem newsItem) {
         if (newsItem == null) {
             onBackPressed();

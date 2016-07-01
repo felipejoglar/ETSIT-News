@@ -161,18 +161,21 @@ public class BookmarksListActivity extends AppCompatActivity
     public void onBackPressed() {
         if (mBackToListActivity) {
             super.onBackPressed();
+            overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
         } else if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
         }
     }
 
     @Override
     public void itemClicked(long date) {
         Navigator.getInstance().navigateToNewsDetails(getContext(), date, ACTIVITY_SOURCE);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @Override
@@ -305,9 +308,11 @@ public class BookmarksListActivity extends AppCompatActivity
                                 break;
                             case R.id.settings_navigation_menu_item:
                                 Navigator.getInstance().navigateToSettings(getContext());
+                                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                                 break;
                             case R.id.about_navigation_menu_item:
                                 Navigator.getInstance().navigateToAbout(getContext());
+                                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                                 break;
                             default:
                                 break;

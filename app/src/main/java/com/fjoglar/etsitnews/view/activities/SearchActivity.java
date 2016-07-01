@@ -147,6 +147,7 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public void itemClicked(long date) {
         Navigator.getInstance().navigateToNewsDetails(getContext(), date, "NEWS");
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @Override

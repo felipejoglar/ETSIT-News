@@ -105,6 +105,12 @@ public class SettingsActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+    }
+
     // This gets called after the preference is changed, which is important because we
     // modify our synchronization period here.
     @Override

@@ -196,6 +196,7 @@ public class NewsListActivity extends AppCompatActivity
     @Override
     public void itemClicked(long date) {
         Navigator.getInstance().navigateToNewsDetails(getContext(), date, ACTIVITY_SOURCE);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @Override
@@ -353,12 +354,15 @@ public class NewsListActivity extends AppCompatActivity
                             case R.id.bookmarks_navigation_menu_item:
                                 menuItem.setChecked(true);
                                 Navigator.getInstance().navigateToBookmarksList(getContext());
+                                overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
                                 break;
                             case R.id.settings_navigation_menu_item:
                                 Navigator.getInstance().navigateToSettings(getContext());
+                                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                                 break;
                             case R.id.about_navigation_menu_item:
                                 Navigator.getInstance().navigateToAbout(getContext());
+                                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                                 break;
                             default:
                                 break;

@@ -88,6 +88,12 @@ public class AboutActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
+    }
+
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, AboutActivity.class);
     }
