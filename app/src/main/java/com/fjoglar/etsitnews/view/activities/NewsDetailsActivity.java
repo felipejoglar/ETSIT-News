@@ -174,18 +174,17 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                     .extractAttachments(newsItem.getAttachments());
 
             if (attachmentList != null) {
-                if (detailAttachmentsCard.getVisibility() == View.GONE) {
-                    detailAttachmentsCard.setVisibility(View.VISIBLE);
-                    for (final Attachment attachment : attachmentList) {
-                        final TextView attachmentTextView = new TextView(this);
-                        UiUtils.configureTextView(attachmentTextView,
-                                attachment.getTitle(),
-                                attachment.getDownloadLink(),
-                                attachment.getFileType(),
-                                getContext());
-                        detailAttachmentsCardContent.addView(attachmentTextView);
-                    }
+                for (final Attachment attachment : attachmentList) {
+                    final TextView attachmentTextView = new TextView(this);
+                    UiUtils.configureTextView(attachmentTextView,
+                            attachment.getTitle(),
+                            attachment.getDownloadLink(),
+                            attachment.getFileType(),
+                            getContext());
+                    detailAttachmentsCardContent.addView(attachmentTextView);
                 }
+            } else {
+                detailAttachmentsCard.setVisibility(View.GONE);
             }
             // Set the NewsItem title as subtitle of the Toolbar.
             toolbar.setSubtitle(newsItem.getTitle());

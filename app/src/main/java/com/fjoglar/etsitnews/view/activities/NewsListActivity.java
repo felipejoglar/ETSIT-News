@@ -319,6 +319,7 @@ public class NewsListActivity extends AppCompatActivity
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerNewsList.setAdapter(adapter);
         recyclerNewsList.getLayoutManager().onRestoreInstanceState(mRecyclerNewsListState);
+        recyclerNewsList.setHasFixedSize(true);
     }
 
     private void setUpToolbar() {

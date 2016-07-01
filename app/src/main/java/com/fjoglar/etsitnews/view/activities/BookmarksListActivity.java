@@ -267,6 +267,7 @@ public class BookmarksListActivity extends AppCompatActivity
         final NewsListAdapter adapter = new NewsListAdapter(this);
         recyclerBookmarksList.setAdapter(adapter);
         recyclerBookmarksList.getLayoutManager().onRestoreInstanceState(mRecyclerBookmarksListState);
+        recyclerBookmarksList.setHasFixedSize(true);
     }
 
     private void setUpToolbar() {
