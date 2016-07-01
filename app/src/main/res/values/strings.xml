@@ -15,7 +15,7 @@
  limitations under the License.
 -->
 <resources xmlns:xliff="http://schemas.android.com/tools">
-    <string name="app_name">ETSIT News</string>
+    <string name="app_name">ETSIT Noticias</string>
 
     <!-- Activities titles related-->
     <string name="news_list_activity_title">Noticias</string>
