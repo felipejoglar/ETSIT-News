@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
+import com.fjoglar.etsitnews.utils.UiUtils;
 import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 import java.security.InvalidParameterException;
@@ -94,7 +95,9 @@ public class LibraryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void bindLibrary(final LibraryHolder holder, final Library lib) {
         holder.libraryName.setText(lib.name);
-        holder.libraryImage.setImageResource(lib.image);
+        holder.libraryImage.setImageDrawable(UiUtils.getCircleBitmapDrawable(
+                holder.libraryImage.getContext(),
+                lib.image));
         final View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

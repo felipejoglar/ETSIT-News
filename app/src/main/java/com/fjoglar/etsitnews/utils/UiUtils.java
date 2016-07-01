@@ -16,7 +16,11 @@
 package com.fjoglar.etsitnews.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -123,6 +127,23 @@ public class UiUtils {
                 * (context.getResources().getDisplayMetrics().xdpi
                         / DisplayMetrics.DENSITY_DEFAULT));
 
+    }
+
+    /**
+     * Create a circular drawable from a resource drawable id.
+     *
+     * @param context   Need to get the resoources
+     * @param resId     Draawble's id.
+     *
+     * @return RoundedBitmapDrawable
+     */
+    public static RoundedBitmapDrawable getCircleBitmapDrawable(Context context, int resId) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resId);
+        RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory
+                .create(context.getResources(), bitmap);
+        drawable.setCornerRadius(Math.max(bitmap.getWidth() / 2, bitmap.getHeight() / 2));
+        drawable.setAntiAlias(true);
+        return drawable;
     }
 
 }
