@@ -24,10 +24,10 @@
     <dimen name="card_vertical_margin">4dp</dimen>
 
     <!-- Navivation Drawer related. -->
-    <dimen name="navdrawer_header_height">140dp</dimen>
+    <dimen name="navdrawer_header_height">120dp</dimen>
 
     <!-- Filter Navigation Drawer related. -->
-    <dimen name="filter_drawer_width">264dp</dimen>
+    <dimen name="drawer_width">264dp</dimen>
     <dimen name="padding_normal">16dp</dimen>
     <dimen name="divider_height">1dp</dimen>
 

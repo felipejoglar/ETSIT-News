@@ -21,5 +21,9 @@
 
     <!-- Filter Navigation Drawer related. -->
     <dimen name="padding_normal">24dp</dimen>
+    <dimen name="drawer_width">400dp</dimen>
+
+    <!-- Navivation Drawer related. -->
+    <dimen name="navdrawer_header_height">225dp</dimen>
 
 </resources>
