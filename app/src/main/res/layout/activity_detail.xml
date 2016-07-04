@@ -94,7 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/detail_view_padding"
                     android:layout_marginRight="@dimen/detail_view_padding"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/detail_attachments_card_content"
