@@ -28,7 +28,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -74,6 +74,6 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 
     // Other third party libraries
-    compile 'org.jsoup:jsoup:1.9.1'
+    compile 'org.jsoup:jsoup:1.9.2'
 
 }
