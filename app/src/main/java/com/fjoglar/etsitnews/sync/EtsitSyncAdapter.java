@@ -27,9 +27,9 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.model.repository.NewsDataSource;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
-import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
+import com.fjoglar.etsitnews.data.repository.NewsDataSource;
+import com.fjoglar.etsitnews.data.repository.NewsRepository;
+import com.fjoglar.etsitnews.data.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.view.notification.Notification;
 
 public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {

@@ -16,7 +16,7 @@
 package com.fjoglar.etsitnews.domain.usecase;
 
 import com.fjoglar.etsitnews.domain.UseCase;
-import com.fjoglar.etsitnews.model.repository.NewsDataSource;
+import com.fjoglar.etsitnews.data.repository.NewsDataSource;
 
 public class DeleteBookmark
         extends UseCase<DeleteBookmark.RequestValues, DeleteBookmark.ResponseValue> {

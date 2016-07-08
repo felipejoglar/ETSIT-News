@@ -15,8 +15,8 @@
  */
 package com.fjoglar.etsitnews.presenter.contracts;
 
-import com.fjoglar.etsitnews.model.entities.Category;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.data.entities.Category;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.BasePresenter;
 import com.fjoglar.etsitnews.view.BaseView;
 

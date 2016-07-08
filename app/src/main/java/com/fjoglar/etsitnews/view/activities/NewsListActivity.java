@@ -43,8 +43,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.model.entities.Category;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.data.entities.Category;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.NewsListPresenter;
 import com.fjoglar.etsitnews.presenter.PresenterHolder;
 import com.fjoglar.etsitnews.presenter.contracts.NewsListContract;

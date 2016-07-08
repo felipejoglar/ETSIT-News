@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.model.repository.datasource;
+package com.fjoglar.etsitnews.data.repository.datasource;
 
 import android.content.Context;
 import android.content.SharedPreferences;

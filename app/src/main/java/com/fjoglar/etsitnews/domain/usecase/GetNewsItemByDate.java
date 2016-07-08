@@ -16,8 +16,8 @@
 package com.fjoglar.etsitnews.domain.usecase;
 
 import com.fjoglar.etsitnews.domain.UseCase;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.model.repository.NewsDataSource;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
+import com.fjoglar.etsitnews.data.repository.NewsDataSource;
 
 public class GetNewsItemByDate
         extends UseCase<GetNewsItemByDate.RequestValues, GetNewsItemByDate.ResponseValue> {

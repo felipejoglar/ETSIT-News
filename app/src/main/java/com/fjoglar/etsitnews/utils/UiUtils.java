@@ -32,7 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.model.entities.Attachment;
+import com.fjoglar.etsitnews.data.entities.Attachment;
 import com.fjoglar.etsitnews.view.navigation.Navigator;
 
 public class UiUtils {

@@ -18,8 +18,8 @@ package com.fjoglar.etsitnews.utils;
 import android.content.Context;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.model.entities.Category;
-import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
+import com.fjoglar.etsitnews.data.entities.Category;
+import com.fjoglar.etsitnews.data.repository.datasource.NewsSharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;

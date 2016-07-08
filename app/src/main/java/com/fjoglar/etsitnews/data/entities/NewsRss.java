@@ -13,41 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.model.entities;
+package com.fjoglar.etsitnews.data.entities;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-import java.util.List;
-
 /**
- * This class holds the RSS Channel from www.etsit.uva.es.
+ * This class holds the RSS from www.etsit.uva.es.
  * It is made to work with retrofit and simpleXML converter.
  *
  * More info on simple XML serialization:
  * http://simple.sourceforge.net/home.php
  */
-@Root(name = "channel",
-        strict = false)
-public class NewsChannel {
+@Root(name = "rss")
+public class NewsRss {
 
-    @Element(name = "title")
-    private String title;
+    @Attribute(name = "version")
+    private String version;
 
-    @Element(name = "link")
-    private String link;
+    @Element(name = "channel")
+    private NewsChannel newsChannel;
 
-    @Element(name = "description")
-    private String description;
-
-    @Element(name = "pubDate")
-    private String pubDate;
-
-    @ElementList(inline = true)
-    private List<NewsItem> itemList;
-
-    public List<NewsItem> getItemList() {
-        return itemList;
+    public NewsChannel getChannel() {
+        return newsChannel;
     }
 }

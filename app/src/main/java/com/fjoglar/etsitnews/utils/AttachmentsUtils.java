@@ -15,7 +15,7 @@
  */
 package com.fjoglar.etsitnews.utils;
 
-import com.fjoglar.etsitnews.model.entities.Attachment;
+import com.fjoglar.etsitnews.data.entities.Attachment;
 
 import java.util.ArrayList;
 import java.util.List;

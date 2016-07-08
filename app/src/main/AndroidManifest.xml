@@ -69,7 +69,7 @@
             android:name=".view.activities.AboutActivity" />
 
         <provider
-            android:name=".model.repository.datasource.local.NewsProvider"
+            android:name=".data.repository.datasource.local.NewsProvider"
             android:authorities="com.fjoglar.etsitnews"
             android:exported="false"
             android:syncable="true" />

@@ -35,7 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.SearchPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.SearchContract;
 import com.fjoglar.etsitnews.view.adapter.NewsListAdapter;

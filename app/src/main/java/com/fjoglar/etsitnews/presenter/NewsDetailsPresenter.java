@@ -23,8 +23,8 @@ import com.fjoglar.etsitnews.domain.usecase.DeleteBookmark;
 import com.fjoglar.etsitnews.domain.usecase.GetBookmarkByDate;
 import com.fjoglar.etsitnews.domain.usecase.GetNewsItemByDate;
 import com.fjoglar.etsitnews.domain.usecase.SaveBookmark;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
+import com.fjoglar.etsitnews.data.repository.NewsRepository;
 import com.fjoglar.etsitnews.presenter.contracts.NewsDetailsContract;
 
 public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {

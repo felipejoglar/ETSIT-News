@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.model.repository.datasource.local;
+package com.fjoglar.etsitnews.data.repository.datasource.local;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -23,8 +23,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.fjoglar.etsitnews.model.repository.datasource.local.NewsContract.BookmarksEntry;
-import com.fjoglar.etsitnews.model.repository.datasource.local.NewsContract.NewsEntry;
+import com.fjoglar.etsitnews.data.repository.datasource.local.NewsContract.BookmarksEntry;
+import com.fjoglar.etsitnews.data.repository.datasource.local.NewsContract.NewsEntry;
 
 public class NewsProvider extends ContentProvider {
 

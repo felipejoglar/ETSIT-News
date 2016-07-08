@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.model.repository.search;
+package com.fjoglar.etsitnews.data.repository.search;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,7 +22,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 
-import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
 
 import java.util.List;
 

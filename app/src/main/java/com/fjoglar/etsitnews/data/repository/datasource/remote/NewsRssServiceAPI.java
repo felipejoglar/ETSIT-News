@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fjoglar.etsitnews.model.repository.datasource.remote;
+package com.fjoglar.etsitnews.data.repository.datasource.remote;
 
-import com.fjoglar.etsitnews.model.entities.NewsRss;
+import com.fjoglar.etsitnews.data.entities.NewsRss;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

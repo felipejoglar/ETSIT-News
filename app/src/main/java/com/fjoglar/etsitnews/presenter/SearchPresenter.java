@@ -20,8 +20,8 @@ import android.support.annotation.NonNull;
 import com.fjoglar.etsitnews.domain.UseCase;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
 import com.fjoglar.etsitnews.domain.usecase.GetSearch;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
-import com.fjoglar.etsitnews.model.repository.NewsRepository;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
+import com.fjoglar.etsitnews.data.repository.NewsRepository;
 import com.fjoglar.etsitnews.presenter.contracts.SearchContract;
 
 import java.util.List;

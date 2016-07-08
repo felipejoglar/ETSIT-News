@@ -30,8 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.model.entities.Attachment;
-import com.fjoglar.etsitnews.model.entities.NewsItem;
+import com.fjoglar.etsitnews.data.entities.Attachment;
+import com.fjoglar.etsitnews.data.entities.NewsItem;
 import com.fjoglar.etsitnews.presenter.NewsDetailsPresenter;
 import com.fjoglar.etsitnews.presenter.contracts.NewsDetailsContract;
 import com.fjoglar.etsitnews.utils.AttachmentsUtils;

@@ -19,7 +19,7 @@ import android.support.annotation.NonNull;
 
 import com.fjoglar.etsitnews.R;
 import com.fjoglar.etsitnews.domain.UseCaseHandler;
-import com.fjoglar.etsitnews.model.repository.datasource.NewsSharedPreferences;
+import com.fjoglar.etsitnews.data.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnews.presenter.contracts.SettingsContract;
 
 public class SettingsPresenter implements SettingsContract.Presenter {

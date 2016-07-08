@@ -24,7 +24,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.fjoglar.etsitnews.R;
-import com.fjoglar.etsitnews.model.entities.Category;
+import com.fjoglar.etsitnews.data.entities.Category;
 
 import java.util.Collections;
 import java.util.List;
