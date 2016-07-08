@@ -38,6 +38,8 @@ public interface NewsListContract {
 
         void showError();
 
+        void showNoInternetMsg();
+
         void showLastUpdateTime(String lastUpdateTime);
 
         void updateFilterList();

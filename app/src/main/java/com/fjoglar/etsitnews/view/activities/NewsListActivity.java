@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -162,7 +163,7 @@ public class NewsListActivity extends AppCompatActivity
         final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         final MenuItem filterMenuItem = menu.findItem(R.id.action_filter);
 
-        setUpSearchView(searchMenuItem,filterMenuItem);
+        setUpSearchView(searchMenuItem, filterMenuItem);
 
         return true;
     }
@@ -267,6 +268,18 @@ public class NewsListActivity extends AppCompatActivity
             emptyStateMsgHint.setText(R.string.no_news_msg_hint);
             emptyStateButton.setText(R.string.open_filter_message);
         }
+    }
+
+    @Override
+    public void showNoInternetMsg() {
+        Snackbar.make(drawerLayout, R.string.no_internet_msg_short, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.retry_message, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refreshNews();
+                    }
+                })
+                .setDuration(7000).show();
     }
 
     @Override
@@ -383,7 +396,7 @@ public class NewsListActivity extends AppCompatActivity
     private void setUpSearchView(MenuItem searchMenuItem, final MenuItem filterMenuItem) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE );
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         TextView searchText = (TextView)
                 searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);

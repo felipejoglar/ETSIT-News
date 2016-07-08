@@ -116,6 +116,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     public void onError() {
                         mNewsListView.hideUpdating();
                         mUpdateStatus = false;
+                        mNewsListView.showNoInternetMsg();
                     }
                 });
     }
