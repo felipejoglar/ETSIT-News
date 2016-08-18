@@ -16,13 +16,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.fjoglar.etsitnoticias"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 4
         versionName "2.0"
     }
@@ -47,7 +47,7 @@ buildscript {
 apply plugin: 'com.neenbedankt.android-apt'
 
 ext {
-    supportLibVersion = '23.4.0'
+    supportLibVersion = '24.2.0'
     retrofitLibVersion = '2.0.0'
 }
 
