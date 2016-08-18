@@ -50,8 +50,8 @@
 
     <!-- Account type (for sync-adapter authenticator) -->
     <!-- SyncAdapter related -->
-    <string name="sync_account_type">etsitnews.fjoglar.com</string>
-    <string name="content_authority">com.fjoglar.etsitnews</string>
+    <string name="sync_account_type">etsitnoticias.fjoglar.com</string>
+    <string name="content_authority">com.fjoglar.etsitnoticias</string>
 
     <!-- SharedPreferences related-->
     <string name="pref_last_updated_key" translatable="false">last_updated</string>

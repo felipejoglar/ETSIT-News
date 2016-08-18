@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<com.fjoglar.etsitnews.view.widget.MaterialProgressBar
+<com.fjoglar.etsitnoticias.view.widget.MaterialProgressBar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/progress_bar"

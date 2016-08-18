@@ -15,7 +15,7 @@
  limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fjoglar.etsitnews">
+    package="com.fjoglar.etsitnoticias">
 
     <!-- Required for fetching feed data. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -70,7 +70,7 @@
 
         <provider
             android:name=".data.repository.datasource.local.NewsProvider"
-            android:authorities="com.fjoglar.etsitnews"
+            android:authorities="@string/content_authority"
             android:exported="false"
             android:syncable="true" />
 
