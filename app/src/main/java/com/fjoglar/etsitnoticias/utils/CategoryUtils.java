@@ -34,49 +34,49 @@ public class CategoryUtils {
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_1),
                 "12",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_1_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_2),
                 "1,2",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_2_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_3),
                 "11",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_3_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_4),
                 "3,4",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_4_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_5),
                 "5",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_5_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_6),
                 "15",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_6_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_7),
                 "16",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_7_key),
                         true)));
         categories.add(new Category(
                 newsSharedPreferences.getStringFromResId(R.string.filter_8),
                 "6,7,8,9,10,13,14",
-                newsSharedPreferences.get(
+                newsSharedPreferences.getBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_8_key),
                         true)));
 
@@ -88,42 +88,42 @@ public class CategoryUtils {
 
         switch (category.getCategoriesNumber()){
             case "12":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_1_key),
                         !category.isEnabled());
                 break;
             case "1,2":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_2_key),
                         !category.isEnabled());
                 break;
             case "11":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_3_key),
                         !category.isEnabled());
                 break;
             case "3,4":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_4_key),
                         !category.isEnabled());
                 break;
             case "5":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_5_key),
                         !category.isEnabled());
                 break;
             case "15":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_6_key),
                         !category.isEnabled());
                 break;
             case "16":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_7_key),
                         !category.isEnabled());
                 break;
             case "6,7,8,9,10,13,14":
-                newsSharedPreferences.put(
+                newsSharedPreferences.putBoolean(
                         newsSharedPreferences.getStringFromResId(R.string.pref_filter_8_key),
                         !category.isEnabled());
                 break;

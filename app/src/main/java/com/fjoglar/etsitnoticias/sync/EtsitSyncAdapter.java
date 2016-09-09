@@ -38,6 +38,7 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
     // One hour interval.
     public static final int SYNC_INTERVAL = 60 * 60;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+    public static final int DEFAULT_SYNC_INTERVAL = 1;          // in hours.
 
     public EtsitSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -55,7 +56,7 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 // Update last updated time in SharedPreferences.
                 NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-                newsSharedPreferences.put(
+                newsSharedPreferences.putLong(
                         newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key),
                         System.currentTimeMillis());
             }
@@ -95,9 +96,9 @@ public class EtsitSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        int syncPeriod = newsSharedPreferences.get(
+        int syncPeriod = newsSharedPreferences.getInt(
                 newsSharedPreferences.getStringFromResId(R.string.pref_sync_frequency_key),
-                1);
+                DEFAULT_SYNC_INTERVAL);
 
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);

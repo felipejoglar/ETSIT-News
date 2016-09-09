@@ -106,7 +106,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
                         // Update last updated time in SharedPreferences.
                         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-                        newsSharedPreferences.put(
+                        newsSharedPreferences.putLong(
                                 newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key),
                                 System.currentTimeMillis());
                         showLastUpdateTime();
@@ -142,12 +142,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     private void updateIfNeeded() {
         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        boolean firstStart = newsSharedPreferences.get(
+        boolean firstStart = newsSharedPreferences.getBoolean(
                 newsSharedPreferences.getStringFromResId(R.string.pref_first_start_key),
                 true);
         if (firstStart) {
             updateNews();
-            newsSharedPreferences.put(
+            newsSharedPreferences.putBoolean(
                     newsSharedPreferences.getStringFromResId(R.string.pref_first_start_key),
                     false);
         }
@@ -167,7 +167,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     private void showLastUpdateTime() {
         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        long lastUpdateTimeinMillis = newsSharedPreferences.get(
+        long lastUpdateTimeinMillis = newsSharedPreferences.getLong(
                 newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key), 0L);
 
         mNewsListView.showLastUpdateTime(DateUtils.formatLastUpdateTime(lastUpdateTimeinMillis));

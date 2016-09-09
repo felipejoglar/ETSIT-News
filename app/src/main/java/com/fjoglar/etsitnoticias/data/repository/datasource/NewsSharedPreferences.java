@@ -39,7 +39,7 @@ public class NewsSharedPreferences {
     }
 
     // Put and Get SharedPreferences Strings.
-    public void put(String key, String value) {
+    public void putString(String key, String value) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         if (value == null) {
             prefs.edit().putString(key, null).apply();
@@ -48,40 +48,40 @@ public class NewsSharedPreferences {
         }
     }
 
-    public String get(String key, String defaultValue) {
+    public String getString(String key, String defaultValue) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         return prefs.getString(key, defaultValue);
     }
 
     // Put and Get SharedPreferences Booleans.
-    public void put(String key, Boolean value) {
+    public void putBoolean(String key, Boolean value) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         prefs.edit().putBoolean(key, value).apply();
     }
 
-    public Boolean get(String key, Boolean defaultValue) {
+    public Boolean getBoolean(String key, Boolean defaultValue) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         return prefs.getBoolean(key, defaultValue);
     }
 
     // Put and Get SharedPreferences ints.
-    public void put(String key, int value) {
+    public void putInt(String key, int value) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         prefs.edit().putInt(key, value).apply();
     }
 
-    public int get(String key, int defaultValue) {
+    public int getInt(String key, int defaultValue) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         return prefs.getInt(key, defaultValue);
     }
 
     // Put and Get SharedPreferences longs.
-    public void put(String key, long value) {
+    public void putLong(String key, long value) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         prefs.edit().putLong(key, value).apply();
     }
 
-    public long get(String key, long defaultValue) {
+    public long getLong(String key, long defaultValue) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         return prefs.getLong(key, defaultValue);
     }

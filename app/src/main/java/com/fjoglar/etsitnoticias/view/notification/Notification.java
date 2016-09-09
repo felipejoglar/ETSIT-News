@@ -98,11 +98,11 @@ public class Notification {
 
     private static boolean needToNotify() {
         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        boolean isNotificationOn = newsSharedPreferences.get(
+        boolean isNotificationOn = newsSharedPreferences.getBoolean(
                 newsSharedPreferences.getStringFromResId(R.string.pref_enable_notifications_key),
                 true);
         if (isNotificationOn) {
-            long lastUpdatedTime = newsSharedPreferences.get(
+            long lastUpdatedTime = newsSharedPreferences.getLong(
                     newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key), 0L);
 
             NewsDataSource newsDataSource = NewsRepository.getInstance();

@@ -39,11 +39,11 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     @Override
     public void getCurrentSettings() {
         boolean isNotificationEnabled =
-                mNewsSharedPreferences.get(
+                mNewsSharedPreferences.getBoolean(
                         mNewsSharedPreferences.getStringFromResId(R.string.pref_enable_notifications_key),
                         true);
         int syncFrequencyPeriod =
-                mNewsSharedPreferences.get(
+                mNewsSharedPreferences.getInt(
                         mNewsSharedPreferences.getStringFromResId(R.string.pref_sync_frequency_key),
                         1);
         int index = getSyncFrequencyIndex(syncFrequencyPeriod);
@@ -56,14 +56,14 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void updateNotificationSettings(boolean isNotificationEnabled) {
-        mNewsSharedPreferences.put(
+        mNewsSharedPreferences.putBoolean(
                 mNewsSharedPreferences.getStringFromResId(R.string.pref_enable_notifications_key),
                 isNotificationEnabled);
     }
 
     @Override
     public void updateSyncFrequencySettings(int index) {
-        mNewsSharedPreferences.put(
+        mNewsSharedPreferences.putInt(
                 mNewsSharedPreferences.getStringFromResId(R.string.pref_sync_frequency_key),
                 getSyncFrequencyValue(index));
     }

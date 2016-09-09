@@ -108,7 +108,7 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
 
     private void showLastUpdateTime() {
         NewsSharedPreferences newsSharedPreferences = NewsSharedPreferences.getInstance();
-        long lastUpdateTimeinMillis = newsSharedPreferences.get(
+        long lastUpdateTimeinMillis = newsSharedPreferences.getLong(
                 newsSharedPreferences.getStringFromResId(R.string.pref_last_updated_key), 0L);
 
         mBookmarksListView.showLastUpdateTime(DateUtils.formatLastUpdateTime(lastUpdateTimeinMillis));
