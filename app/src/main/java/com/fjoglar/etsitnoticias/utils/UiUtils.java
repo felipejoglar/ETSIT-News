@@ -132,8 +132,8 @@ public class UiUtils {
     /**
      * Create a circular drawable from a resource drawable id.
      *
-     * @param context   Need to get the resoources
-     * @param resId     Draawble's id.
+     * @param context   Need to get the resources
+     * @param resId     Drawable's id.
      *
      * @return RoundedBitmapDrawable
      */
