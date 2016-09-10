@@ -32,10 +32,10 @@ public class DotsView extends View {
     private static final int DOTS_COUNT = 7;
     private static final int OUTER_DOTS_POSITION_ANGLE = 360 / DOTS_COUNT;
 
-    private static final int COLOR_1 = 0xFFFFC107;
-    private static final int COLOR_2 = 0xFFFF9800;
-    private static final int COLOR_3 = 0xFFFF5722;
-    private static final int COLOR_4 = 0xFFF44336;
+    private static final int COLOR_1 = 0xFFE67E22;  // accent color
+    private static final int COLOR_2 = 0xFFE6E022;  // analog +30
+    private static final int COLOR_3 = 0xFFE62228;  // analog -30
+    private static final int COLOR_4 = 0xFF22E67E;  // triad +120
 
     private final Paint[] circlePaints = new Paint[4];
 

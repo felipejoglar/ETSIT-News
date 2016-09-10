@@ -32,8 +32,8 @@ import com.fjoglar.etsitnoticias.utils.UiUtils;
 
 public class CircleView extends View {
 
-    private static final int START_COLOR = 0xFFFF5722;
-    private static final int END_COLOR = 0xFFFFC107;
+    private static final int START_COLOR = 0xFFE6E022;      // analog +30
+    private static final int END_COLOR = 0xFFE67E22;        // accent
 
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
