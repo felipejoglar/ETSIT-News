@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.data.entities.Category;
@@ -202,6 +203,7 @@ public class NewsListActivity extends AppCompatActivity
 
     @Override
     public void onBookmarkClicked(NewsItem newsItem) {
+        mNewsListPresenter.manageBookmark(newsItem);
     }
 
     @Override
@@ -272,6 +274,11 @@ public class NewsListActivity extends AppCompatActivity
             emptyStateMsgHint.setText(R.string.no_news_msg_hint);
             emptyStateButton.setText(R.string.open_filter_message);
         }
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

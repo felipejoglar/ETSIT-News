@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
@@ -153,6 +154,7 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     public void onBookmarkClicked(NewsItem newsItem) {
+        mSearchPresenter.manageBookmark(newsItem);
     }
 
     @Override
@@ -185,6 +187,11 @@ public class SearchActivity extends AppCompatActivity
         emptyStateMsg.setText(R.string.no_search_msg);
         emptyStateMsgHint.setText(getString(R.string.no_searh_msg_hint, mQuery));
         emptyStateButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

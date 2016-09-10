@@ -180,4 +180,9 @@ public class BookmarkButtonView extends FrameLayout implements View.OnClickListe
         }
         return true;
     }
+
+    public void setImage(int isBookmarked) {
+        isChecked = (isBookmarked == 1);
+        mBookmark.setImageResource(isChecked ? R.drawable.ic_bookmark_on : R.drawable.ic_bookmark_off);
+    }
 }

@@ -38,6 +38,8 @@ public interface NewsListContract {
 
         void showError();
 
+        void showMessage(String message);
+
         void showNoInternetMsg();
 
         void showLastUpdateTime(String lastUpdateTime);
@@ -55,6 +57,9 @@ public interface NewsListContract {
         void setView(NewsListContract.View view);
 
         void filterItemClicked(List<Category> categoryList, int position);
+
+        void manageBookmark(NewsItem newsItem);
+
     }
 
 }

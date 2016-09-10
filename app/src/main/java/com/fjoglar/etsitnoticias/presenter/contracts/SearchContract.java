@@ -33,11 +33,15 @@ public interface SearchContract {
 
         void showError();
 
+        void showMessage(String message);
+
     }
 
     interface Presenter extends BasePresenter {
 
         void performSearch(String query);
+
+        void manageBookmark(NewsItem newsItem);
 
     }
 

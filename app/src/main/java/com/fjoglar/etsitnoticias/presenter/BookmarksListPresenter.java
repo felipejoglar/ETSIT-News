@@ -20,12 +20,14 @@ import android.support.annotation.NonNull;
 import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.domain.UseCase;
 import com.fjoglar.etsitnoticias.domain.UseCaseHandler;
+import com.fjoglar.etsitnoticias.domain.usecase.DeleteBookmark;
 import com.fjoglar.etsitnoticias.domain.usecase.GetBookmarks;
 import com.fjoglar.etsitnoticias.domain.usecase.GetFilteredBookmarks;
 import com.fjoglar.etsitnoticias.data.entities.Category;
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
 import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
 import com.fjoglar.etsitnoticias.data.repository.datasource.NewsSharedPreferences;
+import com.fjoglar.etsitnoticias.domain.usecase.SaveBookmark;
 import com.fjoglar.etsitnoticias.presenter.contracts.BookmarksListContract;
 import com.fjoglar.etsitnoticias.utils.CategoryUtils;
 import com.fjoglar.etsitnoticias.utils.DateUtils;
@@ -82,6 +84,45 @@ public class BookmarksListPresenter implements BookmarksListContract.Presenter {
                         public void onError() {
                             mBookmarksListView.hideProgress();
                             mBookmarksListView.showError();
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void manageBookmark(NewsItem newsItem) {
+        mBookmarksListView.showProgress();
+        if (newsItem.getBookmarked() == 0) {
+            SaveBookmark saveBookmark = new SaveBookmark(NewsRepository.getInstance());
+            mUseCaseHandler.execute(saveBookmark, new SaveBookmark.RequestValues(newsItem),
+                    new UseCase.UseCaseCallback<SaveBookmark.ResponseValue>() {
+                        @Override
+                        public void onSuccess(SaveBookmark.ResponseValue response) {
+                            getBookmarks();
+                            mBookmarksListView.hideProgress();
+                            mBookmarksListView.showMessage("Favorito guardado");
+                        }
+
+                        @Override
+                        public void onError() {
+                            mBookmarksListView.hideProgress();
+                        }
+                    });
+        } else {
+            DeleteBookmark deleteBookmark = new DeleteBookmark(NewsRepository.getInstance());
+            mUseCaseHandler.execute(deleteBookmark,
+                    new DeleteBookmark.RequestValues(newsItem.getFormattedPubDate()),
+                    new UseCase.UseCaseCallback<DeleteBookmark.ResponseValue>() {
+                        @Override
+                        public void onSuccess(DeleteBookmark.ResponseValue response) {
+                            getBookmarks();
+                            mBookmarksListView.hideProgress();
+                            mBookmarksListView.showMessage("Favorito borrado");
+                        }
+
+                        @Override
+                        public void onError() {
+                            mBookmarksListView.hideProgress();
                         }
                     });
         }

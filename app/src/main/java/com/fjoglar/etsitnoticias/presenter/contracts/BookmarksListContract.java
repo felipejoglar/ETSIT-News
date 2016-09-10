@@ -34,6 +34,8 @@ public interface BookmarksListContract {
 
         void showError();
 
+        void showMessage(String message);
+
         void showLastUpdateTime(String lastUpdateTime);
 
         void updateFilterList();
@@ -45,6 +47,8 @@ public interface BookmarksListContract {
         void getBookmarks();
 
         void filterItemClicked(List<Category> categoryList, int position);
+
+        void manageBookmark(NewsItem newsItem);
 
     }
 

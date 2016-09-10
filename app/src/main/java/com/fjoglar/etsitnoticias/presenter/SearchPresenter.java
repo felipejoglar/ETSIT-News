@@ -19,9 +19,11 @@ import android.support.annotation.NonNull;
 
 import com.fjoglar.etsitnoticias.domain.UseCase;
 import com.fjoglar.etsitnoticias.domain.UseCaseHandler;
+import com.fjoglar.etsitnoticias.domain.usecase.DeleteBookmark;
 import com.fjoglar.etsitnoticias.domain.usecase.GetSearch;
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
 import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
+import com.fjoglar.etsitnoticias.domain.usecase.SaveBookmark;
 import com.fjoglar.etsitnoticias.presenter.contracts.SearchContract;
 
 import java.util.List;
@@ -59,6 +61,42 @@ public class SearchPresenter implements SearchContract.Presenter {
                         mSearchView.showError();
                     }
                 });
+    }
+
+    public void manageBookmark(NewsItem newsItem) {
+        mSearchView.showProgress();
+        if (newsItem.getBookmarked() == 0) {
+            SaveBookmark saveBookmark = new SaveBookmark(NewsRepository.getInstance());
+            mUseCaseHandler.execute(saveBookmark, new SaveBookmark.RequestValues(newsItem),
+                    new UseCase.UseCaseCallback<SaveBookmark.ResponseValue>() {
+                        @Override
+                        public void onSuccess(SaveBookmark.ResponseValue response) {
+                            mSearchView.hideProgress();
+                            mSearchView.showMessage("Favorito guardado");
+                        }
+
+                        @Override
+                        public void onError() {
+                            mSearchView.hideProgress();
+                        }
+                    });
+        } else {
+            DeleteBookmark deleteBookmark = new DeleteBookmark(NewsRepository.getInstance());
+            mUseCaseHandler.execute(deleteBookmark,
+                    new DeleteBookmark.RequestValues(newsItem.getFormattedPubDate()),
+                    new UseCase.UseCaseCallback<DeleteBookmark.ResponseValue>() {
+                        @Override
+                        public void onSuccess(DeleteBookmark.ResponseValue response) {
+                            mSearchView.hideProgress();
+                            mSearchView.showMessage("Favorito borrado");
+                        }
+
+                        @Override
+                        public void onError() {
+                            mSearchView.hideProgress();
+                        }
+                    });
+        }
     }
 
     @Override

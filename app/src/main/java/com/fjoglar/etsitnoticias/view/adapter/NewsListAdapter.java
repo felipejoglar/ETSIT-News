@@ -72,6 +72,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         }
         holder.category.setText(CategoryUtils.categoryToString(holder.category.getContext(),
                 item.getCategory()));
+        holder.bookmark.setImage(item.getBookmarked());
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
