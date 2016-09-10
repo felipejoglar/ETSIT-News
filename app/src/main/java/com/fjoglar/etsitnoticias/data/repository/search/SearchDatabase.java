@@ -32,10 +32,14 @@ public class SearchDatabase {
     public static final String COL_DESCRIPTION = "DESCRIPTION";
     public static final String COL_DATE = "DATE";
     public static final String COL_CATEGORY = "CATEGORY";
+    public static final String COL_LINK = "LINK";
+    public static final String COL_ATTACHMENTS = "ATTACHMENTS";
+    public static final String COL_BOOKMARKED = "BOOKMARKED";
+
 
     private static final String DATABASE_NAME = "search";
     private static final String FTS_VIRTUAL_TABLE = "FTSsearch";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private final SearchOpenHelper mSearchOpenHelper;
     private final SQLiteDatabase mSqLiteDatabase;
@@ -71,6 +75,9 @@ public class SearchDatabase {
         values.put(COL_DESCRIPTION, newsItem.getDescription());
         values.put(COL_DATE, newsItem.getFormattedPubDate());
         values.put(COL_CATEGORY, newsItem.getCategory());
+        values.put(COL_LINK, newsItem.getLink());
+        values.put(COL_ATTACHMENTS, newsItem.getAttachments());
+        values.put(COL_BOOKMARKED, newsItem.getBookmarked());
 
         return values;
     }
@@ -119,7 +126,10 @@ public class SearchDatabase {
                         + COL_TITLE + ", "
                         + COL_DESCRIPTION + ", "
                         + COL_DATE + ", "
-                        + COL_CATEGORY + ");";
+                        + COL_CATEGORY + ", "
+                        + COL_LINK + ", "
+                        + COL_ATTACHMENTS + ", "
+                        + COL_BOOKMARKED + ");";
 
         public SearchOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);

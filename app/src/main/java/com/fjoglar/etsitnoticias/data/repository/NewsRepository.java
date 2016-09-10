@@ -400,10 +400,16 @@ public class NewsRepository implements NewsDataSource {
                 .getString(cursor.getColumnIndex(SearchDatabase.COL_TITLE)));
         item.setDescription(cursor
                 .getString(cursor.getColumnIndex(SearchDatabase.COL_DESCRIPTION)));
+        item.setLink(cursor
+                .getString(cursor.getColumnIndex(SearchDatabase.COL_LINK)));
         item.setCategory(cursor
                 .getString(cursor.getColumnIndex(SearchDatabase.COL_CATEGORY)));
         item.setFormattedPubDate(cursor
                 .getLong(cursor.getColumnIndex(SearchDatabase.COL_DATE)));
+        item.setAttachments(cursor
+                .getString(cursor.getColumnIndex(SearchDatabase.COL_ATTACHMENTS)));
+        item.setBookmarked(cursor
+                .getInt(cursor.getColumnIndex(SearchDatabase.COL_BOOKMARKED)));
 
         return item;
     }
