@@ -29,7 +29,6 @@
         android:background="?android:attr/selectableItemBackground"
         android:minHeight="?android:attr/listPreferredItemHeight"
         android:orientation="vertical"
-        android:paddingBottom="8dp"
         android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
         android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
         android:paddingRight="?android:attr/listPreferredItemPaddingRight"
@@ -68,17 +67,30 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:paddingBottom="4dp"
             android:paddingTop="4dp" />
 
-        <TextView
-            android:id="@+id/item_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_label"
-            android:drawablePadding="4dp"
-            android:gravity="center"
-            android:textSize="@dimen/card_view_date_and_category" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_label"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:textSize="@dimen/card_view_date_and_category" />
+
+            <com.fjoglar.etsitnoticias.view.widget.bookmark.BookmarkButtonView
+                android:id="@+id/item_bookmark"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

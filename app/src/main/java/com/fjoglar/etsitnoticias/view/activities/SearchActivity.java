@@ -48,7 +48,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class SearchActivity extends AppCompatActivity
-        implements SearchContract.View, NewsListAdapter.ItemClickListener {
+        implements SearchContract.View, NewsListAdapter.OnItemClickListener,
+        NewsListAdapter.OnBookmarkClickListener {
 
     private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
 
@@ -145,9 +146,13 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void itemClicked(long date) {
+    public void onItemClicked(long date) {
         Navigator.getInstance().navigateToNewsDetails(getContext(), date, "NEWS");
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    @Override
+    public void onBookmarkClicked(NewsItem newsItem) {
     }
 
     @Override
@@ -200,7 +205,7 @@ public class SearchActivity extends AppCompatActivity
     }
 
     private void setUpRecyclerView() {
-        final NewsListAdapter adapter = new NewsListAdapter(this);
+        final NewsListAdapter adapter = new NewsListAdapter(this, this);
         recyclerNewsListSearch.setAdapter(adapter);
         recyclerNewsListSearch.getLayoutManager().onRestoreInstanceState(mRecyclerNewsListSearchState);
         recyclerNewsListSearch.setHasFixedSize(true);

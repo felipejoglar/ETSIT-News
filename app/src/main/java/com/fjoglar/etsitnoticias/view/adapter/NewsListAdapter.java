@@ -27,6 +27,7 @@ import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
 import com.fjoglar.etsitnoticias.utils.CategoryUtils;
 import com.fjoglar.etsitnoticias.utils.DateUtils;
+import com.fjoglar.etsitnoticias.view.widget.bookmark.BookmarkButtonView;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,11 +40,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     private final String LOG_TAG = NewsListAdapter.class.getSimpleName();
 
     private List<NewsItem> mNewsItemList;
-    private ItemClickListener mItemClickListener;
+    private OnItemClickListener mOnItemClickListener;
+    private OnBookmarkClickListener mOnBookmarkClickListener;
 
-    public NewsListAdapter(@NonNull ItemClickListener itemClickListener) {
+    public NewsListAdapter(@NonNull OnItemClickListener onItemClickListener,
+                           @NonNull OnBookmarkClickListener onBookmarkClickListener) {
         this.mNewsItemList = Collections.emptyList();
-        this.mItemClickListener = itemClickListener;
+        this.mOnItemClickListener = onItemClickListener;
+        this.mOnBookmarkClickListener = onBookmarkClickListener;
     }
 
     @Override
@@ -55,7 +59,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     }
 
     @Override
-    public void onBindViewHolder(NewsListAdapter.NewsViewHolder holder, final int position) {
+    public void onBindViewHolder(final NewsListAdapter.NewsViewHolder holder, final int position) {
         final NewsItem item = mNewsItemList.get(position);
 
         holder.title.setText(item.getTitle());
@@ -71,7 +75,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.itemClicked(item.getFormattedPubDate());
+                mOnItemClickListener.onItemClicked(item.getFormattedPubDate());
+            }
+        });
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.bookmark.onClick(v);
+                mOnBookmarkClickListener.onBookmarkClicked(item);
             }
         });
     }
@@ -91,6 +102,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         @BindView(R.id.item_date) TextView date;
         @BindView(R.id.item_description) TextView description;
         @BindView(R.id.item_category) TextView category;
+        @BindView(R.id.item_bookmark) BookmarkButtonView bookmark;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -102,8 +114,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         }
     }
 
-    public interface ItemClickListener {
-        void itemClicked(long date);
+    public interface OnItemClickListener {
+        void onItemClicked(long date);
+    }
+
+    public interface OnBookmarkClickListener {
+        void onBookmarkClicked(NewsItem newsItem);
     }
 
 }

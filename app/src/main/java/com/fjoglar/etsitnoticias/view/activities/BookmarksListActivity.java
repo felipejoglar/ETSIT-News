@@ -53,8 +53,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class BookmarksListActivity extends AppCompatActivity
-        implements BookmarksListContract.View, NewsListAdapter.ItemClickListener,
-        FilterAdapter.FilterItemClickListener, FilterAdapter.FilterItemCheckBoxClickListener {
+        implements BookmarksListContract.View, NewsListAdapter.OnItemClickListener,
+        NewsListAdapter.OnBookmarkClickListener, FilterAdapter.FilterItemClickListener,
+        FilterAdapter.FilterItemCheckBoxClickListener {
 
     private static final String ACTIVITY_SOURCE = "BOOKMARKS";
     private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
@@ -173,9 +174,13 @@ public class BookmarksListActivity extends AppCompatActivity
     }
 
     @Override
-    public void itemClicked(long date) {
+    public void onItemClicked(long date) {
         Navigator.getInstance().navigateToNewsDetails(getContext(), date, ACTIVITY_SOURCE);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    @Override
+    public void onBookmarkClicked(NewsItem newsItem) {
     }
 
     @Override
@@ -267,7 +272,7 @@ public class BookmarksListActivity extends AppCompatActivity
     }
 
     private void setUpRecyclerView() {
-        final NewsListAdapter adapter = new NewsListAdapter(this);
+        final NewsListAdapter adapter = new NewsListAdapter(this, this);
         recyclerBookmarksList.setAdapter(adapter);
         recyclerBookmarksList.getLayoutManager().onRestoreInstanceState(mRecyclerBookmarksListState);
         recyclerBookmarksList.setHasFixedSize(true);
