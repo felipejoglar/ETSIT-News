@@ -25,7 +25,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -37,7 +36,7 @@ import com.fjoglar.etsitnoticias.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BookmarkButtonView extends FrameLayout implements View.OnClickListener {
+public class BookmarkButtonView extends FrameLayout {
 
     private static final DecelerateInterpolator DECELERATE_INTERPOLATOR =
             new DecelerateInterpolator();
@@ -50,8 +49,7 @@ public class BookmarkButtonView extends FrameLayout implements View.OnClickListe
     @BindView(R.id.dots_view) DotsView mDotsView;
     @BindView(R.id.circle_view) CircleView mCircleView;
 
-    private boolean isChecked;
-    private AnimatorSet animatorSet;
+    private AnimatorSet mAnimatorSet;
 
     public BookmarkButtonView(Context context) {
         super(context);
@@ -77,78 +75,6 @@ public class BookmarkButtonView extends FrameLayout implements View.OnClickListe
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_bookmark_button, this, true);
         ButterKnife.bind(this);
-        setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        isChecked = !isChecked;
-        mBookmark.setImageResource(isChecked ? R.drawable.ic_bookmark_on : R.drawable.ic_bookmark_off);
-
-        if (animatorSet != null) {
-            animatorSet.cancel();
-        }
-
-        if (isChecked) {
-            mBookmark.animate().cancel();
-            mBookmark.setScaleX(0);
-            mBookmark.setScaleY(0);
-            mCircleView.setInnerCircleRadiusProgress(0);
-            mCircleView.setOuterCircleRadiusProgress(0);
-            mDotsView.setCurrentProgress(0);
-
-            animatorSet = new AnimatorSet();
-
-            ObjectAnimator outerCircleAnimator = ObjectAnimator.ofFloat(mCircleView,
-                    CircleView.OUTER_CIRCLE_RADIUS_PROGRESS, 0.1f, 1f);
-            outerCircleAnimator.setDuration(250);
-            outerCircleAnimator.setInterpolator(DECELERATE_INTERPOLATOR);
-
-            ObjectAnimator innerCircleAnimator = ObjectAnimator.ofFloat(mCircleView,
-                    CircleView.INNER_CIRCLE_RADIUS_PROGRESS, 0.1f, 1f);
-            innerCircleAnimator.setDuration(200);
-            innerCircleAnimator.setStartDelay(200);
-            innerCircleAnimator.setInterpolator(DECELERATE_INTERPOLATOR);
-
-            ObjectAnimator starScaleYAnimator = ObjectAnimator.ofFloat(mBookmark,
-                    ImageView.SCALE_Y, 0.2f, 1f);
-            starScaleYAnimator.setDuration(350);
-            starScaleYAnimator.setStartDelay(250);
-            starScaleYAnimator.setInterpolator(OVERSHOOT_INTERPOLATOR);
-
-            ObjectAnimator starScaleXAnimator = ObjectAnimator.ofFloat(mBookmark,
-                    ImageView.SCALE_X, 0.2f, 1f);
-            starScaleXAnimator.setDuration(350);
-            starScaleXAnimator.setStartDelay(250);
-            starScaleXAnimator.setInterpolator(OVERSHOOT_INTERPOLATOR);
-
-            ObjectAnimator dotsAnimator = ObjectAnimator.ofFloat(mDotsView,
-                    DotsView.DOTS_PROGRESS, 0, 1f);
-            dotsAnimator.setDuration(900);
-            dotsAnimator.setStartDelay(50);
-            dotsAnimator.setInterpolator(ACCELERATE_DECELERATE_INTERPOLATOR);
-
-            animatorSet.playTogether(
-                    outerCircleAnimator,
-                    innerCircleAnimator,
-                    starScaleYAnimator,
-                    starScaleXAnimator,
-                    dotsAnimator
-            );
-
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    mCircleView.setInnerCircleRadiusProgress(0);
-                    mCircleView.setOuterCircleRadiusProgress(0);
-                    mDotsView.setCurrentProgress(0);
-                    mBookmark.setScaleX(1);
-                    mBookmark.setScaleY(1);
-                }
-            });
-
-            animatorSet.start();
-        }
     }
 
     @Override
@@ -169,20 +95,91 @@ public class BookmarkButtonView extends FrameLayout implements View.OnClickListe
                 }
                 break;
 
+            case MotionEvent.ACTION_CANCEL:
+                mBookmark.animate().scaleX(1).scaleY(1)
+                        .setInterpolator(DECELERATE_INTERPOLATOR);
+                setPressed(false);
+                break;
+
             case MotionEvent.ACTION_UP:
                 mBookmark.animate().scaleX(1).scaleY(1)
                         .setInterpolator(DECELERATE_INTERPOLATOR);
                 if (isPressed()) {
-                    performClick();
                     setPressed(false);
+                    performClick();
                 }
                 break;
         }
         return true;
     }
 
+    public void animateBookmarkView() {
+
+        if (mAnimatorSet != null) {
+            mAnimatorSet.cancel();
+        }
+
+        mBookmark.animate().cancel();
+        mBookmark.setScaleX(0);
+        mBookmark.setScaleY(0);
+        mCircleView.setInnerCircleRadiusProgress(0);
+        mCircleView.setOuterCircleRadiusProgress(0);
+        mDotsView.setCurrentProgress(0);
+
+        mAnimatorSet = new AnimatorSet();
+
+        ObjectAnimator outerCircleAnimator = ObjectAnimator.ofFloat(mCircleView,
+                CircleView.OUTER_CIRCLE_RADIUS_PROGRESS, 0.1f, 1f);
+        outerCircleAnimator.setDuration(250);
+        outerCircleAnimator.setInterpolator(DECELERATE_INTERPOLATOR);
+
+        ObjectAnimator innerCircleAnimator = ObjectAnimator.ofFloat(mCircleView,
+                CircleView.INNER_CIRCLE_RADIUS_PROGRESS, 0.1f, 1f);
+        innerCircleAnimator.setDuration(200);
+        innerCircleAnimator.setStartDelay(200);
+        innerCircleAnimator.setInterpolator(DECELERATE_INTERPOLATOR);
+
+        ObjectAnimator starScaleYAnimator = ObjectAnimator.ofFloat(mBookmark,
+                ImageView.SCALE_Y, 0.2f, 1f);
+        starScaleYAnimator.setDuration(350);
+        starScaleYAnimator.setStartDelay(250);
+        starScaleYAnimator.setInterpolator(OVERSHOOT_INTERPOLATOR);
+
+        ObjectAnimator starScaleXAnimator = ObjectAnimator.ofFloat(mBookmark,
+                ImageView.SCALE_X, 0.2f, 1f);
+        starScaleXAnimator.setDuration(350);
+        starScaleXAnimator.setStartDelay(250);
+        starScaleXAnimator.setInterpolator(OVERSHOOT_INTERPOLATOR);
+
+        ObjectAnimator dotsAnimator = ObjectAnimator.ofFloat(mDotsView,
+                DotsView.DOTS_PROGRESS, 0, 1f);
+        dotsAnimator.setDuration(900);
+        dotsAnimator.setStartDelay(50);
+        dotsAnimator.setInterpolator(ACCELERATE_DECELERATE_INTERPOLATOR);
+
+        mAnimatorSet.playTogether(
+                outerCircleAnimator,
+                innerCircleAnimator,
+                starScaleYAnimator,
+                starScaleXAnimator,
+                dotsAnimator
+        );
+
+        mAnimatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mCircleView.setInnerCircleRadiusProgress(0);
+                mCircleView.setOuterCircleRadiusProgress(0);
+                mDotsView.setCurrentProgress(0);
+                mBookmark.setScaleX(1);
+                mBookmark.setScaleY(1);
+            }
+        });
+
+        mAnimatorSet.start();
+    }
+
     public void setImage(int isBookmarked) {
-        isChecked = (isBookmarked == 1);
-        mBookmark.setImageResource(isChecked ? R.drawable.ic_bookmark_on : R.drawable.ic_bookmark_off);
+        mBookmark.setImageResource((isBookmarked == 1) ? R.drawable.ic_bookmark_on : R.drawable.ic_bookmark_off);
     }
 }
