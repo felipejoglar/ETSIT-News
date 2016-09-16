@@ -89,7 +89,7 @@ public class DotsView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         centerX = w / 2;
         centerY = h / 2;
-        maxDotSize = 6;
+        maxDotSize = 5;
         maxOuterDotsRadius = w / 2 - maxDotSize * 2;
         maxInnerDotsRadius = 0.8f * maxOuterDotsRadius;
     }
