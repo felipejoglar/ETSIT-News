@@ -39,6 +39,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
 
     private final String LOG_TAG = NewsListAdapter.class.getSimpleName();
 
+    public static final String BOOKMARK_ON_TAG = "bookmark_on_tag";
+    public static final String BOOKMARK_OFF_TAG = "bookmark_off_tag";
+
     private List<NewsItem> mNewsItemList;
     private OnItemClickListener mOnItemClickListener;
     private OnBookmarkClickListener mOnBookmarkClickListener;
@@ -59,7 +62,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     }
 
     @Override
-    public void onBindViewHolder(final NewsListAdapter.NewsViewHolder holder, final int position) {
+    public void onBindViewHolder(final NewsListAdapter.NewsViewHolder holder, int position) {
         final NewsItem item = mNewsItemList.get(position);
 
         holder.title.setText(item.getTitle());
@@ -73,17 +76,20 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         holder.category.setText(CategoryUtils.categoryToString(holder.category.getContext(),
                 item.getCategory()));
         holder.bookmark.setImage(item.getBookmarked());
+        holder.bookmark.setTag(
+                (item.getBookmarked() == 1) ? BOOKMARK_ON_TAG : BOOKMARK_OFF_TAG);
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnBookmarkClickListener.onBookmarkClicked(item);
+                item.setBookmarked((item.getBookmarked() ==1) ? 0 : 1);
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onItemClicked(item.getFormattedPubDate());
-            }
-        });
-        holder.bookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.bookmark.onClick(v);
-                mOnBookmarkClickListener.onBookmarkClicked(item);
             }
         });
     }

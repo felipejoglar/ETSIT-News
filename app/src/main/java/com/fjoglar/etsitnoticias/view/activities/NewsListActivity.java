@@ -54,6 +54,7 @@ import com.fjoglar.etsitnoticias.utils.CategoryUtils;
 import com.fjoglar.etsitnoticias.utils.NetUtils;
 import com.fjoglar.etsitnoticias.view.adapter.FilterAdapter;
 import com.fjoglar.etsitnoticias.view.adapter.NewsListAdapter;
+import com.fjoglar.etsitnoticias.view.adapter.NewsListItemAnimator;
 import com.fjoglar.etsitnoticias.view.navigation.Navigator;
 
 import java.util.List;
@@ -345,6 +346,7 @@ public class NewsListActivity extends AppCompatActivity
         recyclerNewsList.setAdapter(adapter);
         recyclerNewsList.getLayoutManager().onRestoreInstanceState(mRecyclerNewsListState);
         recyclerNewsList.setHasFixedSize(true);
+        recyclerNewsList.setItemAnimator(new NewsListItemAnimator());
     }
 
     private void setUpToolbar() {

@@ -40,6 +40,7 @@ import com.fjoglar.etsitnoticias.data.entities.NewsItem;
 import com.fjoglar.etsitnoticias.presenter.SearchPresenter;
 import com.fjoglar.etsitnoticias.presenter.contracts.SearchContract;
 import com.fjoglar.etsitnoticias.view.adapter.NewsListAdapter;
+import com.fjoglar.etsitnoticias.view.adapter.NewsListItemAnimator;
 import com.fjoglar.etsitnoticias.view.navigation.Navigator;
 
 import java.util.List;
@@ -216,6 +217,7 @@ public class SearchActivity extends AppCompatActivity
         recyclerNewsListSearch.setAdapter(adapter);
         recyclerNewsListSearch.getLayoutManager().onRestoreInstanceState(mRecyclerNewsListSearchState);
         recyclerNewsListSearch.setHasFixedSize(true);
+        recyclerNewsListSearch.setItemAnimator(new NewsListItemAnimator());
     }
 
     private void setUpToolbar() {
