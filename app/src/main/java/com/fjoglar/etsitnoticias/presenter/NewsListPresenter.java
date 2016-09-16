@@ -139,7 +139,6 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     new UseCase.UseCaseCallback<SaveBookmark.ResponseValue>() {
                         @Override
                         public void onSuccess(SaveBookmark.ResponseValue response) {
-                            getNews();
                             mNewsListView.hideProgress();
                             mNewsListView.showMessage("Favorito guardado");
                         }
@@ -156,7 +155,6 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                     new UseCase.UseCaseCallback<DeleteBookmark.ResponseValue>() {
                         @Override
                         public void onSuccess(DeleteBookmark.ResponseValue response) {
-                            getNews();
                             mNewsListView.hideProgress();
                             mNewsListView.showMessage("Favorito borrado");
                         }
