@@ -30,7 +30,7 @@ import java.io.Serializable;
 
 @Root(name = "item",
         strict = false)
-public class NewsItem implements Serializable{
+public class NewsItem implements Serializable {
 
     @Element(name = "title")
     private String title;
@@ -113,6 +113,10 @@ public class NewsItem implements Serializable{
 
     public void setBookmarked(int bookmarked) {
         this.bookmarked = bookmarked;
+    }
+
+    public void changeBookmarkedStatus(int bookmarked) {
+        this.bookmarked = (bookmarked == 1) ? 0 : 1;
     }
 
     @Override

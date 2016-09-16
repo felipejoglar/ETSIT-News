@@ -27,6 +27,10 @@ public class FormatTextUtils {
         return text;
     }
 
+    public static String formatSmallText(String text) {
+        return text.replaceAll("\\n", " ");
+    }
+
     public static String capitalizeWord(String word) {
         return Character.toUpperCase(word.charAt(0)) + word.substring(1);
     }

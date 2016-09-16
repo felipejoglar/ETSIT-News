@@ -27,6 +27,7 @@ import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
 import com.fjoglar.etsitnoticias.utils.CategoryUtils;
 import com.fjoglar.etsitnoticias.utils.DateUtils;
+import com.fjoglar.etsitnoticias.utils.FormatTextUtils;
 import com.fjoglar.etsitnoticias.view.widget.bookmark.BookmarkButtonView;
 
 import java.util.Collections;
@@ -69,7 +70,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         holder.date.setText(DateUtils.formatListViewTime(item.getFormattedPubDate()));
         if (!TextUtils.isEmpty(item.getDescription())) {
             holder.description.setVisibility(View.VISIBLE);
-            holder.description.setText(item.getDescription().replaceAll("\\n", ""));
+            holder.description.setText(FormatTextUtils.formatSmallText(item.getDescription()));
         } else {
             holder.description.setVisibility(View.GONE);
         }
@@ -82,7 +83,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
             @Override
             public void onClick(View v) {
                 mOnBookmarkClickListener.onBookmarkClicked(item);
-                item.setBookmarked((item.getBookmarked() ==1) ? 0 : 1);
+                item.changeBookmarkedStatus(item.getBookmarked());
                 notifyItemChanged(holder.getAdapterPosition());
             }
         });
