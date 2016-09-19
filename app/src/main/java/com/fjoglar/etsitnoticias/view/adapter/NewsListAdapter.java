@@ -38,8 +38,6 @@ import butterknife.ButterKnife;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsViewHolder> {
 
-    private final String LOG_TAG = NewsListAdapter.class.getSimpleName();
-
     public static final String BOOKMARK_ON_TAG = "bookmark_on_tag";
     public static final String BOOKMARK_OFF_TAG = "bookmark_off_tag";
 
