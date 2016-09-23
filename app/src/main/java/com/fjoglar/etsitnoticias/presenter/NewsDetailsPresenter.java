@@ -93,7 +93,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                     new UseCase.UseCaseCallback<SaveBookmark.ResponseValue>() {
                         @Override
                         public void onSuccess(SaveBookmark.ResponseValue response) {
-                            getNewsItemByDate(mDate, mSource);
+                            mNewsDetailsView.updateBookmarkIcon(true);
                             mNewsDetailsView.hideProgress();
                             mNewsDetailsView.showError("Favorito guardado");
                         }
@@ -110,7 +110,7 @@ public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {
                     new UseCase.UseCaseCallback<DeleteBookmark.ResponseValue>() {
                         @Override
                         public void onSuccess(DeleteBookmark.ResponseValue response) {
-                            getNewsItemByDate(mDate, mSource);
+                            mNewsDetailsView.updateBookmarkIcon(false);
                             mNewsDetailsView.hideProgress();
                             mNewsDetailsView.showError("Favorito borrado");
                         }

@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,9 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
             "com.fjoglar.INTENT_PARAM_SOURCE";
     private static final String INSTANCE_STATE_PARAM_SOURCE =
             "com.fjoglar.STATE_PARAM_SOURCE";
+    private static final String INSTANCE_STATE_SCROLL_POSITION =
+            "com.fjoglar.STATE_SCROLL_POSITION";
+
     static final String SHARE_HASHTAG = "#NoticiasETSIT";
 
     private NewsDetailsContract.Presenter mNewsDetailsPresenter;
@@ -70,6 +74,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.scrollView) ScrollView scrollView;
     @BindView(R.id.detail_attachments_card) CardView detailAttachmentsCard;
     @BindView(R.id.detail_attachments_card_content) LinearLayout detailAttachmentsCardContent;
     @BindView(R.id.detail_title) TextView detailTitle;
@@ -122,8 +127,22 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
         if (outState != null) {
             outState.putLong(INSTANCE_STATE_PARAM_NEWS_ITEM_DATE, this.mNewsItemDate);
             outState.putString(INSTANCE_STATE_PARAM_SOURCE, this.mSource);
+            outState.putIntArray(INSTANCE_STATE_SCROLL_POSITION,
+                    new int[]{ scrollView.getScrollX(), scrollView.getScrollY()});
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray(INSTANCE_STATE_SCROLL_POSITION);
+        if(position != null)
+            scrollView.postDelayed(new Runnable() {
+                public void run() {
+                    scrollView.scrollBy(position[0], position[1]);
+                }
+            }, 100);
     }
 
     @Override
@@ -144,6 +163,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements NewsDetail
                 return true;
             case R.id.action_bookmark:
                 mNewsDetailsPresenter.manageBookmark(mNewsItem);
+                mNewsItem.changeBookmarkedStatus(mNewsItem.getBookmarked());
                 return true;
             case R.id.action_share:
                 String shareText =
