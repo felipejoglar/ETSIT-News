@@ -52,12 +52,9 @@
             android:layout_marginStart="@dimen/card_horizontal_margin_tablet_mode"
             android:layout_marginEnd="@dimen/card_horizontal_margin_tablet_mode">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <include layout="@layout/progressbar" />
+                android:layout_height="match_parent">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -169,7 +166,9 @@
 
                 </ScrollView>
 
-            </LinearLayout>
+                <include layout="@layout/progressbar" />
+
+            </RelativeLayout>
 
         </android.support.v7.widget.CardView>
 

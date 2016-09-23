@@ -30,16 +30,29 @@
 
         <include layout="@layout/toolbar" />
 
-        <include layout="@layout/progressbar" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_bookmarks_list"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            android:layout_height="match_parent">
 
-        <include layout="@layout/empty_state" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_bookmarks_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+                <include layout="@layout/empty_state" />
+
+            </LinearLayout>
+
+            <include layout="@layout/progressbar" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

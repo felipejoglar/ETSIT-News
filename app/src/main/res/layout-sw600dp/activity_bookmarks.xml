@@ -43,7 +43,7 @@
             android:layout_below="@id/appbar"
             android:background="@color/colorPrimary" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="@dimen/card_width_tablet_mode"
             android:layout_height="match_parent"
             android:layout_below="@id/appbar"
@@ -52,23 +52,29 @@
             android:layout_marginStart="@dimen/card_horizontal_margin_tablet_mode"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_bookmarks_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+                <include
+                    layout="@layout/empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/extra_space_height" />
+
+            </LinearLayout>
+
             <include layout="@layout/progressbar" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_bookmarks_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
-            <include
-                layout="@layout/empty_state"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/extra_space_height" />
-
-        </LinearLayout>
-
+        </RelativeLayout>
 
     </RelativeLayout>
 
