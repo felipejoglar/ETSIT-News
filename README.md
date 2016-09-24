@@ -1,12 +1,21 @@
-### ETSIT Noticias
+#ETSIT NEWS
 
-Aplicación ganadora del concurso a la mejor app de noticias de la ETSIT - AITCYL de la Universidad de Valladolid.
+Winner application in the "best news reader app from ETSIT – AITCYL contest" from University of Valladolid, Spain.
 
-Con esta aplicación podrás estar informado de las noticias del tablón de anuncios digital de la Escuela Técnica Superior de Ingenieros de Telecomunicación de la Universidad de Valladolid de manera fácil, rápida y en la palma de la mano.
+Developed by Felipe Joglar Santos.
 
-Podrás ver las noticias de una manera cómoda y rápida, consultar más información acerca de la noticia e incluso compartirla a través de las redes sociales con tus amigos y compañeros.
+With this application you can be informed of the news bulletin and digital news from the School of Telecommunications Engineering at the University of Valladolid easily, comfortably, and in the palm of your hand.
 
-También podrás recibir notificaciones cuando una noticia nueva haya sido publicada y modificar la frecuencia de sincronización de la aplicación.
+### FEATURES
+
+* Ability to save news as favorites.
+* Links to the interesting files of each new.
+* News category filter.
+* Ability to chare the news with your friends and in social network.
+* Customizable background sincronization.
+* New published news notifications.
+* "Material Design".
+* Delightful transitions and animations.
 
 ![](https://github.com/fjoglar/ETSIT-News/blob/master/assets/etsit-noticias-banner.png)
 
