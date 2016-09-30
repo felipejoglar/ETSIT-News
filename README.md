@@ -11,7 +11,7 @@ With this application you can be informed of the news bulletin and digital news 
 * Ability to save news as favorites.
 * Links to the interesting files of each new.
 * News category filter.
-* Ability to chare the news with your friends and in social network.
+* Ability to share the news with your friends and in social network.
 * Customizable background sincronization.
 * New published news notifications.
 * "Material Design".
