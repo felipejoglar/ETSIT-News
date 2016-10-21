@@ -46,6 +46,7 @@ import android.widget.Toast;
 import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.data.entities.Category;
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
+import com.fjoglar.etsitnoticias.data.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnoticias.presenter.NewsListPresenter;
 import com.fjoglar.etsitnoticias.presenter.PresenterHolder;
 import com.fjoglar.etsitnoticias.presenter.contracts.NewsListContract;
@@ -113,6 +114,9 @@ public class NewsListActivity extends AppCompatActivity
 
         // Add the Account Required by the SyncAdapter Framework.
         EtsitSyncAdapter.initializeSyncAdapter(getContext());
+
+        // If app has just booted update news
+        checkBoot();
     }
 
     @Override
@@ -434,6 +438,17 @@ public class NewsListActivity extends AppCompatActivity
 
     private void refreshNews() {
         mNewsListPresenter.updateNews();
+    }
+
+    private void checkBoot() {
+        if (NewsSharedPreferences.getInstance().getBoolean(
+                NewsSharedPreferences.getInstance().getStringFromResId(R.string.booting_key),
+                true)) {
+            refreshNews();
+            NewsSharedPreferences.getInstance().putBoolean(
+                    NewsSharedPreferences.getInstance().getStringFromResId(R.string.booting_key),
+                    false);
+        }
     }
 
     private Context getContext() {

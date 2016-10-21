@@ -28,5 +28,8 @@ public class EtsitNewsApp extends Application {
         // Set the Context for Repository and SharedPreferences.
         NewsRepository.getInstance().setContext(this);
         NewsSharedPreferences.getInstance().setContext(this);
+
+        NewsSharedPreferences.getInstance().putBoolean(
+                NewsSharedPreferences.getInstance().getStringFromResId(R.string.booting_key), true);
     }
 }

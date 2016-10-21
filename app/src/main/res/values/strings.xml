@@ -57,6 +57,7 @@
     <string name="pref_last_updated_key" translatable="false">last_updated</string>
     <string name="pref_first_start_key" translatable="false">first_start</string>
     <string name="pref_last_search_query_key" translatable="false">last_search_query</string>
+    <string name="booting_key" translatable="false">booting</string>
 
     <string name="pref_filter_1_key" translatable="false">destacados</string>
     <string name="pref_filter_2_key" translatable="false">generales</string>
