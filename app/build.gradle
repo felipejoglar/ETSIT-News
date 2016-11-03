@@ -16,13 +16,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 25
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.fjoglar.etsitnoticias"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 6
         versionName "2.1"
     }
@@ -47,8 +47,9 @@ buildscript {
 apply plugin: 'com.neenbedankt.android-apt'
 
 ext {
-    supportLibVersion = '23.4.0'
-    retrofitLibVersion = '2.0.0'
+    supportLibVersion = '25.0.0'
+    retrofitLibVersion = '2.1.0'
+    butterknifeLibVersion = '8.4.0'
 }
 
 dependencies {
@@ -70,10 +71,10 @@ dependencies {
     }
 
     // Butterknife
-    compile 'com.jakewharton:butterknife:8.0.1'
-    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    compile "com.jakewharton:butterknife:${butterknifeLibVersion}"
+    apt "com.jakewharton:butterknife-compiler:${butterknifeLibVersion}"
 
     // Other third party libraries
-    compile 'org.jsoup:jsoup:1.9.2'
+    compile 'org.jsoup:jsoup:1.10.1'
 
 }
