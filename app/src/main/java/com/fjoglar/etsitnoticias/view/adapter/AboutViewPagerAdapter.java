@@ -23,7 +23,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.fjoglar.etsitnoticias.BuildConfig;
 import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.view.navigation.Navigator;
 
@@ -40,12 +42,15 @@ public class AboutViewPagerAdapter extends PagerAdapter {
     private View aboutImages;
     private View aboutLibs;
     @Nullable @BindView(R.id.recycler_libs) RecyclerView recyclerLibs;
+    @Nullable @BindView(R.id.info_version_name) TextView infoVersionName;
     @Nullable @BindView(R.id.github_link) Button githubLink;
 
     private final LayoutInflater layoutInflater;
+    private Context mContext;
 
     public AboutViewPagerAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
+        mContext = context;
     }
 
     @Override
@@ -77,6 +82,8 @@ public class AboutViewPagerAdapter extends PagerAdapter {
                     aboutEtsitNews = layoutInflater.inflate(R.layout.about_etsit_news, parent, false);
                     ButterKnife.bind(this, aboutEtsitNews);
 
+                    infoVersionName.setText(mContext.getString(R.string.info_version_name,
+                            BuildConfig.VERSION_NAME));
                     githubLink.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

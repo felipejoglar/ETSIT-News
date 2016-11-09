@@ -112,6 +112,7 @@
     <string name="search_hint">Buscar noticias</string>
 
     <!-- About -->
+    <string name="info_version_name">Versión <xliff:g id="version_name" example="example">%s</xliff:g></string>
     <string name="about_images">
         Todos los logotipos e imágenes de la ETSIT y AITCyL usadas en esta aplicación, así como sus
         modificaciones y su uso en el icono de la aplicación son propiedad de la ETSIT de la UVa y
