@@ -20,12 +20,14 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import com.fjoglar.etsitnoticias.BuildConfig;
+
 /**
  * Define table and columns names for the database.
  */
 public class NewsContract {
 
-    public static final String CONTENT_AUTHORITY = "com.fjoglar.etsitnoticias";
+    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID;
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_NEWS = "news";
