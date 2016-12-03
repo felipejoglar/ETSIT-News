@@ -28,8 +28,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -52,7 +52,7 @@ buildscript {
 apply plugin: 'com.neenbedankt.android-apt'
 
 ext {
-    supportLibVersion = '25.0.0'
+    supportLibVersion = '25.0.1'
     retrofitLibVersion = '2.1.0'
     butterknifeLibVersion = '8.4.0'
 }
