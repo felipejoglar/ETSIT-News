@@ -1,4 +1,5 @@
-#ETSIT NEWS
+ETSIT News
+============
 
 Winner application in the "best news reader app from ETSIT – AITCYL contest" from University of Valladolid, Spain.
 
@@ -6,7 +7,8 @@ Developed by Felipe Joglar Santos.
 
 With this application you can be informed of the news bulletin and digital news from the School of Telecommunications Engineering at the University of Valladolid easily, comfortably, and in the palm of your hand.
 
-### FEATURES
+Feaures
+-------
 
 * Ability to save news as favorites.
 * Links to the interesting files of each new.
@@ -21,7 +23,8 @@ With this application you can be informed of the news bulletin and digital news 
 
 [![Consíguela en Google Play][2]][1]
 
-### Licencia
+License
+-------
 
 ```
 Copyright 2016 Felipe Joglar Santos
