@@ -7,7 +7,7 @@ Developed by Felipe Joglar Santos.
 
 With this application you can be informed of the news bulletin and digital news from the School of Telecommunications Engineering at the University of Valladolid easily, comfortably, and in the palm of your hand.
 
-Feaures
+Features
 -------
 
 * Ability to save news as favorites.
