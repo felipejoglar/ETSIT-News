@@ -14,8 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -34,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v4.widget.SwipeRefreshLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_to_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -44,18 +43,18 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_news_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scrollbars="vertical"
-                        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     <include layout="@layout/empty_state" />
 
                 </LinearLayout>
 
-            </android.support.v4.widget.SwipeRefreshLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <include layout="@layout/progressbar" />
 
@@ -64,7 +63,7 @@
     </LinearLayout>
 
     <!-- NAVIGATION DRAWER -->
-    <android.support.design.widget.NavigationView
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
@@ -76,5 +75,5 @@
     <!-- FILTER DRAWER -->
     <include layout="@layout/drawer_filter" />
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
 

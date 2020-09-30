@@ -18,8 +18,9 @@ package com.fjoglar.etsitnoticias.data.repository;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
 import com.fjoglar.etsitnoticias.data.entities.NewsRss;

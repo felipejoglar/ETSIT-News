@@ -14,8 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -65,7 +64,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/notification_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -135,7 +134,7 @@
                     android:maxHeight="@dimen/pref_image_max_height"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:src="@drawable/logo_aitcyl"
-                    android:contentDescription="@string/aitcyl_web"/>
+                    android:contentDescription="@string/aitcyl_web" />
 
             </LinearLayout>
 
@@ -143,5 +142,5 @@
 
     </LinearLayout>
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
 

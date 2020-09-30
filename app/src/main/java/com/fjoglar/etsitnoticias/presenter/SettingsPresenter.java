@@ -15,11 +15,11 @@
  */
 package com.fjoglar.etsitnoticias.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fjoglar.etsitnoticias.R;
-import com.fjoglar.etsitnoticias.domain.UseCaseHandler;
 import com.fjoglar.etsitnoticias.data.repository.datasource.NewsSharedPreferences;
+import com.fjoglar.etsitnoticias.domain.UseCaseHandler;
 import com.fjoglar.etsitnoticias.presenter.contracts.SettingsContract;
 
 public class SettingsPresenter implements SettingsContract.Presenter {

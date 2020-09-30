@@ -16,13 +16,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.fjoglar.etsitnoticias"
-        minSdkVersion 16
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 29
         versionCode 7
         versionName "2.2"
     }
@@ -38,48 +38,45 @@ android {
             versionNameSuffix "-D"
         }
     }
-}
 
-buildscript {
-    repositories {
-        mavenCentral()
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-    dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
-}
 
-apply plugin: 'com.neenbedankt.android-apt'
+}
 
 ext {
-    supportLibVersion = '25.1.0'
-    retrofitLibVersion = '2.1.0'
-    butterknifeLibVersion = '8.4.0'
+    supportLibVersion = '28.0.0'
+    retrofitLibVersion = '2.9.0'
+    butterknifeLibVersion = '10.2.3'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
-    compile "com.android.support:cardview-v7:${supportLibVersion}"
-    compile "com.android.support:customtabs:${supportLibVersion}"
-    compile "com.android.support:design:${supportLibVersion}"
+    testImplementation 'junit:junit:4.13'
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.browser:browser:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     // Square libraries
-    compile "com.squareup.retrofit2:retrofit:${retrofitLibVersion}"
-    compile("com.squareup.retrofit2:converter-simplexml:${retrofitLibVersion}") {
+    implementation "com.squareup.retrofit2:retrofit:${retrofitLibVersion}"
+    implementation("com.squareup.retrofit2:converter-simplexml:${retrofitLibVersion}") {
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
         exclude group: 'xpp3', module: 'xpp3'
     }
 
     // Butterknife
-    compile "com.jakewharton:butterknife:${butterknifeLibVersion}"
-    apt "com.jakewharton:butterknife-compiler:${butterknifeLibVersion}"
+    implementation "com.jakewharton:butterknife:${butterknifeLibVersion}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknifeLibVersion}"
 
     // Other third party libraries
-    compile 'org.jsoup:jsoup:1.10.1'
+    implementation 'org.jsoup:jsoup:1.10.1'
 
 }

@@ -15,18 +15,18 @@
  */
 package com.fjoglar.etsitnoticias.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fjoglar.etsitnoticias.R;
+import com.fjoglar.etsitnoticias.data.entities.Category;
+import com.fjoglar.etsitnoticias.data.entities.NewsItem;
+import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
+import com.fjoglar.etsitnoticias.data.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnoticias.domain.UseCase;
 import com.fjoglar.etsitnoticias.domain.UseCaseHandler;
 import com.fjoglar.etsitnoticias.domain.usecase.DeleteBookmark;
 import com.fjoglar.etsitnoticias.domain.usecase.GetBookmarks;
 import com.fjoglar.etsitnoticias.domain.usecase.GetFilteredBookmarks;
-import com.fjoglar.etsitnoticias.data.entities.Category;
-import com.fjoglar.etsitnoticias.data.entities.NewsItem;
-import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
-import com.fjoglar.etsitnoticias.data.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnoticias.domain.usecase.SaveBookmark;
 import com.fjoglar.etsitnoticias.presenter.contracts.BookmarksListContract;
 import com.fjoglar.etsitnoticias.utils.CategoryUtils;

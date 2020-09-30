@@ -16,7 +16,8 @@
 package com.fjoglar.etsitnoticias.data.repository;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
 

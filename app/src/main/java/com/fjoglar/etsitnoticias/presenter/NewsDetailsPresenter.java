@@ -15,16 +15,16 @@
  */
 package com.fjoglar.etsitnoticias.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
+import com.fjoglar.etsitnoticias.data.entities.NewsItem;
+import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
 import com.fjoglar.etsitnoticias.domain.UseCase;
 import com.fjoglar.etsitnoticias.domain.UseCaseHandler;
 import com.fjoglar.etsitnoticias.domain.usecase.DeleteBookmark;
 import com.fjoglar.etsitnoticias.domain.usecase.GetBookmarkByDate;
 import com.fjoglar.etsitnoticias.domain.usecase.GetNewsItemByDate;
 import com.fjoglar.etsitnoticias.domain.usecase.SaveBookmark;
-import com.fjoglar.etsitnoticias.data.entities.NewsItem;
-import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
 import com.fjoglar.etsitnoticias.presenter.contracts.NewsDetailsContract;
 
 public class NewsDetailsPresenter implements NewsDetailsContract.Presenter {

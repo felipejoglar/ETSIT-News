@@ -18,13 +18,8 @@ package com.fjoglar.etsitnoticias.view.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +29,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fjoglar.etsitnoticias.R;
 import com.fjoglar.etsitnoticias.data.entities.NewsItem;
@@ -231,11 +231,11 @@ public class SearchActivity extends AppCompatActivity
     private void setUpSearchView(MenuItem searchMenuItem) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE );
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        TextView searchText = (TextView)
-                searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+        // TextView searchText = (TextView)
+        //         searchView.findViewById(androidx.appcompat.appcompat.R.id.search_src_text);
+        // searchText.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
     }
 
     private Context getContext() {

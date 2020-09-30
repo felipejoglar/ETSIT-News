@@ -27,14 +27,15 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.ProgressBar;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 import com.fjoglar.etsitnoticias.R;
 

@@ -15,9 +15,13 @@
  */
 package com.fjoglar.etsitnoticias.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.fjoglar.etsitnoticias.R;
+import com.fjoglar.etsitnoticias.data.entities.Category;
+import com.fjoglar.etsitnoticias.data.entities.NewsItem;
+import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
+import com.fjoglar.etsitnoticias.data.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnoticias.domain.UseCase;
 import com.fjoglar.etsitnoticias.domain.UseCaseHandler;
 import com.fjoglar.etsitnoticias.domain.usecase.DeleteBookmark;
@@ -25,10 +29,6 @@ import com.fjoglar.etsitnoticias.domain.usecase.GetAllNews;
 import com.fjoglar.etsitnoticias.domain.usecase.GetFilteredNews;
 import com.fjoglar.etsitnoticias.domain.usecase.SaveBookmark;
 import com.fjoglar.etsitnoticias.domain.usecase.UpdateNews;
-import com.fjoglar.etsitnoticias.data.entities.Category;
-import com.fjoglar.etsitnoticias.data.entities.NewsItem;
-import com.fjoglar.etsitnoticias.data.repository.NewsRepository;
-import com.fjoglar.etsitnoticias.data.repository.datasource.NewsSharedPreferences;
 import com.fjoglar.etsitnoticias.presenter.contracts.NewsListContract;
 import com.fjoglar.etsitnoticias.utils.CategoryUtils;
 import com.fjoglar.etsitnoticias.utils.DateUtils;
